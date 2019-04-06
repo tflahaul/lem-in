@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/05 17:03:27 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/06 17:54:24 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,15 @@ char			*ft_strnjoinfree(char const *s1, char const *s2, size_t n)
 	return (ptr);
 }
 
+/*
+**	char *string -> leak
+*/
 static int8_t			get_next_line_stdin(char **line)
 {
 	char				buffer[BUFF_SIZE];
 	char				*ptr;
 	static char			*string;
 	register ssize_t	ret;
-
 
 	if (!string && !(string = ft_strnew(1)))
 		return (-1);
@@ -81,6 +83,11 @@ static int8_t			get_next_line_stdin(char **line)
 	return (ret > 0 ? 1 : 0);
 }
 
+int						ft_isprintable(int c)
+{
+	return (c > 31 && c < 127 ? 1 : 0);
+}
+
 void					ft_putchar(int c)
 {
 	write(1, &c, 1);
@@ -91,54 +98,76 @@ void					ft_putstr(char const *str)
 	write(1, str, strlen(str));
 }
 
-void					ft_putstr_endl(char const *str)
+void					ft_putnstr(char const *str, uint8_t n)
+{
+	register uint8_t	index;
+
+	index = 0;
+	if (!str || !str[0])
+		ft_putchar(' ');
+	else
+	{
+		while (index < n && str[index] != 0)
+		{
+			ft_putchar(ft_isprintable(str[index]) ? str[index] : '.');
+			++index;
+		}
+	}
+}
+
+void				ft_putstr_endl(char const *str)
 {
 	write(1, str, strlen(str));
 	ft_putchar('\n');
 }
 
-uint8_t					ft_puterror(char const *str, char const *err)
+uint8_t				ft_puterror(char const *str, char const *err)
 {
 	ft_putstr(C_RED);
-	ft_putstr(str);
+	ft_putnstr(str, 20);
 	ft_putstr(C_NONE);
 	printf("\t<- %s\n", err);
 	return (EXIT_FAILURE);
 }
 
-int						ft_isblank(int c)
+int					ft_isblank(int c)
 {
 	return (c == ' ' || c == '\t' || c == '-' || c == '+' ? 1 : 0);
 }
 
-int						ft_isdigit(int c)
+int					ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9' ? 1 : 0);
 }
 
-uint8_t					ft_parse_rooms(t_graph *map, char const *buffer)
+
+
+
+uint8_t				ft_parse_verticles(t_graph *map, char const *buffer)
 {
-	map->rooms = *buffer;
+	(void)map;
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }
 
-uint8_t					ft_parse_connections(t_graph *map, char const *buffer)
+uint8_t				ft_parse_edges(t_graph *map, char const *buffer)
 {
-	map->connections = *buffer;
-	ft_putstr_endl(buffer);
-	return (EXIT_SUCCESS);
+	(void)map;
+	(void)buffer;
+	return (EXIT_FAILURE);
 }
 
-uint8_t					ft_parse_ants(t_graph *map, char const *buffer)
+uint8_t				ft_parse_ants(t_graph *map, char const *buffer)
 {
-	uint16_t			index;
+	uint16_t		index;
 
 	index = 0;
+	if (!buffer || !buffer[0])
+		return (ft_puterror(NULL, EMPTYLINE));
 	while (buffer[index])
 	{
 		if (!ft_isdigit(buffer[index]) && !ft_isblank(buffer[index]))
-			return (ft_puterror(buffer, NOTNUM));
+			return (ft_puterror(buffer, NONNUM));
 		++index;
 	}
 	if ((map->ants = atoi(buffer)) > UINT16_MAX || map->ants == 0)
@@ -148,15 +177,59 @@ uint8_t					ft_parse_ants(t_graph *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
+
+
+
+/*
+**	Grossss !
+*/
+uint8_t				ft_strchr_index(char const *buffer)
+{
+	uint8_t			space_count;
+	uint8_t			minus_count;
+
+	space_count = 0;
+	minus_count = 0;
+	if (buffer == NULL)
+		return (0);
+	while (*buffer)
+	{
+		if (*buffer == ' ')
+			++space_count;
+		else if (*buffer == '-')
+			++minus_count;
+		++buffer;
+	}
+	if (minus_count == 1)
+		return (1);
+	if (space_count == 2)
+		return (2);
+	return (0);
+}
+
+
+
+
+void				ft_handle_start_and_end(char const *buffer)
+{
+	char			*line;
+
+	get_next_line_stdin(&line);
+	ft_putstr_endl(buffer);
+	free((void *)line);
+}
+
+
+
 /*
 **	Prend en premier paramètre le nombre de pointeurs à libérer et
 **	libère chaque pointeur tour à tour.
 */
-uint8_t					ft_variadic_memory_freeing(unsigned int nb, ...)
+uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...)
 {
-	void				*ptr;
-	va_list				args;
-	uint8_t				index;
+	void			*ptr;
+	va_list			args;
+	uint8_t			index;
 
 	index = 0;
 	va_start(args, nb);
@@ -167,31 +240,55 @@ uint8_t					ft_variadic_memory_freeing(unsigned int nb, ...)
 	return (EXIT_FAILURE);
 }
 
-/*
-**	Fonction de parsing principale.
-*/
-uint8_t					ft_parse_std_input(t_graph *map)
-{
-	char				*buffer;
-	register uint8_t	index;
-	uint8_t				(*funptr[3])(t_graph *, char const *);
 
-	index = 0;
+
+/*
+**	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
+**	on a affaire à une définition de salle, de tube ou du nombre de fourmis
+**	avant de dispatcher à la fonction correspondante.
+*/
+uint8_t				ft_tokenize_buffer(t_graph *graph, char const *buffer)
+{
+	static uint8_t	index;
+	uint8_t			(*funptr[3])(t_graph *, char const *);
+
 	funptr[0] = &ft_parse_ants;
-	funptr[1] = &ft_parse_rooms;
-	funptr[2] = &ft_parse_connections;
+	funptr[1] = &ft_parse_edges;
+	funptr[2] = &ft_parse_verticles;
+	if (!buffer || !buffer[0])
+		return (ft_puterror(NULL, EMPTYLINE));
+	if (buffer[0] == '#')
+	{
+		if (strcmp(buffer, "##start") == 0 || strcmp(buffer, "##end") == 0)
+			ft_handle_start_and_end(buffer);
+		else
+			ft_putstr_endl(buffer);
+	}
+	else if (index == 0)
+		return ((funptr[index++])(graph, buffer));
+	else if ((index = ft_strchr_index(buffer)) != 0)
+	{
+		if ((funptr[index])(graph, buffer) == EXIT_FAILURE)
+			return (ft_puterror(buffer, UNKCOMM));
+	}
+	else
+		return (ft_puterror(buffer, UNKCOMM));
+	return (EXIT_SUCCESS);
+}
+
+
+
+/*
+**	Fonction de récupération de l'entrée std.
+*/
+uint8_t				ft_read_std_input(t_graph *graph)
+{
+	char			*buffer;
+
+	buffer = NULL;
 	while (get_next_line_stdin(&buffer) > 0)
 	{
-		if (buffer[0] == '#')
-		{
-			if (strcmp(buffer, "##start") == 0)
-				index = 0;
-			else if (strcmp(buffer, "##end") == 0)
-				index = 1;
-			else
-				ft_putstr_endl(buffer);
-		}
-		else if ((funptr[index])(map, buffer) == EXIT_FAILURE)
+		if (ft_tokenize_buffer(graph, buffer) == EXIT_FAILURE)
 			return (ft_variadic_memory_freeing(1, (void *)buffer));
 		free((void *)buffer);
 	}
@@ -199,12 +296,14 @@ uint8_t					ft_parse_std_input(t_graph *map)
 	return (EXIT_SUCCESS);
 }
 
+
+
+
 int						main(void)
 {
 	t_graph				graph;
 
 	bzero(&graph, sizeof(graph));
-	ft_parse_std_input(&graph);
-	printf("\n\nANTS = [%u]\n", graph.ants);
+	ft_read_std_input(&graph);
 	return (EXIT_SUCCESS);
 }
