@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lem-in.h"
+#include "../include/lem_in.h"
+#include "../include/lme_in_bug.h"
+#include "../include/lem_in_compiler.h"
 
 void				*ft_memset(void *s, int c, size_t n)
 {
@@ -58,6 +60,7 @@ char			*ft_strnjoinfree(char const *s1, char const *s2, size_t n)
 /*
 **	char *string -> leak
 */
+__hot_function
 static int8_t			get_next_line_stdin(char **line)
 {
 	char				buffer[BUFF_SIZE];
@@ -83,10 +86,27 @@ static int8_t			get_next_line_stdin(char **line)
 	return (ret > 0 ? 1 : 0);
 }
 
-int						ft_isprintable(int c)
+
+
+__pure_function
+static inline int		ft_isprintable(int c)
 {
 	return (c > 31 && c < 127 ? 1 : 0);
 }
+
+__pure_function
+static inline int		ft_isblank(int c)
+{
+	return (c == ' ' || c == '\t' || c == '-' ? 1 : 0);
+}
+
+__pure_function
+static inline int		ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9' ? 1 : 0);
+}
+
+
 
 void					ft_putchar(int c)
 {
@@ -103,11 +123,11 @@ void					ft_putnstr(char const *str, uint8_t n)
 	register uint8_t	index;
 
 	index = 0;
-	if (!str || !str[0])
+	if (!str || unlikely(!str[0]))
 		ft_putchar(' ');
 	else
 	{
-		while (index < n && str[index] != 0)
+		while (likely(index < n) && str[index] != 0)
 		{
 			ft_putchar(ft_isprintable(str[index]) ? str[index] : '.');
 			++index;
@@ -130,30 +150,17 @@ uint8_t				ft_puterror(char const *str, char const *err)
 	return (EXIT_FAILURE);
 }
 
-int					ft_isblank(int c)
+
+
+
+uint8_t				ft_parse_verticles(__unused t_graph *map, char const *buffer)
 {
-	return (c == ' ' || c == '\t' || c == '-' || c == '+' ? 1 : 0);
-}
-
-int					ft_isdigit(int c)
-{
-	return (c >= '0' && c <= '9' ? 1 : 0);
-}
-
-
-
-
-uint8_t				ft_parse_verticles(t_graph *map, char const *buffer)
-{
-	(void)map;
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }
 
-uint8_t				ft_parse_edges(t_graph *map, char const *buffer)
+uint8_t				ft_parse_edges(__unused t_graph *map, __unused char const *buffer)
 {
-	(void)map;
-	(void)buffer;
 	return (EXIT_FAILURE);
 }
 
@@ -180,10 +187,38 @@ uint8_t				ft_parse_ants(t_graph *map, char const *buffer)
 
 
 
+void				ft_handle_start_and_end(char const *buffer)
+{
+	char			*line;
+
+	get_next_line_stdin(&line);
+	ft_putstr_endl(buffer);
+	free((void *)line);
+}
+
+/*
+**	Prend en premier paramètre le nombre de pointeurs à libérer et
+**	libère chaque pointeur tour à tour.
+*/
+uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...)
+{
+	void			*ptr;
+	va_list			args;
+	uint8_t			index;
+
+	index = 0;
+	va_start(args, nb);
+	while (index++ < nb)
+		if ((ptr = va_arg(args, void *)) != NULL)
+			free(ptr);
+	va_end(args);
+	return (EXIT_FAILURE);
+}
+
 /*
 **	Grossss !
 */
-uint8_t				ft_strchr_index(char const *buffer)
+uint8_t				ft_funptr_index(char const *buffer)
 {
 	uint8_t			space_count;
 	uint8_t			minus_count;
@@ -207,43 +242,8 @@ uint8_t				ft_strchr_index(char const *buffer)
 	return (0);
 }
 
-
-
-
-void				ft_handle_start_and_end(char const *buffer)
-{
-	char			*line;
-
-	get_next_line_stdin(&line);
-	ft_putstr_endl(buffer);
-	free((void *)line);
-}
-
-
-
 /*
-**	Prend en premier paramètre le nombre de pointeurs à libérer et
-**	libère chaque pointeur tour à tour.
-*/
-uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...)
-{
-	void			*ptr;
-	va_list			args;
-	uint8_t			index;
-
-	index = 0;
-	va_start(args, nb);
-	while (index++ < nb)
-		if ((ptr = va_arg(args, void *)) != NULL)
-			free(ptr);
-	va_end(args);
-	return (EXIT_FAILURE);
-}
-
-
-
-/*
-**	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
+**	Analyse la chaine 'buffer' retournée par get_next_line afin de savoir si
 **	on a affaire à une définition de salle, de tube ou du nombre de fourmis
 **	avant de dispatcher à la fonction correspondante.
 */
@@ -266,7 +266,7 @@ uint8_t				ft_tokenize_buffer(t_graph *graph, char const *buffer)
 	}
 	else if (index == 0)
 		return ((funptr[index++])(graph, buffer));
-	else if ((index = ft_strchr_index(buffer)) != 0)
+	else if ((index = ft_funptr_index(buffer)) != 0)
 	{
 		if ((funptr[index])(graph, buffer) == EXIT_FAILURE)
 			return (ft_puterror(buffer, UNKCOMM));
@@ -275,8 +275,6 @@ uint8_t				ft_tokenize_buffer(t_graph *graph, char const *buffer)
 		return (ft_puterror(buffer, UNKCOMM));
 	return (EXIT_SUCCESS);
 }
-
-
 
 /*
 **	Fonction de récupération de l'entrée std.

@@ -1,41 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem-in.h                                           :+:      :+:    :+:   */
+/*   lem_in_compiler.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/05 16:48:40 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/06 17:55:06 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_H
-# define LEM_IN_H
+#ifndef LEM_IN_COMPILER_H
+# define LEM_IN_COMPILER_H
 
-# include <errno.h>
-# include <stdio.h>
-# include <string.h>
-# include <unistd.h>
-# include <stdint.h>
-# include <stdlib.h>
-# include <stdarg.h>
-
-# define BUFF_SIZE		512
-# define C_RED			"\033[0;31m"
-# define C_NONE			"\033[0;00m"
+# define __hot_function		__attribute__((hot))
+# define __pure_function	__attribute__((pure))
+# define __unused			__attribute__((unused))
 
 /*
-**	Messages d'erreurs
+**	Macros qui permettent au processeur de savoir à l'avance si une condition
+**	a plus de chances d'être vraie ou non.
 */
-# define NOTNUM			"Non-numeric value encountered"
-# define OUTDOMAIN		"Numerical argument out of domain"
-
-typedef struct			s_graph
-{
-	uint32_t			ants;
-	uint16_t			rooms;
-	uint16_t			connections;
-}						t_graph;
+# define likely(x)			__builtin_expect(!!(x), 1)
+# define unlikely(x)		__builtin_expect(!!(x), 0)
 
 #endif
