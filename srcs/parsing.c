@@ -6,12 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/06 17:54:24 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/08 22:40:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/lem_in.h"
-#include "../include/lme_in_bug.h"
+#include "../include/lem_in_bug.h"
 #include "../include/lem_in_compiler.h"
 
 void				*ft_memset(void *s, int c, size_t n)
@@ -60,7 +60,6 @@ char			*ft_strnjoinfree(char const *s1, char const *s2, size_t n)
 /*
 **	char *string -> leak
 */
-__hot_function
 static int8_t			get_next_line_stdin(char **line)
 {
 	char				buffer[BUFF_SIZE];
@@ -86,27 +85,25 @@ static int8_t			get_next_line_stdin(char **line)
 	return (ret > 0 ? 1 : 0);
 }
 
-
-
-__pure_function
-static inline int		ft_isprintable(int c)
+int						ft_isprintable(int c)
 {
-	return (c > 31 && c < 127 ? 1 : 0);
+	return ((c > 31 && c < 127));
 }
 
-__pure_function
-static inline int		ft_isblank(int c)
+int						ft_isaligned(void *ptr)
+{
+	return (((size_t)ptr & (sizeof(ptr) - 1)) == 0);
+}
+
+int						ft_isblank(int c)
 {
 	return (c == ' ' || c == '\t' || c == '-' ? 1 : 0);
 }
 
-__pure_function
-static inline int		ft_isdigit(int c)
+int						ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9' ? 1 : 0);
 }
-
-
 
 void					ft_putchar(int c)
 {
@@ -123,11 +120,11 @@ void					ft_putnstr(char const *str, uint8_t n)
 	register uint8_t	index;
 
 	index = 0;
-	if (!str || unlikely(!str[0]))
+	if (UNLIKELY(!str || !str[0]))
 		ft_putchar(' ');
 	else
 	{
-		while (likely(index < n) && str[index] != 0)
+		while (index < n && str[index] != 0)
 		{
 			ft_putchar(ft_isprintable(str[index]) ? str[index] : '.');
 			++index;
@@ -152,16 +149,33 @@ uint8_t				ft_puterror(char const *str, char const *err)
 
 
 
-
-uint8_t				ft_parse_verticles(__unused t_graph *map, char const *buffer)
+/*
+**	Vérification du bon formattage de la définition des sommets.
+**	Doit remplir les champs qui contiendrons nom de la salle et coordonnés
+*/
+uint8_t				ft_parse_verticles(__UNUSED t_graph *map, char const *buffer)
 {
+	uint16_t		index;
+
+	index = 0;
+	if (UNLIKELY(ft_isprintable(buffer[0]) == 0 || (buffer[0] == 'L')))
+		return (EXIT_FAILURE);
+	while (ft_isblank(buffer[index]))
+		index++;
+	if (buffer[index + 1] != ' ')
+		return (EXIT_FAILURE);
+//	map->rooms = ft_strsub(buffer, 0, index);
+
+/*	Handle coords here	*/
+
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }
 
-uint8_t				ft_parse_edges(__unused t_graph *map, __unused char const *buffer)
+uint8_t				ft_parse_edges(__UNUSED t_graph *map, char const *buffer)
 {
-	return (EXIT_FAILURE);
+	ft_putstr_endl(buffer);
+	return (EXIT_SUCCESS);
 }
 
 uint8_t				ft_parse_ants(t_graph *map, char const *buffer)
@@ -184,9 +198,6 @@ uint8_t				ft_parse_ants(t_graph *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-
-
-
 void				ft_handle_start_and_end(char const *buffer)
 {
 	char			*line;
@@ -195,6 +206,39 @@ void				ft_handle_start_and_end(char const *buffer)
 	ft_putstr_endl(buffer);
 	free((void *)line);
 }
+
+uint32_t				ft_word_count(char const *str)
+{
+	uint32_t			words;
+
+	words = 0;
+	while (*str)
+	{
+		if (ft_isblank(*str) == 0)
+		{
+			++words;
+			while (ft_isblank(*str) == 0 && *str)
+				str++;
+		}
+		else
+			str++;
+	}
+	return (words);
+}
+
+
+uint8_t				ft_funptr_index(char const *buffer)
+{
+	uint32_t		index;
+
+	if ((index = ft_word_count(buffer)) > 2)
+		return (2);
+	else if (index)
+		return (1);
+	return (0);
+}
+
+
 
 /*
 **	Prend en premier paramètre le nombre de pointeurs à libérer et
@@ -215,35 +259,10 @@ uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...)
 	return (EXIT_FAILURE);
 }
 
-/*
-**	Grossss !
-*/
-uint8_t				ft_funptr_index(char const *buffer)
-{
-	uint8_t			space_count;
-	uint8_t			minus_count;
 
-	space_count = 0;
-	minus_count = 0;
-	if (buffer == NULL)
-		return (0);
-	while (*buffer)
-	{
-		if (*buffer == ' ')
-			++space_count;
-		else if (*buffer == '-')
-			++minus_count;
-		++buffer;
-	}
-	if (minus_count == 1)
-		return (1);
-	if (space_count == 2)
-		return (2);
-	return (0);
-}
 
 /*
-**	Analyse la chaine 'buffer' retournée par get_next_line afin de savoir si
+**	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
 **	on a affaire à une définition de salle, de tube ou du nombre de fourmis
 **	avant de dispatcher à la fonction correspondante.
 */
@@ -276,6 +295,8 @@ uint8_t				ft_tokenize_buffer(t_graph *graph, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
+
+
 /*
 **	Fonction de récupération de l'entrée std.
 */
@@ -296,12 +317,11 @@ uint8_t				ft_read_std_input(t_graph *graph)
 
 
 
-
 int						main(void)
 {
 	t_graph				graph;
 
-	bzero(&graph, sizeof(graph));
+	bzero(&graph, sizeof(t_graph));
 	ft_read_std_input(&graph);
 	return (EXIT_SUCCESS);
 }

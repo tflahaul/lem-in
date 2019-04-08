@@ -6,11 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 13:33:54 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/06 14:25:12 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/08 22:09:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lem-in.h"
+#include "../include/lem_in.h"
 
 int8_t						get_next_line_stdin(char **line)
 {

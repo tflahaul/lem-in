@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in_compiler.h                                  :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/08 22:05:06 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/08 22:17:51 by thflahau         ###   ########.fr       */
+/*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/08 22:41:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_COMPILER_H
-# define LEM_IN_COMPILER_H
+#include "../include/lem_in.h"
 
-# define __UNUSED			__attribute__((unused))
+int						main(void)
+{
+	t_graph				graph;
 
-/*
-**	Macros qui permettent au processeur de savoir à l'avance si une condition
-**	a plus de chances d'être vraie ou non.
-*/
-# define LIKELY(x)			__builtin_expect(!!(x), 1)
-# define UNLIKELY(x)		__builtin_expect(!!(x), 0)
-
-#endif
+	bzero(&graph, sizeof(t_graph));
+	ft_read_std_input(&graph);
+	return (EXIT_SUCCESS);
+}
