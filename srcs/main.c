@@ -14,9 +14,9 @@
 
 int						main(void)
 {
-	t_graph				graph;
+	t_map				map;
 
-	bzero(&graph, sizeof(t_graph));
-	ft_read_std_input(&graph);
+	bzero(&map, sizeof(t_map));
+	ft_read_std_input(&map);
 	return (EXIT_SUCCESS);
 }

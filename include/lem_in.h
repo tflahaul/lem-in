@@ -22,13 +22,19 @@
 
 # define BUFF_SIZE		512
 
-typedef struct			s_graph
+typedef struct			s_map
 {
-	uint32_t			ants;
-	uint16_t			rooms;
-	uint16_t			connections;
-}						t_graph;
+	uint32_t			population;
+	uint16_t			verticles;
+	uint16_t			edges;
+}						t_map;
 
-uint8_t					ft_read_std_input(t_graph *graph);
+typedef struct			s_verticles
+{
+	int32_t				x;
+	int32_t				y;
+	char				*name;
+	struct s_graph		*next;
+}						t_verticles;
 
 #endif
