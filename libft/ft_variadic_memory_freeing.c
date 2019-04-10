@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isaligned.c                                     :+:      :+:    :+:   */
+/*   ft_variadic_memory_freeing.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 18:36:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 18:36:27 by thflahau         ###   ########.fr       */
+/*   Created: 2019/04/10 18:53:55 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/10 18:56:33 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <stdarg.h>
 
-int						ft_isaligned(void *ptr)
+/*
+**	Prend en premier paramètre le nombre de pointeurs à libérer et
+**	libère chaque pointeur tour à tour.
+*/
+uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...)
 {
-	return (((size_t)ptr & (sizeof(ptr) - 1)) == 0);
+	void			*ptr;
+	va_list			args;
+	uint8_t			index;
+
+	index = 0;
+	va_start(args, nb);
+	while (index++ < nb)
+		if ((ptr = va_arg(args, void *)) != NULL)
+			free(ptr);
+	va_end(args);
+	return (EXIT_FAILURE);
 }

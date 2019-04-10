@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnjoinfree.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/10 18:55:40 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/10 19:12:10 by thflahau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <libft.h>
 
 char				*ft_strnjoinfree(char const *s1, char const *s2, size_t n)
@@ -9,7 +21,7 @@ char				*ft_strnjoinfree(char const *s1, char const *s2, size_t n)
 	if (!s1 || !s2)
 		return (NULL);
 	tmp = (char *)s1;
-	if (!(str = ft_strnew(strlen(s1) + n + 1)))
+	if (!(str = ft_strnew(ft_strlen(s1) + n + 1)))
 		return (NULL);
 	ptr = str;
 	while (*s1)

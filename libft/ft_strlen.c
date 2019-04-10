@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isaligned.c                                     :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 18:36:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 18:36:27 by thflahau         ###   ########.fr       */
+/*   Created: 2019/04/10 18:54:51 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/10 19:01:23 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-int						ft_isaligned(void *ptr)
+size_t					ft_strlen(char const *str)
 {
-	return (((size_t)ptr & (sizeof(ptr) - 1)) == 0);
+	char				*ptr;
+
+	ptr = (char *)str;
+	while (*ptr)
+		ptr++;
+	return (ptr - str);
 }

@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isaligned.c                                     :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 18:36:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 18:36:27 by thflahau         ###   ########.fr       */
+/*   Created: 2019/04/10 18:34:22 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/10 18:35:35 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include "../include/lem_in_bug.h"
 
-int						ft_isaligned(void *ptr)
+uint8_t				ft_puterror(char const *str, char const *err)
 {
-	return (((size_t)ptr & (sizeof(ptr) - 1)) == 0);
+	ft_putstr(C_RED);
+	ft_putnstr(str, 20);
+	ft_putstr(C_NONE);
+	printf("\t<- %s\n", err);
+	return (EXIT_FAILURE);
 }

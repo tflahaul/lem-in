@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/08 22:40:13 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/10 18:57:33 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,6 @@
 #include "../include/lem_in_bug.h"
 #include "../include/lem_in_compiler.h"
 
-uint8_t				ft_puterror(char const *str, char const *err)
-{
-	ft_putstr(C_RED);
-	ft_putnstr(str, 20);
-	ft_putstr(C_NONE);
-	printf("\t<- %s\n", err);
-	return (EXIT_FAILURE);
-}
-
-/*
-**	Prend en premier paramètre le nombre de pointeurs à libérer et
-**	libère chaque pointeur tour à tour.
-*/
-uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...)
-{
-	void			*ptr;
-	va_list			args;
-	uint8_t			index;
-
-	index = 0;
-	va_start(args, nb);
-	while (index++ < nb)
-		if ((ptr = va_arg(args, void *)) != NULL)
-			free(ptr);
-	va_end(args);
-	return (EXIT_FAILURE);
-}
 
 /*
 **	Vérification du bon formattage de la définition des sommets.
@@ -64,15 +37,15 @@ uint8_t				ft_parse_verticles(t_verticles *node, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t				ft_parse_edges(__UNUSED t_graph *map, char const *buffer)
+uint8_t					ft_parse_edges(__UNUSED t_map *map, char const *buffer)
 {
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }
 
-uint8_t				ft_parse_ants(t_map *map, char const *buffer)
+uint8_t					ft_parse_ants(t_map *map, char const *buffer)
 {
-	uint16_t		index;
+	uint16_t			index;
 
 	index = 0;
 	while (buffer[index])
@@ -90,40 +63,21 @@ uint8_t				ft_parse_ants(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-void					ft_handle_start_and_end(char const *buffer)
+void						ft_handle_start_and_end(char const *buffer)
 {
-	char				*line;
+	char					*line;
 
 	get_next_line_stdin(&line);
 	ft_putstr_endl(buffer);
 	free((void *)line);
 }
 
-uint32_t				ft_word_count(char const *str)
+
+
+
+static uint8_t				ft_tokenize_buffer(char const *buffer)
 {
-	uint32_t			words;
-
-	words = 0;
-	while (*str)
-	{
-		if (ft_isblank(*str) == 0)
-		{
-			++words;
-			while (ft_isblank(*str) == 0 && *str)
-				str++;
-		}
-		else
-			str++;
-	}
-	return (words);
-}
-
-
-
-
-static uint8_t			ft_tokenize_buffer(char const *buffer)
-{
-	uint32_t			index;
+	uint32_t				index;
 
 	if ((index = ft_word_count(buffer)) > 2)
 		return (2);
@@ -137,10 +91,10 @@ static uint8_t			ft_tokenize_buffer(char const *buffer)
 **	on a affaire à une définition de salle, de tube ou du nombre de fourmis
 **	avant de dispatcher à la fonction correspondante.
 */
-static uint8_t			ft_parse_buffer(t_graph *graph, char const *buffer)
+static uint8_t				ft_parse_buffer(t_map *graph, char const *buffer)
 {
-	static uint8_t		index;
-	uint8_t				(*funptr[3])(t_graph *, char const *);
+	static uint8_t			index;
+	uint8_t					(*funptr[3])(t_map *, char const *);
 
 	funptr[0] = &ft_parse_ants;
 	funptr[1] = &ft_parse_edges;
@@ -169,9 +123,9 @@ static uint8_t			ft_parse_buffer(t_graph *graph, char const *buffer)
 /*
 **	Fonction de récupération de l'entrée std.
 */
-uint8_t					ft_read_std_input(t_graph *graph)
+uint8_t						ft_read_std_input(t_map *graph)
 {
-	char				*buffer;
+	char					*buffer;
 
 	buffer = NULL;
 	while (get_next_line_stdin(&buffer) > 0)
