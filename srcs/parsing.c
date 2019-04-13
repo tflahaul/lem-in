@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 23:39:03 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/13 23:55:57 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ uint8_t					ft_handle_start_and_end(uint64_t *entry_point, char const *buffer)
 {
 	static uint8_t error_ind;
 
-	if (error_ind++ > 2)
+	if (++error_ind > 2)
 		return (EXIT_FAILURE);
 	if (strcmp(buffer, "##start") == 0)
 		*entry_point = 1;
