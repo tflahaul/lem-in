@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 18:15:54 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 19:09:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ void					ft_handle_start_and_end(char const *buffer)
 	free((void *)line);
 }
 
-
-
-
 static uint8_t			ft_tokenize_buffer(char const *buffer)
 {
 	uint32_t			index;
@@ -74,7 +71,7 @@ static uint8_t			ft_parse_buffer(t_map *graph, char const *buffer)
 
 	funptr[0] = &ft_parse_ants;
 	funptr[1] = &ft_parse_edges;
-	funptr[2] = &ft_parse_verticles;
+	funptr[2] = &ft_parse_vertices;
 	if (!buffer || !buffer[0])
 		return (ft_puterror(NULL, EMPTYLINE));
 	if (buffer[0] == '#')

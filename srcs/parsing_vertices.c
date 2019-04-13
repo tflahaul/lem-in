@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_f01.c                                      :+:      :+:    :+:   */
+/*   parsing_verticles.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 18:05:48 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 19:12:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ static inline uint8_t	ft_append_to_hashtable(t_map *map, char const *name)
 	uint64_t			hashkey;
 
 	hashkey = 15;	// hashfun
-	while (hashkey < MAX_VERTICLES && map->hashtab[hashkey]->name != NULL)
+	while (hashkey < MAX_VERTICES && map->hashtab[hashkey]->name != NULL)
 	{
 		if (strcmp(map->hashtab[hashkey++]->name, name) == 0)
 			return (ft_puterror(name, DUPLICATE));
-		if (UNLIKELY(hashkey == MAX_VERTICLES - 1)) // Careful there
+		if (UNLIKELY(hashkey == MAX_VERTICES - 1)) // Careful there
 			hashkey = 0;
 	}
 	map->hashtab[hashkey]->name = name;
-	map->verticles++;
+	map->vertices++;
 	return (EXIT_SUCCESS);
 }
 
@@ -39,7 +39,7 @@ static inline uint8_t	ft_append_to_hashtable(t_map *map, char const *name)
 **	Vérification assez générale du bon formattage de la définition des salles.
 **	Manque: gestion des coordonnés.
 */
-uint8_t					ft_parse_verticles(t_map *node, char const *buffer)
+uint8_t					ft_parse_vertices(t_map *node, char const *buffer)
 {
 	uint16_t			index;
 	char				*name;

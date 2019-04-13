@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 18:07:06 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 19:16:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,24 @@
 # include <stdlib.h>
 # include <stdarg.h>
 
-# define MAX_VERTICLES	4096
+# define MAX_VERTICES	4096
 
-typedef struct			s_verticles
+typedef struct			s_vertices
 {
 	int32_t				x;
 	int32_t				y;
 	char const			*name;
-	struct s_verticles	*next;
-}						t_verticles;
+	struct s_vertices	*next;
+}						t_vertices;
 
 typedef struct			s_map
 {
 	uint32_t			population;
 	uint32_t			start_edges;
 	uint32_t			end_edges;
-	uint16_t			verticles;
+	uint16_t			vertices;
 	uint16_t			edges;
-	struct s_verticles	*hashtab[MAX_VERTICLES];
+	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
 uint8_t					ft_puterror(char const *str, char const *err);
@@ -47,12 +47,12 @@ uint8_t					ft_puterror(char const *str, char const *err);
 **	Parsing
 */
 uint8_t					ft_read_std_input(t_map *map);
-uint8_t					ft_parse_verticles(t_map *node, char const *buffer);
+uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 
 /*
 **	Memory
 */
-void					ft_free_hashtable(t_verticles *hashtab[MAX_VERTICLES]);
+void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
 uint8_t					ft_initialize_hashtable(t_map *map);
 
 #endif

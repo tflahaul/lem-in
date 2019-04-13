@@ -1,7 +1,6 @@
 ##bipbop
 4
 abc 25 98
-##start
 salut 23 3
 oui 16 7
 #commentaire
@@ -11,7 +10,6 @@ hola 9 3
 hello 1 5
 hallo 5 9
 gutentag 4 8
-##end
 0 9 5
 0-4
 0-6

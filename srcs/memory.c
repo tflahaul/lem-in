@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 16:58:34 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 19:10:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 	register uint16_t	idx;
 
 	idx = 0;
-	while (idx < MAX_VERTICLES)
+	while (idx < MAX_VERTICES)
 	{
-		if (!(map->hashtab[idx] = (t_verticles *)malloc(sizeof(t_verticles))))
+		if (!(map->hashtab[idx] = (t_vertices *)malloc(sizeof(t_vertices))))
 			return (printf("lem-in: %s (hint: %s)\n", MEMERR, MEMFULL));
 		map->hashtab[idx]->name = NULL;
 		map->hashtab[idx]->next = NULL;
@@ -30,10 +30,10 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 	return (EXIT_SUCCESS);
 }
 
-static inline void		ft_free_adjacency_list(t_verticles **head)
+static inline void		ft_free_adjacency_list(t_vertices **head)
 {
-	t_verticles			*node;
-	t_verticles			*ptr;
+	t_vertices			*node;
+	t_vertices			*ptr;
 
 	if (head != NULL && *head != NULL)
 	{
@@ -49,11 +49,11 @@ static inline void		ft_free_adjacency_list(t_verticles **head)
 	}
 }
 
-void					ft_free_hashtable(t_verticles *hashtab[MAX_VERTICLES])
+void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES])
 {
 	uint16_t			index;
 
 	index = 0;
-	while (index < MAX_VERTICLES)
+	while (index < MAX_VERTICES)
 		ft_free_adjacency_list(&hashtab[index++]);
 }
