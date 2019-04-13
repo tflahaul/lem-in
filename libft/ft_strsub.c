@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 18:54:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 14:48:42 by thflahau         ###   ########.fr       */
+/*   Created: 2018/11/07 13:49:18 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/13 14:39:39 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void					ft_putnstr(char const *str, uint8_t n)
+char				*ft_strsub(char const *s, unsigned int start, size_t len)
 {
-	register uint8_t	index;
+	unsigned int	i;
+	char			*ptr;
 
-	index = 0;
-	if (!str || !str[0])
-		ft_putchar(' ');
-	else
+	if (!s)
+		return (NULL);
+	if (!(ptr = (char *)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
-		while (index < n && str[index] != 0)
-		{
-			ft_putchar(ft_isprintable(str[index]) ? str[index] : '.');
-			++index;
-		}
+		ptr[i] = s[i + start];
+		i++;
 	}
+	ptr[i] = 0;
+	return (ptr);
 }
