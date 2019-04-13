@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/13 20:53:54 by thflahau         ###   ########.fr        #
+#    Updated: 2019/04/13 21:45:04 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,9 @@ LIBFT 		= 	libft/libft.a
 SRCDIR 		=	srcs
 SRC 		= 	main						parsing						\
 				parsing_vertices			memory						\
-				errors						parsing_edges
-
+				errors						parsing_edges				\
+				print_hashtable
+				
 OBJDIR 		= 	obj
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
 OBJ 		= 	$(patsubst %, $(OBJDIR)/%.o, $(SRC))
@@ -58,12 +59,12 @@ $(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/lem_in.h $(HDR)/libft.h #ft_printf/$(HDR)/f
 clean			:
 	rm -rf $(OBJDIR)
 	make -C libft clean
-	make -C ft_printf clean
+#	make -C ft_printf clean
 	echo "$(RED)Object files removed$(STD)"
 
 fclean			: clean
 	make -C libft fclean
-	make -C ft_printf fclean
+#	make -C ft_printf fclean
 	rm -f $(NAME)
 	echo "$(RED)$(NAME) removed"
 

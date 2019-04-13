@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:45:20 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 23:31:09 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,18 @@
 #include <lem_in_compiler.h>
 #include <lem_in_hash.h>
 
-unsigned long			hash(const char *s)
+unsigned long			hash(const char *name)
 {
 	unsigned long		h;
-	unsigned const char	*us;
 
-	us = (unsigned const char *)s;
 	h = 0;
-	while (*us != '\0')
+	while (*name != '\0')
 	{
-		h = h * MULTIPLIER + *us;
-		us++;
+		h = h * MULTIPLIER + *name;
+		name++;
 	}
 	return (h % MAX_VERTICES);
 }
-
 /*
 **	Récupère l'index de la table où placer le nom de la salle et itère jusqu'à
 **	trouver un emplacement vide (si besoin).
@@ -38,7 +35,8 @@ unsigned long			hash(const char *s)
 static inline uint8_t	ft_add_to_hashtable(t_map *map, char const *name)
 {
 	uint64_t			hashkey;
-
+	
+//	printf("entry point = %llu\n", map->entry_point);
 	hashkey = hash(name);
 	while (hashkey < MAX_VERTICES && map->hashtab[hashkey]->name != NULL)
 	{
@@ -46,6 +44,16 @@ static inline uint8_t	ft_add_to_hashtable(t_map *map, char const *name)
 			return (ft_puterror(name, DUPLICATE));
 		if (UNLIKELY(hashkey == MAX_VERTICES - 1))
 			hashkey = 0;
+	}
+	if (map->entry_point == 1 && !map->start_index)
+	{
+		map->start_index = hashkey;
+		printf("%llu = start\n", map->start_index);
+	}
+	else if (map->entry_point == 2 && !map->end_index)
+	{
+		map->end_index = hashkey;
+		printf("%llu = end\n", map->end_index);
 	}
 	map->hashtab[hashkey]->name = name;
 	map->vertices++;

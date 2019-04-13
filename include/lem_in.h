@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:46:59 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 23:19:04 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ typedef struct			s_vertices
 
 typedef struct			s_map
 {
+	uint64_t			start_index;
+	uint64_t			end_index;
 	uint32_t			population;
 	uint32_t			start_edges;
 	uint32_t			end_edges;
 	uint16_t			vertices;
 	uint16_t			edges;
+	uint64_t			entry_point;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
@@ -54,6 +57,7 @@ uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 **	Memory
 */
 void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
+void					print_hashtab(t_map *map);
 uint8_t					ft_initialize_hashtable(t_map *map);
 
 #endif
