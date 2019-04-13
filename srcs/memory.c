@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 19:10:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 20:41:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lem_in.h"
-#include "../include/lem_in_bug.h"
-#include "../include/lem_in_compiler.h"
+#include <lem_in.h>
+#include <lem_in_bug.h>
+#include <lem_in_compiler.h>
 
 uint8_t					ft_initialize_hashtable(t_map *map)
 {
@@ -25,7 +25,7 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 			return (printf("lem-in: %s (hint: %s)\n", MEMERR, MEMFULL));
 		map->hashtab[idx]->name = NULL;
 		map->hashtab[idx]->next = NULL;
-		++idx;
+		idx++;
 	}
 	return (EXIT_SUCCESS);
 }

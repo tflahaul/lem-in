@@ -1,53 +1,56 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/03/21 18:32:31 by abrunet          ###   ########.fr        #
+#    Updated: 2019/04/13 20:53:54 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	 	= 	lem_in
 
-HDR			=	includes
-CFLAGS 		= 	-Wall -Werror -Wextra -g
-INC 		= 	-I includes -I libft/includes -I ft_printf/includes
+HDR			=	include
+CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g -fsanitize=address
+INC 		= 	-I include
 LIBFT 		= 	libft/libft.a
-PRINTF		= 	ft_printf/libftprintf.a
-SRCDIR 		=	src
-SRC 		= 	main	
+#PRINTF		= 	ft_printf/libftprintf.a
+SRCDIR 		=	srcs
+SRC 		= 	main						parsing						\
+				parsing_vertices			memory						\
+				errors						parsing_edges
 
 OBJDIR 		= 	obj
+SRCS		=	$(addprefix $(SRCDIR), $(SRC))
 OBJ 		= 	$(patsubst %, $(OBJDIR)/%.o, $(SRC))
 
-##########COLOR##########
+########## COLOR ##########
 STD = \033[0m
 GREEN = \033[1;32m
 RED = \033[1;31m
 YELLOW = \033[1;33m
-#########################
+###########################
 
 all				: $(NAME)
 
-$(NAME)	: $(LIBFT) $(PRINTF) $(OBJ) 
+$(NAME)			: $(LIBFT) $(PRINTF) $(OBJ)
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... "
 	gcc $(CFLAGS) $(LIBFT) $(PRINTF) $(OBJ) -o $@
 	echo "$(GREEN)DONE$(STD)"
 
-$(LIBFT)		: libft/$(HDR)/libft.h 
+$(LIBFT)		: $(HDR)/libft.h
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... "
 	make -C libft
 	echo "$(GREEN)DONE$(STD)"
 
-$(PRINTF)		:  ft_printf/$(HDR)/ft_printf.h 	
-	printf "$(YELLOW)%-35s$(STD)" "Building $@... "
-	make -C ft_printf/
-	echo "$(GREEN)DONE$(STD)"
+#$(PRINTF)		: $(HDR)/ft_printf.h
+#	printf "$(YELLOW)%-35s$(STD)" "Building $@... "
+#	make -C ft_printf/
+#	echo "$(GREEN)DONE$(STD)"
 
-$(OBJDIR)/%.o	: %.c $(HDR)/lem_in.h libft/$(HDR)/libft.h ft_printf/$(HDR)/ft_printf.h
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/lem_in.h $(HDR)/libft.h #ft_printf/$(HDR)/ft_printf.h
 	@mkdir -p $(OBJDIR)
 	@echo " > Compiling $<..."
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@

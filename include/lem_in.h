@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 19:16:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 20:46:59 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ uint8_t					ft_puterror(char const *str, char const *err);
 **	Parsing
 */
 uint8_t					ft_read_std_input(t_map *map);
+uint8_t					ft_parse_edges(t_map *map, char const *buffer);
 uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 
 /*

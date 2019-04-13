@@ -6,19 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 19:09:32 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/13 20:46:35 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/lem_in.h"
-#include "../include/lem_in_bug.h"
-#include "../include/lem_in_compiler.h"
-
-uint8_t					ft_parse_edges(__UNUSED t_map *map, char const *buffer)
-{
-	ft_putstr_endl(buffer);
-	return (EXIT_SUCCESS);
-}
+#include <lem_in.h>
+#include <lem_in_bug.h>
+#include <lem_in_compiler.h>
 
 uint8_t					ft_parse_ants(t_map *map, char const *buffer)
 {
@@ -32,7 +26,7 @@ uint8_t					ft_parse_ants(t_map *map, char const *buffer)
 		index++;
 	}
 	map->population = atoi(buffer);
-	if (UNLIKELY(map->population > UINT16_MAX || map->population <= 0))
+	if (UNLIKELY(map->population > MAX_VERTICES || map->population <= 0))
 		return (ft_puterror(buffer, OUTDOMAIN));
 	else
 		ft_putstr_endl(buffer);
@@ -64,7 +58,8 @@ static uint8_t			ft_tokenize_buffer(char const *buffer)
 **	on a affaire à une définition de salle, de tube ou du nombre de fourmis
 **	avant de dispatcher à la fonction correspondante.
 */
-static uint8_t			ft_parse_buffer(t_map *graph, char const *buffer)
+
+static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 {
 	static uint8_t		index;
 	uint8_t				(*funptr[3])(t_map *, char const *);
@@ -82,10 +77,10 @@ static uint8_t			ft_parse_buffer(t_map *graph, char const *buffer)
 			ft_putstr_endl(buffer);
 	}
 	else if (index == 0)
-		return ((funptr[index++])(graph, buffer));
+		return ((funptr[index++])(map, buffer));
 	else if ((index = ft_tokenize_buffer(buffer)) != 0)
 	{
-		if ((funptr[index])(graph, buffer) == EXIT_FAILURE)
+		if ((funptr[index])(map, buffer) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	}
 	else
@@ -96,14 +91,15 @@ static uint8_t			ft_parse_buffer(t_map *graph, char const *buffer)
 /*
 **	Fonction de récupération de l'entrée std.
 */
-uint8_t					ft_read_std_input(t_map *graph)
+
+uint8_t					ft_read_std_input(t_map *map)
 {
 	char				*buffer;
 
 	buffer = NULL;
 	while (get_next_line_stdin(&buffer) > 0)
 	{
-		if (ft_parse_buffer(graph, buffer) == EXIT_FAILURE)
+		if (ft_parse_buffer(map, buffer) == EXIT_FAILURE)
 			return (ft_variadic_memory_freeing(1, (void *)buffer));
 		free((void *)buffer);
 	}
