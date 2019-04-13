@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 18:37:35 by thflahau          #+#    #+#              #
-#    Updated: 2019/04/13 14:40:34 by thflahau         ###   ########.fr        #
+#    Updated: 2019/04/13 21:36:09 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,15 +34,16 @@ all: $(NAME)
 
 $(NAME):
 	$(CC) $(CFLAGS) $(SRCS)
-	@ar -cq $@ $(OBJS)
-	@ranlib $@
+	ar -cq $@ $(OBJS)
+	ranlib $@
 
 clean:
-	@/bin/rm -f $(OBJS)
+	/bin/rm -f $(OBJS)
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	/bin/rm -f $(NAME)
 
 re: fclean all
 
+.SILENT: all $(NAME) clean fclean 
 .phony: $(NAME) clean fclean re
