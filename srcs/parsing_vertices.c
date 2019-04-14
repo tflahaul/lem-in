@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 23:31:09 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 15:48:13 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 #include <lem_in_compiler.h>
 #include <lem_in_hash.h>
 
-unsigned long			hash(const char *name)
+uint64_t				hash(const char *s)
 {
-	unsigned long		h;
+	uint64_t			h;
 
 	h = 0;
-	while (*name != '\0')
+	while (*s != '\0')
 	{
-		h = h * MULTIPLIER + *name;
-		name++;
+		h = h * MULTIPLIER + *s;
+		s++;
 	}
 	return (h % MAX_VERTICES);
 }
@@ -32,18 +32,21 @@ unsigned long			hash(const char *name)
 **	trouver un emplacement vide (si besoin).
 */
 
-static inline uint8_t	ft_add_to_hashtable(t_map *map, char const *name)
+static uint8_t			ft_add_to_hashtable(t_map *map, char const *name)
 {
+	uint8_t				index;
 	uint64_t			hashkey;
-	
-//	printf("entry point = %llu\n", map->entry_point);
+
+	index = 0;
 	hashkey = hash(name);
 	while (hashkey < MAX_VERTICES && map->hashtab[hashkey]->name != NULL)
 	{
-		if (strcmp(map->hashtab[hashkey++]->name, name) == 0)
+		if (ft_strcmp(map->hashtab[hashkey++]->name, name) == 0)
 			return (ft_puterror(name, DUPLICATE));
-		if (UNLIKELY(hashkey == MAX_VERTICES - 1))
-			hashkey = 0;
+		if (UNLIKELY(hashkey == MAX_VERTICES))
+			hashkey = index++;
+		else if (index)
+			return (ft_puterror(name, TOOBIG));
 	}
 	if (map->entry_point == 1 && !map->start_index)
 	{
@@ -80,7 +83,7 @@ uint8_t					ft_parse_vertices(t_map *map, char const *buffer)
 	if ((name = ft_strsub(buffer, 0, index)) == NULL)
 		return (ft_puterror(buffer, MEMERR));
 	if (ft_add_to_hashtable(map, name) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (ft_variadic_memory_freeing(1, name));
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }

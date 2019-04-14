@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in_hash.h                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/13 20:22:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 12:34:34 by thflahau         ###   ########.fr       */
+/*   Created: 2019/02/25 11:24:22 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/14 14:21:54 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_HASH_H
-# define LEM_IN_HASH_H
+#include <libft.h>
 
-# define MULTIPLIER			37
-
-#endif
+int						ft_strcmp(char const *s1, char const *s2)
+{
+	if (s1 == s2)
+		return (0);
+	while (*s1 && *s2)
+		if (*s1++ != *s2++)
+			return (*(s1 - 1) - *(s2 - 1));
+	return ((*s1) - (*s2));
+}

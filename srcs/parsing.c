@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:59:16 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 15:45:37 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ uint8_t					ft_parse_ants(t_map *map, char const *buffer)
 			return (ft_puterror(buffer, NONNUM));
 		index++;
 	}
-	map->population = atoi(buffer);
-	if (UNLIKELY(map->population > MAX_VERTICES || map->population <= 0))
+	map->population = ft_atoi_light(buffer);
+	if (UNLIKELY(map->population > UINT16_MAX || map->population <= 0))
 		return (ft_puterror(buffer, OUTDOMAIN));
 	else
 		ft_putstr_endl(buffer);

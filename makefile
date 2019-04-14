@@ -6,14 +6,14 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/13 21:45:04 by abrunet          ###   ########.fr        #
+#    Updated: 2019/04/14 15:43:19 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	 	= 	lem_in
+NAME	 	= 	lem-in
 
 HDR			=	include
-CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g -fsanitize=address
+CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g
 INC 		= 	-I include
 LIBFT 		= 	libft/libft.a
 #PRINTF		= 	ft_printf/libftprintf.a
@@ -51,7 +51,7 @@ $(LIBFT)		: $(HDR)/libft.h
 #	make -C ft_printf/
 #	echo "$(GREEN)DONE$(STD)"
 
-$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/lem_in.h $(HDR)/libft.h #ft_printf/$(HDR)/ft_printf.h
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h #/lem_in.h $(HDR)/libft.h #ft_printf/$(HDR)/ft_printf.h
 	@mkdir -p $(OBJDIR)
 	@echo " > Compiling $<..."
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@

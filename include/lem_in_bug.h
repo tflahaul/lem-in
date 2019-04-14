@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:32:00 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 14:40:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 **	Code couleur pour l'affichage des erreurs
 */
 # define C_RED			"\e[41m"
-# define C_NONE			"\033[0;0m"
+# define C_NONE			"\033[0m"
 
 /*
 **	Messages d'erreurs
 */
 # define BADNAME		"Invalid verticle name"
 # define MEMERR			"Memory allocation failure"
+# define TOOBIG			"Number of rooms out of domain, adjust MAX_VERTICES"
 # define UNKCOMM		"Command line not well formatted"
 # define DUPLICATE		"Two rooms cannot have the same name"
 # define OUTDOMAIN		"Numerical argument out of domain"
