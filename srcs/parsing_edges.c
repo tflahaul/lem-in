@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 23:19:03 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 23:39:14 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ uint8_t					get_connections(char const *buffer, char *ptr, t_map *map)
 	if (add_connection(hash2, hash1, map))
 		return (EXIT_FAILURE);
 	check_for_entry_edges(map, hash1, hash2);
-	print_hashtab(map);
 	return (EXIT_SUCCESS);
 }
 
