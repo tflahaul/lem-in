@@ -6,11 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:56:53 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 18:57:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 16:44:08 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#define UNLIKELY(x)		__builtin_expect(!!(x), 0)
 
 uint32_t				ft_word_count(char const *str)
 {
@@ -23,7 +24,8 @@ uint32_t				ft_word_count(char const *str)
 		{
 			++words;
 			while (ft_isblank(*str) == 0 && *str)
-				str++;
+				if (UNLIKELY(ft_isprintable(*str++) == 0))
+					return (0);
 		}
 		else
 			str++;
