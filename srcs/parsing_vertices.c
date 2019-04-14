@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 21:17:27 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 22:15:54 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ uint64_t				hash(const char *s)
 		s++;
 	}
 	return (h % MAX_VERTICES);
+}
+
+void					set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
+{
+	if (entry == 1)
+		map->start_index = hashkey;
+	else if (entry == 2)
+		map->end_index = hashkey;
+	map->entry_point = 0;
 }
 /*
 **	Récupère l'index de la table où placer le nom de la salle et itère jusqu'à
@@ -48,10 +57,8 @@ static uint8_t			ft_add_to_hashtable(t_map *map, char const *name)
 		else if (index > 1)
 			return (ft_puterror(name, TOOBIG));
 	}
-	if (map->entry_point == 1 && !map->start_index)
-		map->start_index = hashkey;
-	else if (map->entry_point == 2 && !map->end_index)
-		map->end_index = hashkey;
+	if (map->entry_point)
+		set_entry(map->entry_point, map, hashkey);
 	map->hashtab[hashkey]->name = name;
 	map->vertices++;
 	return (EXIT_SUCCESS);

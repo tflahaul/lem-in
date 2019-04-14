@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 17:40:55 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 23:20:01 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ typedef struct			s_map
 	uint64_t			start_index;
 	uint64_t			end_index;
 	uint32_t			population;
-	uint32_t			nbedges;
+	uint32_t			start_edges;
+	uint32_t			end_edges;
 	uint32_t			vertices;
 	uint32_t			edges;
-	uint64_t			entry_point;
+	uint32_t			entry_point;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
@@ -55,7 +56,7 @@ uint8_t					ft_puterror(char const *str, char const *err);
 /*
 **	Parsing
 */
-uint8_t					ft_read_std_input(t_map *map);
+uint8_t					ft_read_std_input(t_map *map, uint32_t *paths);
 uint8_t					ft_parse_edges(t_map *map, char const *buffer);
 uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 
@@ -70,5 +71,10 @@ uint8_t					ft_initialize_hashtable(t_map *map);
  **	Hash
  */
 uint64_t				hash(const char *s);
+
+/*
+**	link_list
+*/
+uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 
 #endif

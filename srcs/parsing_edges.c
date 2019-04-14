@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 19:54:33 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 23:19:03 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,47 +28,6 @@ uint64_t				hashn(const char *s, int size)
 		s++;
 	}
 	return (h % MAX_VERTICES);
-}
-
-t_edges					*make_node(uint64_t hashkey)
-{
-	t_edges		*new;
-
-	if (UNLIKELY(!(new = malloc(sizeof(t_edges)))))
-		return (NULL);
-	new->key = hashkey;
-	new->next = NULL;
-	return (new);
-}
-
-uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
-{
-	t_edges		*new;
-	t_edges		*tmp;
-
-	if (UNLIKELY(!(new = make_node(hash2))))
-		return (EXIT_FAILURE);
-	if (!map->hashtab[hash1]->adjc)
-		map->hashtab[hash1]->adjc = new;
-	else
-	{
-		tmp = map->hashtab[hash1]->adjc;
-		while (tmp)
-		{
-			if (tmp->key == hash2)
-			{
-				free(new);
-				return (ft_puterror(map->hashtab[hash2]->name, DUPLINK));
-			}
-			if (!tmp->next)
-			{
-				tmp->next = new;
-				return (EXIT_SUCCESS);
-			}
-			tmp = tmp->next;
-		}
-	}
-	return (EXIT_SUCCESS);	
 }
 
 uint8_t					get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
@@ -95,6 +54,14 @@ uint8_t					get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const ch
 	return (ft_puterror(buffer, NOROOM));
 }
 
+void					check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
+{
+	if (hash1 == map->end_index || hash2 == map->end_index)
+		map->end_edges++; 
+	if (hash1 == map->start_index || hash2 == map->start_index)
+		map->start_edges++;
+}
+
 uint8_t					get_connections(char const *buffer, char *ptr, t_map *map)
 {
 	uint64_t 	hash1;
@@ -112,6 +79,7 @@ uint8_t					get_connections(char const *buffer, char *ptr, t_map *map)
 		return (EXIT_FAILURE);
 	if (add_connection(hash2, hash1, map))
 		return (EXIT_FAILURE);
+	check_for_entry_edges(map, hash1, hash2);
 	print_hashtab(map);
 	return (EXIT_SUCCESS);
 }
@@ -122,6 +90,10 @@ uint8_t					ft_parse_edges(t_map *map, char const *buffer)
 	char 				*ptr;
 
 	index = 0;
+	if (UNLIKELY(map->vertices < 2))
+		return (ft_puterror(buffer, TOOSMALLFARM));
+	if (UNLIKELY(!map->start_index || !map->end_index))
+		return (ft_puterror(buffer, NOENTRY));
 	if (LIKELY((ptr = strchr(buffer, '-'))))
 	{
 		if (get_connections(buffer, ptr, map))

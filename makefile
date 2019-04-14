@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/14 21:19:33 by abrunet          ###   ########.fr        #
+#    Updated: 2019/04/14 23:20:25 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCDIR 		=	srcs
 SRC 		= 	main						parsing						\
 				parsing_vertices			memory						\
 				errors						parsing_edges				\
-				print_hashtable
+				print_hashtable				connection_list
 				
 OBJDIR 		= 	obj
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))

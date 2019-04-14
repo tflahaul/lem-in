@@ -4,8 +4,10 @@ abc 25 98
 salut 23 3
 oui 16 7
 #commentaire
-bonjour 164545 3565	
+##start
+bonjour 164545 3565
 Ziv8 2070 2070
+##end
 hola 9 3
 hello 1 5
 hallo 5 9
@@ -15,16 +17,4 @@ bonjour-hola
 #bonjour-hola
 bonjour-Ziv8
 bonjour-hallo
-1-3
-4-3
-5-2
-3-5
-#autre commentaire
-4-2
-2-1
-7-6
-7-2
-7-4
-#C'est la fin
-6-5
 #autre commentaire

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 21:16:25 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 23:04:20 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@
 # define EMPTYLINE		"Empty line"
 # define DUPLINK		"Connection already exists"
 # define NOROOM			"Room doesn't exist"
+# define TOOSMALLFARM	"Ant farm doesn't have enough rooms"
+# define NOENTRY		"No ##start and/or ##end"
+# define NOPATH			"No path to ##start and/or ##end"
 
 #endif

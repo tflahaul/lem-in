@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 21:16:34 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 23:22:21 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,6 @@ uint8_t					ft_parse_ants(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t					ft_handle_start_and_end(t_map *map, char const *buffer)
-{
-	static uint8_t error_ind;
-
-	if (++error_ind > 2)
-		return (EXIT_FAILURE);
-	map->entry_point = buffer[2] == 's' ? 1 : 2;
-	return (EXIT_SUCCESS);
-}
-
 static uint8_t			ft_tokenize_buffer(char const *buffer)
 {
 	uint32_t			index;
@@ -55,10 +45,10 @@ static uint8_t			ft_tokenize_buffer(char const *buffer)
 }
 
 /*
-**	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
-**	on a affaire à une définition de salle, de tube ou du nombre de fourmis
-**	avant de dispatcher à la fonction correspondante.
-*/
+ **	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
+ **	on a affaire à une définition de salle, de tube ou du nombre de fourmis
+ **	avant de dispatcher à la fonction correspondante.
+ */
 
 static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 {
@@ -73,8 +63,8 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	if (buffer[0] == '#')
 	{
 		if (strcmp(buffer, "##start") == 0 || strcmp(buffer, "##end") == 0)
-			if ((ft_handle_start_and_end(map, buffer)) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
+			map->entry_point = buffer[2] == 's' ? 1 : 2;
+		ft_putstr_endl(buffer);
 	}
 	else if (index == 0)
 		return ((funptr[index++])(map, buffer));
@@ -88,11 +78,19 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-/*
-**	Fonction de récupération de l'entrée std.
-*/
+uint32_t			nedges_calc(t_map *map, uint32_t *paths)
+{
+	*paths = (map->start_edges <= map->end_edges) ? map->start_edges : map->end_edges;
+	if (!*paths)
+		return (ft_puterror("", NOPATH));
+	return (EXIT_SUCCESS);
+}
 
-uint8_t					ft_read_std_input(t_map *map)
+/*
+ **	Fonction de récupération de l'entrée std.
+ */
+
+uint8_t					ft_read_std_input(t_map *map, uint32_t *paths)
 {
 	char				*buffer;
 
@@ -103,6 +101,8 @@ uint8_t					ft_read_std_input(t_map *map)
 			return (ft_variadic_memory_freeing(1, (void *)buffer));
 		free((void *)buffer);
 	}
+	if (nedges_calc(map, paths) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	free((void *)buffer);
 	return (EXIT_SUCCESS);
 }
