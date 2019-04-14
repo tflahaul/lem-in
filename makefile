@@ -6,14 +6,14 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/14 15:43:19 by abrunet          ###   ########.fr        #
+#    Updated: 2019/04/14 19:40:16 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	 	= 	lem-in
 
 HDR			=	include
-CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g
+CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g -fsanitize=address
 INC 		= 	-I include
 LIBFT 		= 	libft/libft.a
 #PRINTF		= 	ft_printf/libftprintf.a

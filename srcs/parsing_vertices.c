@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 15:48:13 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 19:46:26 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,9 @@ static uint8_t			ft_add_to_hashtable(t_map *map, char const *name)
 			return (ft_puterror(name, TOOBIG));
 	}
 	if (map->entry_point == 1 && !map->start_index)
-	{
 		map->start_index = hashkey;
-		printf("%llu = start\n", map->start_index);
-	}
 	else if (map->entry_point == 2 && !map->end_index)
-	{
 		map->end_index = hashkey;
-		printf("%llu = end\n", map->end_index);
-	}
 	map->hashtab[hashkey]->name = name;
 	map->vertices++;
 	return (EXIT_SUCCESS);

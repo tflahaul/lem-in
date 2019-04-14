@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:40:52 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 19:41:04 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@
 # define MEMFULL		"No space left on device"
 # define BADINPUT		"Invalid argument"
 # define EMPTYLINE		"Empty line"
+# define DUPLINK		"Connection already exists"
+# define NOROOM			"Room doesn't exist"
 
 #endif

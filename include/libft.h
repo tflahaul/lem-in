@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:22:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 19:42:54 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int					ft_isblank(int c);
 int					ft_isdigit(int c);
 int					ft_isprintable(int c);
 int					ft_strcmp(char const *s1, char const *s2);
+int					ft_strncmp(char const *s1, char const *s2, size_t n);
 void				*ft_memset(void *s, int c, size_t n);
 void				ft_putchar(int c);
 void				ft_putnstr(char const *s, uint8_t n);
