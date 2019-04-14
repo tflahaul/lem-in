@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_edges.c                                    :+:      :+:    :+:   */
+/*   ft_atoi_light.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:40:32 by thflahau         ###   ########.fr       */
+/*   Created: 2019/04/14 12:10:11 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/14 12:17:08 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem_in.h>
-#include <lem_in_bug.h>
-#include <lem_in_compiler.h>
+#include <libft.h>
+#define UNLIKELY(x)		__builtin_expect(!!(x), 0)
 
-uint8_t					ft_parse_edges(__UNUSED t_map *map, char const *buffer)
+int64_t					ft_atoi_light(char const *str)
 {
-	uint16_t			index;
-//	uint16_t			hashkey;
+	uint32_t			nb;
+	uint32_t			ng;
 
-	index = 0;
-	while (ft_isblank(buffer[index]) == 0)
-		index++;
-	if (UNLIKELY(buffer[index] != '-'))
-		return (ft_puterror(buffer, UNKCOMM));
-	ft_putstr_endl(buffer);
-	return (EXIT_SUCCESS);
+	nb = 0;
+	ng = 1;
+	if (*str == 45)
+		ng = *str++ - 46;
+	while (*str > 47 && *str < 58)
+	{
+		nb = nb * 10 + *str++ - 48;
+		if (UNLIKELY(nb > INT32_MAX))
+			return (UINT16_MAX + 1);
+	}
+	return (nb * ng);
 }

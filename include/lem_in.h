@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:46:59 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 14:45:03 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 
 typedef struct			s_vertices
 {
-	int32_t				x;
-	int32_t				y;
+//	int32_t				x;
+//	int32_t				y;
+	uint64_t			key;
 	char const			*name;
 	struct s_vertices	*next;
 }						t_vertices;
@@ -34,8 +35,7 @@ typedef struct			s_vertices
 typedef struct			s_map
 {
 	uint32_t			population;
-	uint32_t			start_edges;
-	uint32_t			end_edges;
+	uint32_t			nbedges;
 	uint16_t			vertices;
 	uint16_t			edges;
 	struct s_vertices	*hashtab[MAX_VERTICES];

@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:22:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:23:16 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 12:34:34 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_HASH_H
 # define LEM_IN_HASH_H
 
-# define MULTIPLIER		37
+# define MULTIPLIER			37
 
 #endif

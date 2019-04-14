@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:47:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 14:32:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ int						main(void)
 	if (ft_initialize_hashtable(&map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	ft_read_std_input(&map);
+//	for (int i = 0; i < MAX_VERTICES; i += 4)
+//	{
+//		printf("%s\t%s\t", map.hashtab[i]->name, map.hashtab[i + 1]->name);
+//		printf("%s\t%s\n", map.hashtab[i + 2]->name, map.hashtab[i + 3]->name);
+//	}
 	ft_free_hashtable(map.hashtab);
 	return (EXIT_SUCCESS);
 }

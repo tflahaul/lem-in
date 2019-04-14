@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:46:35 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 14:48:23 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,20 @@ uint8_t					ft_parse_ants(t_map *map, char const *buffer)
 			return (ft_puterror(buffer, NONNUM));
 		index++;
 	}
-	map->population = atoi(buffer);
-	if (UNLIKELY(map->population > MAX_VERTICES || map->population <= 0))
+	map->population = ft_atoi_light(buffer);
+	if (UNLIKELY(map->population > UINT16_MAX || map->population <= 0))
 		return (ft_puterror(buffer, OUTDOMAIN));
 	else
 		ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }
 
-void					ft_handle_start_and_end(char const *buffer)
+void					ft_handle_start_and_end(__UNUSED char const *buffer)
 {
 	char				*line;
 
 	get_next_line_stdin(&line);
-	ft_putstr_endl(buffer);
+	ft_parse_vertices(line);
 	free((void *)line);
 }
 
@@ -71,10 +71,8 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 		return (ft_puterror(NULL, EMPTYLINE));
 	if (buffer[0] == '#')
 	{
-		if (strcmp(buffer, "##start") == 0 || strcmp(buffer, "##end") == 0)
+		if (!ft_strcmp(buffer, "##start") || !ft_strcmp(buffer, "##end"))
 			ft_handle_start_and_end(buffer);
-		else
-			ft_putstr_endl(buffer);
 	}
 	else if (index == 0)
 		return ((funptr[index++])(map, buffer));

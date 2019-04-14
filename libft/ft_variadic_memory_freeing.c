@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:53:55 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 18:56:33 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 12:17:25 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 **	Prend en premier paramètre le nombre de pointeurs à libérer et
 **	libère chaque pointeur tour à tour.
 */
+
 uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...)
 {
 	void			*ptr;

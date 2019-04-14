@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 13:33:54 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 19:07:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 12:17:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int8_t						get_next_line_stdin(char **line)
 	char					*ptr;
 	static char				*string;
 	register ssize_t		ret;
-
 
 	if (!string && !(string = ft_strnew(1)))
 		return (-1);

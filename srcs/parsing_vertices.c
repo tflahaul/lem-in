@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 20:45:20 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 14:43:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,15 @@
 #include <lem_in_compiler.h>
 #include <lem_in_hash.h>
 
-unsigned long			hash(const char *s)
+uint64_t				hash(const char *s)
 {
-	unsigned long		h;
-	unsigned const char	*us;
+	uint64_t			h;
 
-	us = (unsigned const char *)s;
 	h = 0;
-	while (*us != '\0')
+	while (*s != '\0')
 	{
-		h = h * MULTIPLIER + *us;
-		us++;
+		h = h * MULTIPLIER + *s;
+		s++;
 	}
 	return (h % MAX_VERTICES);
 }
@@ -35,17 +33,21 @@ unsigned long			hash(const char *s)
 **	trouver un emplacement vide (si besoin).
 */
 
-static inline uint8_t	ft_add_to_hashtable(t_map *map, char const *name)
+static uint8_t			ft_add_to_hashtable(t_map *map, char const *name)
 {
+	uint8_t				index;
 	uint64_t			hashkey;
 
+	index = 0;
 	hashkey = hash(name);
 	while (hashkey < MAX_VERTICES && map->hashtab[hashkey]->name != NULL)
 	{
-		if (strcmp(map->hashtab[hashkey++]->name, name) == 0)
+		if (ft_strcmp(map->hashtab[hashkey++]->name, name) == 0)
 			return (ft_puterror(name, DUPLICATE));
-		if (UNLIKELY(hashkey == MAX_VERTICES - 1))
-			hashkey = 0;
+		if (UNLIKELY(hashkey == MAX_VERTICES))
+			hashkey = index++;
+		else if (index)
+			return (ft_puterror(name, TOOBIG));
 	}
 	map->hashtab[hashkey]->name = name;
 	map->vertices++;

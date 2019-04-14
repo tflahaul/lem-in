@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_edges.c                                    :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:40:32 by thflahau         ###   ########.fr       */
+/*   Created: 2019/02/25 11:24:22 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/14 14:21:54 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem_in.h>
-#include <lem_in_bug.h>
-#include <lem_in_compiler.h>
+#include <libft.h>
 
-uint8_t					ft_parse_edges(__UNUSED t_map *map, char const *buffer)
+int						ft_strcmp(char const *s1, char const *s2)
 {
-	uint16_t			index;
-//	uint16_t			hashkey;
-
-	index = 0;
-	while (ft_isblank(buffer[index]) == 0)
-		index++;
-	if (UNLIKELY(buffer[index] != '-'))
-		return (ft_puterror(buffer, UNKCOMM));
-	ft_putstr_endl(buffer);
-	return (EXIT_SUCCESS);
+	if (s1 == s2)
+		return (0);
+	while (*s1 && *s2)
+		if (*s1++ != *s2++)
+			return (*(s1 - 1) - *(s2 - 1));
+	return ((*s1) - (*s2));
 }
