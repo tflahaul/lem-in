@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:48:23 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 15:01:57 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void					ft_handle_start_and_end(__UNUSED char const *buffer)
 	char				*line;
 
 	get_next_line_stdin(&line);
-	ft_parse_vertices(line);
+//	ft_parse_vertices(line);
 	free((void *)line);
 }
 

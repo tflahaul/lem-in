@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:45:03 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 15:10:59 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,27 @@
 
 # define MAX_VERTICES	4096
 
+typedef struct			s_edges
+{
+	uint64_t			key;
+	struct s_edges		*next;
+}						t_edges;
+
 typedef struct			s_vertices
 {
 //	int32_t				x;
 //	int32_t				y;
 	uint64_t			key;
 	char const			*name;
-	struct s_vertices	*next;
+	struct s_edges		*adjc;
 }						t_vertices;
 
 typedef struct			s_map
 {
 	uint32_t			population;
 	uint32_t			nbedges;
-	uint16_t			vertices;
-	uint16_t			edges;
+	uint32_t			vertices;
+	uint32_t			edges;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 

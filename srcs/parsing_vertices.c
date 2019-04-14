@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 14:43:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 15:06:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ uint8_t					ft_parse_vertices(t_map *map, char const *buffer)
 	if ((name = ft_strsub(buffer, 0, index)) == NULL)
 		return (ft_puterror(buffer, MEMERR));
 	if (ft_add_to_hashtable(map, name) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+		return (ft_variadic_memory_freeing(1, name));
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }
