@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 15:01:57 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 15:53:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 		return ((funptr[index++])(map, buffer));
 	else if ((index = ft_tokenize_buffer(buffer)) != 0)
 	{
-		if ((funptr[index])(map, buffer) == EXIT_FAILURE)
+		if ((funptr[index])(map, buffer) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);
 	}
 	else
