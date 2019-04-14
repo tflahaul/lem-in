@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 23:55:57 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 14:59:16 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,13 @@ uint8_t					ft_parse_ants(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t					ft_handle_start_and_end(uint64_t *entry_point, char const *buffer)
+uint8_t					ft_handle_start_and_end(t_map *map, char const *buffer)
 {
 	static uint8_t error_ind;
 
 	if (++error_ind > 2)
 		return (EXIT_FAILURE);
-	if (strcmp(buffer, "##start") == 0)
-		*entry_point = 1;
-	else if (strcmp(buffer, "##end") == 0)
-		*entry_point = 2;
+	map->entry_point = buffer[2] == 's' ? 1 : 2;
 	return (EXIT_SUCCESS);
 }
 
@@ -76,9 +73,8 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	if (buffer[0] == '#')
 	{
 		if (strcmp(buffer, "##start") == 0 || strcmp(buffer, "##end") == 0)
-			if ((ft_handle_start_and_end(&map->entry_point, buffer)) == EXIT_FAILURE)
+			if ((ft_handle_start_and_end(map, buffer)) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
-		ft_putstr_endl(buffer);
 	}
 	else if (index == 0)
 		return ((funptr[index++])(map, buffer));
