@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 13:33:54 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 12:17:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 17:18:22 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ int8_t						get_next_line_stdin(char **line)
 	if (!(string = ft_strdup(ptr + ret)))
 		return (-1);
 	free((void *)ptr);
+	if (ret == 0)
+		free((void *)string);
 	return (ret > 0 ? 1 : 0);
 }

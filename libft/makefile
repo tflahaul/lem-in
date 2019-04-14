@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 18:37:35 by thflahau          #+#    #+#              #
-#    Updated: 2019/04/14 19:42:45 by abrunet          ###   ########.fr        #
+#    Updated: 2019/04/14 21:36:29 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,13 @@ OBJDIR1	=	$(addprefix $(OBJDIR), $(SRCS:.c=.o))
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(SRCS)
 	ar -cq $@ $(OBJS)
 	ranlib $@
+
+%.o: %.c	$(INCLUDE)libft.h
+	@gcc $(CFLAGS) -o $@ -c $<
 
 clean:
 	/bin/rm -f $(OBJS)

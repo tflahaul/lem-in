@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 19:41:04 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/14 21:16:25 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@
 /*
 **	Messages d'erreurs
 */
-# define BADNAME		"Invalid verticle name"
+# define BADNAME		"Invalid room name"
 # define MEMERR			"Memory allocation failure"
 # define TOOBIG			"Number of rooms out of domain, adjust MAX_VERTICES"
 # define UNKCOMM		"Command line not well formatted"
-# define DUPLICATE		"Two rooms cannot have the same name"
+# define DUPLICATE		"Room has already been defined"
 # define OUTDOMAIN		"Numerical argument out of domain"
 # define NONNUM			"Non-numeric value encountered"
 # define MEMFULL		"No space left on device"
