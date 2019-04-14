@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 15:11:28 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 15:30:33 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,16 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 	return (EXIT_SUCCESS);
 }
 
-static inline void		ft_free_adjacency_list(t_vertices **head)
+static inline void		ft_free_adjacency_list(t_edges **head)
 {
-	t_vertices			*node;
-	t_vertices			*ptr;
+	t_edges				*ptr;
+	t_edges				*node;
 
 	if (head != NULL && *head != NULL)
 	{
 		node = *head;
 		while (node != NULL)
 		{
-			if (node->name != NULL)
-				free((void *)node->name);
 			ptr = node->next;
 			free((void *)node);
 			node = ptr;
@@ -55,5 +53,10 @@ void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES])
 
 	index = 0;
 	while (index < MAX_VERTICES)
-		ft_free_adjacency_list(&hashtab[index++]);
+	{
+		ft_free_adjacency_list(&hashtab[index]->adjc);
+		if (hashtab[index]->name != NULL)
+			free((void *)hashtab[index]->name);
+		free((void *)hashtab[index++]);
+	}
 }
