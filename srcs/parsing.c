@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 17:22:57 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/15 20:36:22 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ uint8_t					ft_read_std_input(t_map *map, uint32_t *paths)
 			return (ft_variadic_memory_freeing(1, (void *)buffer));
 		free((void *)buffer);
 	}
-	if (buffer[0] && nedges_calc(map, paths) == EXIT_FAILURE)
+	if (nedges_calc(map, paths) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	free((void *)buffer);
 	return (EXIT_SUCCESS);

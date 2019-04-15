@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 16:21:02 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 23:45:20 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 		if (!(map->hashtab[idx] = (t_vertices *)malloc(sizeof(t_vertices))))
 			return (printf("lem-in: %s (hint: %s)\n", MEMERR, MEMFULL));
 		map->hashtab[idx]->name = NULL;
+		map->hashtab[idx]->prev = NULL;
 		map->hashtab[idx]->adjc = NULL;
 		idx++;
 	}

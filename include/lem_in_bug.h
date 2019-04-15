@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 23:04:20 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 23:51:01 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@
 # define TOOSMALLFARM	"Ant farm doesn't have enough rooms"
 # define NOENTRY		"No ##start and/or ##end"
 # define NOPATH			"No path to ##start and/or ##end"
+# define DEADEND		"No possible path to ##end"
 
 #endif
