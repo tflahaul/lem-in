@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 17:03:20 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/15 17:29:25 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <lem_in_bug.h>
 #include <lem_in_compiler.h>
 
-void					set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
+static inline void	set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
 {
 	if (entry == 1)
 		map->start_index = hashkey;
@@ -23,7 +23,7 @@ void					set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
 	map->entry_point = 0;
 }
 
-uint8_t				ft_coordinate(t_map *map, char *name, char const *buffer)
+static uint8_t		ft_coordinate(t_map *map, char *name, char const *buffer)
 {
 	int64_t			coord;
 	uint64_t		hashkey;
@@ -43,14 +43,14 @@ uint8_t				ft_coordinate(t_map *map, char *name, char const *buffer)
 }
 
 /*
-**	Récupère l'index de la table où placer le nom de la salle et itère jusqu'à
-**	trouver un emplacement vide (si besoin).
+**	Récupère l'index de la table où placer le nom de la salle et itère
+**	jusqu'à trouver un emplacement vide (si besoin).
 */
 
-static uint8_t			ft_add_to_hashtable(t_map *map, char const *name)
+static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 {
-	uint8_t				index;
-	uint64_t			hashkey;
+	uint8_t			index;
+	uint64_t		hashkey;
 
 	index = 0;
 	hashkey = hash(name);
@@ -72,13 +72,12 @@ static uint8_t			ft_add_to_hashtable(t_map *map, char const *name)
 
 /*
 **	Vérification assez générale du bon formattage de la définition des salles.
-**	Manque: gestion des coordonnés.
 */
 
-uint8_t					ft_parse_vertices(t_map *map, char const *buffer)
+uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
 {
-	uint16_t			index;
-	char				*name;
+	uint16_t		index;
+	char			*name;
 
 	index = 0;
 	if (UNLIKELY(buffer[0] == 'L'))
