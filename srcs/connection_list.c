@@ -6,7 +6,7 @@
 /*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:15:36 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/14 23:26:59 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 15:26:25 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_edges					*make_node(uint64_t hashkey)
 {
 	t_edges		*new;
 
-	if (UNLIKELY(!(new = malloc(sizeof(t_edges)))))
+	if (!(new = malloc(sizeof(t_edges))))
 		return (NULL);
 	new->key = hashkey;
 	new->next = NULL;
@@ -30,7 +30,7 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
 	t_edges		*new;
 	t_edges		*tmp;
 
-	if (UNLIKELY(!(new = make_node(hash2))))
+	if (!(new = make_node(hash2)))
 		return (EXIT_FAILURE);
 	if (!map->hashtab[hash1]->adjc)
 		map->hashtab[hash1]->adjc = new;
