@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 14:49:51 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 23:12:08 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int						main(void)
 //		printf("%s\t%s\t", map.hashtab[i]->name, map.hashtab[i + 1]->name);
 //		printf("%s\t%s\n", map.hashtab[i + 2]->name, map.hashtab[i + 3]->name);
 //	}
-//	print_hashtab(&map);
 	ft_free_hashtable(map.hashtab);
 	return (EXIT_SUCCESS);
 }

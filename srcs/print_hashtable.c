@@ -10,7 +10,7 @@ void	print_hashtab(t_map *map)
 	{
 		if (map->hashtab[ind]->name)
 		{
-			printf("%d : %s ", ind, map->hashtab[ind]->name);
+			printf("%d --> %s ", ind, map->hashtab[ind]->name);
 			tmp = map->hashtab[ind]->adjc;
 			while (tmp)
 			{
@@ -18,6 +18,6 @@ void	print_hashtab(t_map *map)
 	  			tmp = tmp->next;
 			}
 			printf("\n");	
-		}	
+		}
 	}
 }

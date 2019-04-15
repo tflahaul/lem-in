@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 15:14:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/14 23:39:14 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,21 @@ uint64_t				hashn(const char *s, int size)
 	return (h % MAX_VERTICES);
 }
 
-uint8_t			get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
+uint8_t					get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
 {
 	uint64_t	tmp;
 
 	tmp = *hashkey;
 	while (map->hashtab[*hashkey]->name != NULL)
    	{
-		if (buffer != NULL)
+		if (buffer)
 		{
-			if (!ft_strncmp(map->hashtab[*hashkey]->name, buffer, ptr - buffer))
+			if ((ft_strncmp(map->hashtab[*hashkey]->name, buffer, ptr - buffer)) == 0)
 				return (EXIT_SUCCESS);
 		}
 		else		
 			if ((ft_strcmp(map->hashtab[*hashkey]->name, ptr + 1)) == 0)
-				return (EXIT_SUCCESS);
+				return (EXIT_SUCCESS);	
 		(*hashkey)++;
 		if (UNLIKELY(*hashkey == MAX_VERTICES))
 			*hashkey = 0;
@@ -64,8 +64,8 @@ void					check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
 
 uint8_t					get_connections(char const *buffer, char *ptr, t_map *map)
 {
-	uint64_t 			hash1;
-	uint64_t			hash2;
+	uint64_t 	hash1;
+	uint64_t	hash2;
 
 	if (!(ptr + 1))
 		return (EXIT_FAILURE);
@@ -93,9 +93,9 @@ uint8_t					ft_parse_edges(t_map *map, char const *buffer)
 		return (ft_puterror(buffer, TOOSMALLFARM));
 	if (UNLIKELY(!map->start_index || !map->end_index))
 		return (ft_puterror(buffer, NOENTRY));
-	if (LIKELY((ptr = ft_strrchr(buffer, '-'))))
+	if (LIKELY((ptr = strchr(buffer, '-'))))
 	{
-		if (get_connections(buffer, ptr, map) != EXIT_SUCCESS)
+		if (get_connections(buffer, ptr, map))
 			return (EXIT_FAILURE);
 	}
 	else
