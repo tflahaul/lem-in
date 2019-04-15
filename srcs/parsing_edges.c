@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 23:39:14 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 15:25:22 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ uint8_t					get_connections(char const *buffer, char *ptr, t_map *map)
 		return (EXIT_FAILURE);
 	hash2 = hash(ptr + 1);
 	hash1 = hashn(buffer, ptr - buffer);
-	if (UNLIKELY((get_collision_key(&hash1, map, ptr, buffer)) == EXIT_FAILURE))
+	if (get_collision_key(&hash1, map, ptr, buffer) == EXIT_FAILURE)
 		return (EXIT_FAILURE);	
-	if (UNLIKELY((get_collision_key(&hash2, map, ptr, NULL)) == EXIT_FAILURE))
+	if (get_collision_key(&hash2, map, ptr, NULL) == EXIT_FAILURE)
 		return (EXIT_FAILURE);	
  	if (add_connection(hash1, hash2, map))
 		return (EXIT_FAILURE);
