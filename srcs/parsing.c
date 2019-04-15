@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 23:31:22 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 15:30:24 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,8 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 		return (ft_puterror(NULL, EMPTYLINE));
 	if (buffer[0] == '#')
 	{
-		if (strcmp(buffer, "##start") == 0 || strcmp(buffer, "##end") == 0)
+		if (!ft_strcmp(buffer, "##start") || !ft_strcmp(buffer, "##end"))
 			map->entry_point = buffer[2] == 's' ? 1 : 2;
-		ft_putstr_endl(buffer);
 	}
 	else if (index == 0)
 		return ((funptr[index++])(map, buffer));
@@ -78,17 +77,20 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-uint32_t			nedges_calc(t_map *map, uint32_t *paths)
+static inline uint32_t	nedges_calc(t_map *map, uint32_t *paths)
 {
-	*paths = (map->start_edges <= map->end_edges) ? map->start_edges : map->end_edges;
-	if (!*paths)
-		return (ft_puterror("", NOPATH));
+	if (map->start_edges <= map->end_edges)
+		*paths = map->start_edges;
+	else
+		*paths = map->end_edges;
+	if (*paths == 0)
+		return (ft_puterror(NULL, NOPATH));
 	return (EXIT_SUCCESS);
 }
 
 /*
- **	Fonction de récupération de l'entrée std.
- */
+**	Fonction de récupération de l'entrée std.
+*/
 
 uint8_t					ft_read_std_input(t_map *map, uint32_t *paths)
 {

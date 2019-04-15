@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 22:15:54 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 15:21:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void					set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
 
 static uint8_t			ft_add_to_hashtable(t_map *map, char const *name)
 {
-	uint8_t				index;
+	uint64_t			index;
 	uint64_t			hashkey;
 
 	index = 0;

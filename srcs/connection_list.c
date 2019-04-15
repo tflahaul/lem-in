@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connection_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:15:36 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/14 23:26:59 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 15:16:28 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 #include <lem_in_bug.h>
 #include <lem_in_compiler.h>
 
-t_edges					*make_node(uint64_t hashkey)
+t_edges				*make_node(uint64_t hashkey)
 {
-	t_edges		*new;
+	t_edges			*new;
 
-	if (UNLIKELY(!(new = malloc(sizeof(t_edges)))))
+	if (UNLIKELY(!(new = (t_edges *)malloc(sizeof(t_edges)))))
 		return (NULL);
 	new->key = hashkey;
 	new->next = NULL;
 	return (new);
 }
 
-uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
+uint8_t				add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
 {
-	t_edges		*new;
-	t_edges		*tmp;
+	t_edges			*new;
+	t_edges			*tmp;
 
 	if (UNLIKELY(!(new = make_node(hash2))))
 		return (EXIT_FAILURE);
@@ -37,7 +37,7 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
 	else
 	{
 		tmp = map->hashtab[hash1]->adjc;
-		while (tmp)
+		while (tmp != NULL)
 		{
 			if (tmp->key == hash2)
 			{

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 23:20:01 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 15:25:29 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 
-# define MAX_VERTICES	4096
+# define MAX_VERTICES	8192
 
 typedef struct			s_edges
 {
