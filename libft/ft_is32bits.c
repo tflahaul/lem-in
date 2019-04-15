@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_is32bits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 17:21:42 by thflahau         ###   ########.fr       */
+/*   Created: 2019/04/15 16:45:00 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/15 16:46:03 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <lem_in.h>
+#include <libft.h>
 
-int						main(void)
+int						ft_is32bits(int64_t nb)
 {
-	t_map				map;
-	uint32_t			paths;
-
-	bzero(&map, sizeof(t_map));
-	if (ft_initialize_hashtable(&map) != EXIT_SUCCESS)
-		return (EXIT_FAILURE);
-	if (ft_read_std_input(&map, &paths) == EXIT_FAILURE)
-	{
-		ft_free_hashtable(map.hashtab);
-		return (EXIT_FAILURE);
-	}
-	print_hashtab(&map);
-	ft_free_hashtable(map.hashtab);
-	return (EXIT_SUCCESS);
+	return (nb <= INT32_MAX && nb >= INT32_MIN);
 }

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 23:20:01 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/15 17:05:38 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <stdlib.h>
-# include <stdarg.h>
 
-# define MAX_VERTICES	4096
+# define MAX_VERTICES	8192
 
 typedef struct			s_edges
 {
@@ -31,9 +30,8 @@ typedef struct			s_edges
 
 typedef struct			s_vertices
 {
-//	int32_t				x;
-//	int32_t				y;
-	uint64_t			key;
+	int32_t				x;
+	int32_t				y;
 	char const			*name;
 	struct s_edges		*adjc;
 }						t_vertices;
