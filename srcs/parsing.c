@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 20:36:22 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/16 15:06:35 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 #include <lem_in_bug.h>
 #include <lem_in_compiler.h>
 
-uint8_t					ft_parse_ants(t_map *map, char const *buffer)
+static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 {
 	uint16_t			index;
 
 	index = 0;
 	while (buffer[index])
 	{
-		if (ft_isdigit(buffer[index]) == 0 && ft_isblank(buffer[index]) == 0)
-			return (ft_puterror(buffer, NONNUM));
+		if (ft_isdigit(buffer[index]) == 0)
+			return (ft_puterror(buffer, BADINPUT));
+		else
+			map->population = map->population * 10 + buffer[index] - 48;
 		index++;
 	}
-	map->population = ft_atoi_light(buffer);
 	if (UNLIKELY(map->population > UINT16_MAX || map->population <= 0))
 		return (ft_puterror(buffer, OUTDOMAIN));
 	else
@@ -45,10 +46,10 @@ static uint8_t			ft_tokenize_buffer(char const *buffer)
 }
 
 /*
- **	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
- **	on a affaire à une définition de salle, de tube ou du nombre de fourmis
- **	avant de dispatcher à la fonction correspondante.
- */
+**	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
+**	on a affaire à une définition de salle, de tube ou du nombre de fourmis
+**	avant de dispatcher à la fonction correspondante.
+*/
 
 static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 {
@@ -78,17 +79,20 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-uint32_t			nedges_calc(t_map *map, uint32_t *paths)
+static inline uint32_t	nedges_calc(t_map *map, uint32_t *paths)
 {
-	*paths = map->start_edges <= map->end_edges ? map->start_edges : map->end_edges;
-	if (!*paths)
+	if (map->start_edges <= map->end_edges)
+		*paths = map->start_edges;
+	else
+		*paths = map->end_edges;
+	if (!(*paths))
 		return (ft_puterror(NULL, NOPATH));
 	return (EXIT_SUCCESS);
 }
 
 /*
- **	Fonction de récupération de l'entrée std.
- */
+**	Fonction de récupération de l'entrée std.
+*/
 
 uint8_t					ft_read_std_input(t_map *map, uint32_t *paths)
 {

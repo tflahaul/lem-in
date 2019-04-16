@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 13:13:06 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:10:40 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ typedef struct			s_map
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
-uint8_t					ft_puterror(char const *str, char const *err);
-
 /*
 **	Parsing
 */
@@ -65,11 +63,6 @@ uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
 void					print_hashtab(t_map *map);
 uint8_t					ft_initialize_hashtable(t_map *map);
-
-/*
-**	Hash
-*/
-uint64_t				hash(const char *s);
 
 /*
 **	link_list

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 23:51:01 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/16 15:14:49 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LEM_IN_BUG_H
 
 /*
-**	Code couleur pour l'affichage des erreurs
+**	Codes couleur pour l'affichage des erreurs
 */
 # define C_RED			"\e[41m"
 # define C_NONE			"\033[0m"
@@ -38,5 +38,7 @@
 # define NOENTRY		"No ##start and/or ##end"
 # define NOPATH			"No path to ##start and/or ##end"
 # define DEADEND		"No possible path to ##end"
+
+uint8_t					ft_puterror(char const *str, char const *err);
 
 #endif

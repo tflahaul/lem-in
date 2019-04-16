@@ -12,9 +12,8 @@
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
-#include <lem_in_compiler.h>
 
-t_edges					*make_node(uint64_t hashkey)
+t_edges			*make_node(uint64_t hashkey)
 {
 	t_edges		*new;
 
@@ -25,7 +24,7 @@ t_edges					*make_node(uint64_t hashkey)
 	return (new);
 }
 
-uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
+uint8_t			add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
 {
 	t_edges		*new;
 	t_edges		*tmp;

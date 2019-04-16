@@ -13,7 +13,7 @@
 NAME	 	= 	lem-in
 
 HDR			=	include
-CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g
+CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g -fsanitize=address
 INC 		= 	-I include
 LIBFT 		= 	libft/libft.a
 #PRINTF		= 	ft_printf/libftprintf.a

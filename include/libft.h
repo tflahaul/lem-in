@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 16:48:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 15:13:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...);
 int64_t				ft_atoi_parsing(char const **string);
 uint32_t			ft_word_count(char const *s);
 int8_t				get_next_line_stdin(char **s);
-int64_t				ft_atoi_light(char const *s);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 15:25:22 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/16 15:09:30 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,7 @@
 #include <lem_in_compiler.h>
 #include <lem_in_hash.h>
 
-uint64_t				hashn(const char *s, int size)
-{
-	uint64_t	h;
-	int			ind;
-
-	h = 0;
-	ind = -1;
-	while (++ind < size)
-	{
-		h = h * MULTIPLIER + *s;
-		s++;
-	}
-	return (h % MAX_VERTICES);
-}
-
-uint8_t					get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
+uint8_t			get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
 {
 	uint64_t	tmp;
 
@@ -54,7 +39,7 @@ uint8_t					get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const ch
 	return (ft_puterror(buffer, NOROOM));
 }
 
-void					check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
+void			check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
 {
 	if (hash1 == map->end_index || hash2 == map->end_index)
 		map->end_edges++; 
@@ -62,7 +47,7 @@ void					check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
 		map->start_edges++;
 }
 
-uint8_t					get_connections(char const *buffer, char *ptr, t_map *map)
+uint8_t			get_connections(char const *buffer, char *ptr, t_map *map)
 {
 	uint64_t 	hash1;
 	uint64_t	hash2;
@@ -83,10 +68,10 @@ uint8_t					get_connections(char const *buffer, char *ptr, t_map *map)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t					ft_parse_edges(t_map *map, char const *buffer)
+uint8_t			ft_parse_edges(t_map *map, char const *buffer)
 {
-	uint16_t			index;
-	char 				*ptr;
+	uint16_t	index;
+	char 		*ptr;
 
 	index = 0;
 	if (UNLIKELY(map->vertices < 2))

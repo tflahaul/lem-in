@@ -6,12 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 20:36:43 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/16 15:11:12 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
+#include <lem_in_hash.h>
 #include <lem_in_compiler.h>
 
 static inline void	set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
