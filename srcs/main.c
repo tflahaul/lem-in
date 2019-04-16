@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 12:43:55 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 22:13:49 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int						main(void)
 		return (EXIT_FAILURE);
 	}
 	print_hashtab(&map);
-	ft_test(&map, visited);
+	ft_BFS(&map, visited);
 	ft_free_hashtable(map.hashtab);
 	return (EXIT_SUCCESS);
 }

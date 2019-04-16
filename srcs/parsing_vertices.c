@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 15:11:12 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 21:59:45 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 	if (map->entry_point)
 		set_entry(map->entry_point, map, hashkey);
 	map->hashtab[hashkey]->name = name;
+	map->hashtab[hashkey]->key = hashkey;
 	map->vertices++;
 	return (EXIT_SUCCESS);
 }

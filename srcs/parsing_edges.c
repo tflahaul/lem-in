@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 15:09:30 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 21:49:58 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,22 @@
 #include <lem_in_compiler.h>
 #include <lem_in_hash.h>
 
-uint8_t			get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
+uint8_t			get_collision_key(uint64_t *hashkey, t_map *map)
 {
 	uint64_t	tmp;
 
 	tmp = *hashkey;
 	while (map->hashtab[*hashkey]->name != NULL)
    	{
-		if (buffer)
-		{
-			if ((ft_strncmp(map->hashtab[*hashkey]->name, buffer, ptr - buffer)) == 0)
-				return (EXIT_SUCCESS);
-		}
-		else		
-			if ((ft_strcmp(map->hashtab[*hashkey]->name, ptr + 1)) == 0)
-				return (EXIT_SUCCESS);	
+		if (*hashkey == map->hashtab[*hashkey]->key)
+			return (EXIT_SUCCESS);
 		(*hashkey)++;
 		if (UNLIKELY(*hashkey == MAX_VERTICES))
 			*hashkey = 0;
 		if (UNLIKELY(*hashkey == tmp))
-			return (ft_puterror(buffer, TOOBIG));
+			return (ft_puterror("", TOOBIG));
 	}
-	return (ft_puterror(buffer, NOROOM));
+	return (ft_puterror("", NOROOM));
 }
 
 void			check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
@@ -56,9 +50,9 @@ uint8_t			get_connections(char const *buffer, char *ptr, t_map *map)
 		return (EXIT_FAILURE);
 	hash2 = hash(ptr + 1);
 	hash1 = hashn(buffer, ptr - buffer);
-	if (get_collision_key(&hash1, map, ptr, buffer) == EXIT_FAILURE)
+	if (get_collision_key(&hash1, map) == EXIT_FAILURE)
 		return (EXIT_FAILURE);	
-	if (get_collision_key(&hash2, map, ptr, NULL) == EXIT_FAILURE)
+	if (get_collision_key(&hash2, map) == EXIT_FAILURE)
 		return (EXIT_FAILURE);	
  	if (add_connection(hash1, hash2, map))
 		return (EXIT_FAILURE);

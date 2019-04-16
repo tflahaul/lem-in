@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/16 17:32:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 22:14:19 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,15 @@
 #include <lem_in_bug.h>
 #include <lem_in_queue.h>
 
-uint8_t				ft_BFS(t_map *map, uint8_t *visited)
-{
-	t_vertices	*ptr;
-	t_edges		*tmp;
-	t_vertices	*tmp_prev;
-
-	ptr = map->hashtab[map->start_index];
-	visited[map->start_index] = 1;
-	while (ptr != map->hashtab[map->end_index])
-	{
-		printf("%s\n", ptr->name);
-		tmp = ptr->adjc;
-		tmp_prev = ptr;
-		while (tmp && visited[tmp->key] == 1)
-			tmp = tmp->next;
-		if (!tmp)
-			return (ft_puterror("", DEADEND));
-		ptr = map->hashtab[tmp->key];
-		visited[ptr->adjc->key] = 1;
-		ptr->prev = tmp_prev;		
-	}
-	while (ptr)
-	{
-		printf("%s = key\n", ptr->name);
-		ptr = ptr->prev;
-	}
-	return (EXIT_SUCCESS);
-}
-
 /*
 **	https://fr.wikipedia.org/wiki/Algorithme_de_parcours_en_largeur
 */
-uint8_t				ft_test(t_map *map, uint8_t *visited)
+uint8_t				ft_BFS(t_map *map, uint8_t *visited)
 {
 	uint64_t		key;
 	t_edges			*node;
 	t_queue			*queue;
+	t_vertices		*ptr; //	test
 
 	queue = NULL;
 	visited[map->start_index] = 1;
@@ -59,7 +31,17 @@ uint8_t				ft_test(t_map *map, uint8_t *visited)
 	{
 		key = queue->key;
 		if (key == map->end_index)
+		{
+			// test
+			ptr = map->hashtab[map->end_index];
+			while (ptr)
+			{
+				printf("%s = key\n", ptr->name);
+				ptr = ptr->prev;
+			}
+			// test
 			return (ft_drain_queue(&queue)); // end trouvée
+		}
 		queue = ft_queue_pop(&queue);
 		node = map->hashtab[key]->adjc;
 		while (node != NULL)
@@ -67,6 +49,7 @@ uint8_t				ft_test(t_map *map, uint8_t *visited)
 			if (visited[node->key] == 0)
 			{
 				visited[node->key] = 1;
+				map->hashtab[node->key]->prev = map->hashtab[key];
 				ft_queue_push(&queue, node->key);
 			}
 			node = node->next;
