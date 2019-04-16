@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:46:39 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 12:20:09 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:05:25 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct			s_queue
 }						t_queue;
 
 void					ft_queue_push(t_queue **queue, uint64_t key);
+uint8_t					ft_drain_queue(t_queue **head);
 t_queue					*ft_queue_pop(t_queue **queue);
 
 #endif

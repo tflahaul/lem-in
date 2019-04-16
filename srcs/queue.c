@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 15:19:11 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:36:24 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,24 @@ static inline t_queue			*ft_allocate_queue_node(uint64_t key)
 	node->key = key;
 	node->next = NULL;
 	return (node);
+}
+
+uint8_t							ft_drain_queue(t_queue **head)
+{
+	t_queue						*ptr;
+	t_queue						*node;
+
+	if (head == NULL || *head == NULL)
+		return (EXIT_SUCCESS);
+	node = *head;
+	while (node != NULL)
+	{
+		ptr = node->next;
+		free((void *)node);
+		node = ptr;
+	}
+	*head = NULL;
+	return (EXIT_SUCCESS);
 }
 
 void							ft_queue_push(t_queue **head, uint64_t key)

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/16 13:11:21 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/16 17:32:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ uint8_t				ft_test(t_map *map, uint8_t *visited)
 	while (queue != NULL)
 	{
 		key = queue->key;
+		if (key == map->end_index)
+			return (ft_drain_queue(&queue)); // end trouvée
 		queue = ft_queue_pop(&queue);
 		node = map->hashtab[key]->adjc;
 		while (node != NULL)
@@ -69,7 +71,6 @@ uint8_t				ft_test(t_map *map, uint8_t *visited)
 			}
 			node = node->next;
 		}
-		printf("step : %llu\n", key);
 	}
-	return (EXIT_SUCCESS);
+	return (EXIT_FAILURE); // pas trouvée
 }
