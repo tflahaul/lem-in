@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 23:49:41 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/16 13:13:06 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void					print_hashtab(t_map *map);
 uint8_t					ft_initialize_hashtable(t_map *map);
 
 /*
- **	Hash
- */
+**	Hash
+*/
 uint64_t				hash(const char *s);
 
 /*
@@ -80,5 +80,6 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 **	algo
 */
 uint8_t					ft_BFS(t_map *map, uint8_t *visited);
+uint8_t					ft_test(t_map *map, uint8_t *visited);
 
 #endif
