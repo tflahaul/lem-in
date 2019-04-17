@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 19:03:42 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 19:56:25 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ int						main(void)
 		ft_free_hashtable(map.hashtab);
 		return (EXIT_FAILURE);
 	}
+	printf("\n==== PATH =====\n");
+	ft_breadth_first_search(&map, visited);
+	ft_memset(visited, 0, MAX_VERTICES);
 	printf("\n==== PATH =====\n");
 	ft_breadth_first_search(&map, visited);
 	ft_memset(visited, 0, MAX_VERTICES);
