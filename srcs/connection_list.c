@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:15:36 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/17 18:04:02 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 20:38:28 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_edges			*make_node(uint64_t hashkey)
 	if (!(new = malloc(sizeof(t_edges))))
 		return (NULL);
 	new->key = hashkey;
-	new->sens = OPEN;
+	new->way = RIGHTWAY;
 	new->next = NULL;
 	return (new);
 }

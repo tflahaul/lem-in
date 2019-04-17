@@ -6,27 +6,27 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 13:49:18 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/13 14:39:39 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 20:26:11 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-char				*ft_strsub(char const *s, unsigned int start, size_t len)
+char				*ft_strsub(char const *str, size_t start, size_t len)
 {
-	unsigned int	i;
 	char			*ptr;
+	register size_t	index;
 
-	if (!s)
+	if (str == NULL)
 		return (NULL);
-	if (!(ptr = (char *)malloc(sizeof(char) * (len + 1))))
+	if ((ptr = (char *)malloc(sizeof(char) * (len + 1))) == NULL)
 		return (NULL);
-	i = 0;
-	while (i < len)
+	index = 0;
+	while (index < len)
 	{
-		ptr[i] = s[i + start];
-		i++;
+		ptr[index] = str[index + start];
+		index++;
 	}
-	ptr[i] = 0;
+	ptr[index] = 0;
 	return (ptr);
 }

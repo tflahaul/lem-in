@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 21:59:45 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 20:53:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <lem_in_hash.h>
 #include <lem_in_compiler.h>
 
-static inline void	set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
+static inline void	set_entry(uint32_t entry, t_map *map, uint32_t hashkey)
 {
 	if (entry == 1)
 		map->start_index = hashkey;
@@ -27,7 +27,7 @@ static inline void	set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
 static uint8_t		ft_coordinate(t_map *map, char *name, char const *buffer)
 {
 	int64_t			coord;
-	uint64_t		hashkey;
+	uint32_t		hashkey;
 
 	if (UNLIKELY(buffer[0] == ' '))
 		return (EXIT_FAILURE);
@@ -51,7 +51,7 @@ static uint8_t		ft_coordinate(t_map *map, char *name, char const *buffer)
 static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 {
 	uint8_t			index;
-	uint64_t		hashkey;
+	uint32_t		hashkey;
 
 	index = 0;
 	hashkey = hash(name);

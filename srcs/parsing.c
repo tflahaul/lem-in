@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 15:06:35 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 20:30:17 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,11 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-static inline uint32_t	nedges_calc(t_map *map, uint32_t *paths)
-{
-	if (map->start_edges <= map->end_edges)
-		*paths = map->start_edges;
-	else
-		*paths = map->end_edges;
-	if (!(*paths))
-		return (ft_puterror(NULL, NOPATH));
-	return (EXIT_SUCCESS);
-}
-
 /*
 **	Fonction de récupération de l'entrée std.
 */
 
-uint8_t					ft_read_std_input(t_map *map, uint32_t *paths)
+uint8_t					ft_read_std_input(t_map *map)
 {
 	char				*buffer;
 
@@ -105,8 +94,7 @@ uint8_t					ft_read_std_input(t_map *map, uint32_t *paths)
 			return (ft_variadic_memory_freeing(1, (void *)buffer));
 		free((void *)buffer);
 	}
-	if (nedges_calc(map, paths) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	map->start_edges = MIN(map->start_edges, map->end_edges);
 	free((void *)buffer);
 	return (EXIT_SUCCESS);
 }

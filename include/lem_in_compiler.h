@@ -6,14 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:05:06 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 20:39:53 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 20:33:40 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_COMPILER_H
 # define LEM_IN_COMPILER_H
-
-# define __UNUSED			__attribute__((unused))
 
 /*
 **	Macros qui permettent au processeur de savoir à l'avance si une condition

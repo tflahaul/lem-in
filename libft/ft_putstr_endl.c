@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:54:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 19:00:55 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 20:40:56 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void					ft_putstr_endl(char const *str)
 {
 	write(1, str, ft_strlen(str));
-	ft_putchar('\n');
+	write(1, "\n", 1);
 }

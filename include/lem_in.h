@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 19:03:47 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 20:51:10 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@
 # include <stdlib.h>
 
 # define MAX_VERTICES	8192
+# define MIN(x, y)		(x < y ? x : y)
 
-# undef CLOSED
-# define CLOSED			-1
-# undef OPEN
-# define OPEN			1
+# define RIGHTWAY		1
+# define CLOSED			0
+# define WRONGWAY		-1
 
 typedef struct			s_edges
 {
-	int32_t				sens;
+	int32_t				way;
 	uint32_t			key;
 	struct s_edges		*next;
 }						t_edges;
@@ -38,16 +38,16 @@ typedef struct			s_vertices
 {
 	int32_t				x;
 	int32_t				y;
-	char const			*name;
 	uint64_t			key;
+	char const			*name;
 	struct s_vertices	*prev;
 	struct s_edges		*adjc;
 }						t_vertices;
 
 typedef struct			s_map
 {
-	uint64_t			start_index;
-	uint64_t			end_index;
+	uint32_t			start_index;
+	uint32_t			end_index;
 	uint32_t			population;
 	uint32_t			start_edges;
 	uint32_t			end_edges;
@@ -60,7 +60,7 @@ typedef struct			s_map
 /*
 **	Parsing
 */
-uint8_t					ft_read_std_input(t_map *map, uint32_t *paths);
+uint8_t					ft_read_std_input(t_map *map);
 uint8_t					ft_parse_edges(t_map *map, char const *buffer);
 uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 

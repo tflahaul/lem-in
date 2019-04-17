@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/17 18:57:21 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 20:51:23 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, t_queue **q)
 		while (node != NULL)
 		{
 			if (node->key == key)
-				node->sens = CLOSED;
+				node->way = WRONGWAY;
 			node = node->next;
 		}
 		key = ptr->key;
@@ -39,7 +39,7 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, t_queue **q)
 
 uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 {
-	uint64_t		key;
+	uint32_t		key;
 	t_edges			*node;
 	t_queue			*queue;
 
@@ -55,7 +55,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 		node = map->hashtab[key]->adjc;
 		while (node != NULL)
 		{
-			if (node->sens != CLOSED)
+			if (node->way == RIGHTWAY)
 			{
 				if (visited[node->key] == 0 && (visited[node->key] = 1))
 				{
@@ -66,6 +66,5 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 			node = node->next;
 		}
 	}
-	ft_update_graph(map, map->hashtab[map->end_index], &queue);
-	return (EXIT_FAILURE);
+	return (ft_update_graph(map, map->hashtab[map->end_index], &queue));
 }

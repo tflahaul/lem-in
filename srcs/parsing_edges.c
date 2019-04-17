@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 17:50:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 20:52:09 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <lem_in_compiler.h>
 #include <lem_in_hash.h>
 
-uint8_t			get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
+uint8_t			get_collision_key(uint32_t *hashkey, t_map *map, char *ptr, const char *buffer)
 {
-	uint64_t	tmp;
+	uint32_t	tmp;
 
 	tmp = *hashkey;
 	while (map->hashtab[*hashkey]->name != NULL)
@@ -39,7 +39,7 @@ uint8_t			get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char
 	return (ft_puterror(NULL, NOROOM));
 }
 
-void			check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
+void			check_for_entry_edges(t_map *map, uint32_t hash1, uint32_t hash2)
 {
 	if (hash1 == map->end_index || hash2 == map->end_index)
 		map->end_edges++; 
@@ -49,8 +49,8 @@ void			check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)
 
 uint8_t			get_connections(char const *buffer, char *ptr, t_map *map)
 {
-	uint64_t 	hash1;
-	uint64_t	hash2;
+	uint32_t 	hash1;
+	uint32_t	hash2;
 
 	if (!(ptr + 1))
 		return (EXIT_FAILURE);
