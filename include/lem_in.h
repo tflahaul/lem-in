@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 19:05:07 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 23:21:12 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,17 @@
 
 # define MAX_VERTICES	8192
 
+# undef CLOSED
+# define CLOSED			-1
+# undef OPEN
+# define OPEN			1
+# undef REMOVED
+# define REMOVED		0
+
 typedef struct			s_edges
 {
-	uint64_t			key;
+	int32_t				sens;
+	uint32_t			key;
 	struct s_edges		*next;
 }						t_edges;
 
@@ -74,6 +82,6 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 /*
 **	algo
 */
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited, uint32_t paths);
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
 
 #endif

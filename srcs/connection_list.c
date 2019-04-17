@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   connection_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:15:36 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/16 21:59:32 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 18:04:02 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_edges			*make_node(uint64_t hashkey)
 	if (!(new = malloc(sizeof(t_edges))))
 		return (NULL);
 	new->key = hashkey;
+	new->sens = OPEN;
 	new->next = NULL;
 	return (new);
 }
@@ -36,7 +37,7 @@ uint8_t			add_connection(uint64_t hash1, uint64_t hash2, t_map *map)
 	else
 	{
 		tmp = map->hashtab[hash1]->adjc;
-		while (tmp)
+		while (tmp != NULL)
 		{
 			if (tmp->key == hash2)
 			{
