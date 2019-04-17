@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/18 00:18:53 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/18 00:28:37 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 			node = node->next;
 		}
 	}
-	ft_update_graph(map, map->hashtab[map->end_index], &queue);
+//	ft_update_graph(map, map->hashtab[map->end_index], &queue);
 	return (EXIT_FAILURE);
 }

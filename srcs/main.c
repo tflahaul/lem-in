@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 00:13:36 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/18 00:25:05 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,16 @@ int						main(void)
 		ft_free_hashtable(map.hashtab);
 		return (EXIT_FAILURE);
 	}
-	map.hashtab[map.end_index]->end_paths = malloc(sizeof(t_vertices) * (paths + 2));
+	map.hashtab[map.end_index]->end_paths = malloc(sizeof(t_vertices) * (paths + 3));
 	ft_memset(map.hashtab[map.end_index]->end_paths, (int)NULL, paths); 
 	print_hashtab(&map);
-	printf("\n==== PATH =====\n");
-	ft_breadth_first_search(&map, visited);
-	print_path(&map);
-	print_hashtab(&map);
-	ft_memset(visited, 0, MAX_VERTICES);
-	printf("\n==== PATH =====\n");
-	ft_breadth_first_search(&map, visited);
-	print_path(&map);
-	print_hashtab(&map);
-	ft_memset(visited, 0, MAX_VERTICES);
-	printf("\n==== PATH =====\n");
-	ft_breadth_first_search(&map, visited);
-	print_path(&map);
-	print_hashtab(&map);
-	ft_memset(visited, 0, MAX_VERTICES);
-	printf("\n==== PATH =====\n");
-	ft_breadth_first_search(&map, visited);
-	print_path(&map);
-	print_hashtab(&map);
+	while (ft_breadth_first_search(&map, visited) == EXIT_SUCCESS)
+	{	
+		printf("\n==== PATH =====\n");
+		print_path(&map);
+		print_hashtab(&map);
+		ft_memset(visited, 0, MAX_VERTICES);
+	}
 	ft_free_hashtable(map.hashtab);
 	return (EXIT_SUCCESS);
 }
