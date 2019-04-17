@@ -73,6 +73,6 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 /*
 **	algo
 */
-uint8_t					ft_BFS(t_map *map, uint8_t *visited);
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
 
 #endif

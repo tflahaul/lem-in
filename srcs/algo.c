@@ -14,15 +14,21 @@
 #include <lem_in_bug.h>
 #include <lem_in_queue.h>
 
-/*
-**	https://fr.wikipedia.org/wiki/Algorithme_de_parcours_en_largeur
-*/
-uint8_t				ft_BFS(t_map *map, uint8_t *visited)
+static inline uint8_t	ft_backtrack(t_vertices *ptr, t_queue *queue)
 {
-	uint64_t		key;
-	t_edges			*node;
-	t_queue			*queue;
-	t_vertices		*ptr; //	test
+	while (ptr != NULL)
+	{
+		printf("%s = key\n", ptr->name);
+		ptr = ptr->prev;
+	}
+	return (ft_drain_queue(queue));
+}
+
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited)
+{
+	uint64_t			key;
+	t_edges				*node;
+	t_queue				*queue;
 
 	queue = NULL;
 	visited[map->start_index] = 1;
@@ -31,29 +37,18 @@ uint8_t				ft_BFS(t_map *map, uint8_t *visited)
 	{
 		key = queue->key;
 		if (key == map->end_index)
-		{
-			// test
-			ptr = map->hashtab[map->end_index];
-			while (ptr)
-			{
-				printf("%s = key\n", ptr->name);
-				ptr = ptr->prev;
-			}
-			// test
-			return (ft_drain_queue(&queue)); // end trouvée
-		}
+			return (ft_backtrack(map->hashtab[map->end_index], &queue));
 		queue = ft_queue_pop(&queue);
 		node = map->hashtab[key]->adjc;
 		while (node != NULL)
 		{
-			if (visited[node->key] == 0)
+			if (visited[node->key] == 0 && (visited[node->key] = 1))
 			{
-				visited[node->key] = 1;
 				map->hashtab[node->key]->prev = map->hashtab[key];
 				ft_queue_push(&queue, node->key);
 			}
 			node = node->next;
 		}
 	}
-	return (EXIT_FAILURE); // pas trouvée
+	return (EXIT_FAILURE);
 }

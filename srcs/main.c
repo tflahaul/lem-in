@@ -29,7 +29,7 @@ int						main(void)
 		return (EXIT_FAILURE);
 	}
 	print_hashtab(&map);
-	ft_BFS(&map, visited);
+	ft_breadth_first_search(&map, visited);
 	ft_free_hashtable(map.hashtab);
 	return (EXIT_SUCCESS);
 }
