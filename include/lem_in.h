@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 22:14:16 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 19:05:07 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct			s_vertices
 	char const			*name;
 	uint64_t			key;
 	struct s_vertices	*prev;
+	struct s_vertices	*end_paths;
 	struct s_edges		*adjc;
 }						t_vertices;
 
@@ -73,6 +74,6 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 /*
 **	algo
 */
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited, uint32_t paths);
 
 #endif

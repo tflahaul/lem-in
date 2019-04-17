@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 21:56:00 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 17:54:22 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 			return (printf("lem-in: %s (hint: %s)\n", MEMERR, MEMFULL));
 		map->hashtab[idx]->name = NULL;
 		map->hashtab[idx]->prev = NULL;
+		map->hashtab[idx]->end_paths = NULL;
 		map->hashtab[idx]->adjc = NULL;
 		idx++;
 	}
