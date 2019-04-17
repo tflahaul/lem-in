@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 14:48:33 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 17:50:19 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ uint8_t			get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char
 		if (UNLIKELY(*hashkey == MAX_VERTICES))
 			*hashkey = 0;
 		if (UNLIKELY(*hashkey == tmp))
-			return (ft_puterror("", TOOBIG));
+			return (ft_puterror(NULL, TOOBIG));
 	}
-	return (ft_puterror("", NOROOM));
+	return (ft_puterror(NULL, NOROOM));
 }
 
 void			check_for_entry_edges(t_map *map, uint64_t hash1, uint64_t hash2)

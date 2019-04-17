@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 22:14:16 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 19:03:47 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@
 
 # define MAX_VERTICES	8192
 
+# undef CLOSED
+# define CLOSED			-1
+# undef OPEN
+# define OPEN			1
+
 typedef struct			s_edges
 {
-	uint64_t			key;
+	int32_t				sens;
+	uint32_t			key;
 	struct s_edges		*next;
 }						t_edges;
 
