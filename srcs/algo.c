@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/17 19:15:50 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 19:18:52 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited, uint32_t paths
 		node = map->hashtab[key]->adjc;
 		while (node != NULL)
 		{
-			if (key == 2)
-				printf("%s \n", map->hashtab[node->key]->name);
 			if (visited[node->key] == 0 && (visited[node->key] = 1))
 			{
 				map->hashtab[node->key]->prev = map->hashtab[key];
