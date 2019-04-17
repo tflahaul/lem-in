@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 17:36:24 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 21:37:24 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_queue.h>
 
-static inline t_queue			*ft_allocate_queue_node(uint64_t key)
+static inline t_queue			*ft_allocate_queue_node(uint32_t key)
 {
 	t_queue						*node;
 
@@ -41,7 +41,19 @@ uint8_t							ft_drain_queue(t_queue **head)
 	return (EXIT_SUCCESS);
 }
 
-void							ft_queue_push(t_queue **head, uint64_t key)
+void							ft_queue_push(t_queue **head, uint32_t key)
+{
+	t_queue						*node;
+
+	if (head != NULL && (node = ft_allocate_queue_node(key)) != NULL)
+	{
+		node->key = key;
+		node->next = *head;
+		*head = node;
+	}
+}
+
+void							ft_queue_append(t_queue **head, uint32_t key)
 {
 	t_queue						*tmp;
 	t_queue						*node;

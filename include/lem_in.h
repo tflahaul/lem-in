@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 20:51:10 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/17 23:00:29 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # include <stdint.h>
 # include <stdlib.h>
 
-# define MAX_VERTICES	8192
+# define MAX_VERTICES	6000
+
 # define MIN(x, y)		(x < y ? x : y)
 
 # define RIGHTWAY		1
@@ -52,8 +53,7 @@ typedef struct			s_map
 	uint32_t			start_edges;
 	uint32_t			end_edges;
 	uint32_t			vertices;
-	uint32_t			edges;
-	uint32_t			entry_point;
+	uint64_t			entry_point;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
