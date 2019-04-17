@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 21:49:58 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/17 14:48:33 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,21 @@
 #include <lem_in_compiler.h>
 #include <lem_in_hash.h>
 
-uint8_t			get_collision_key(uint64_t *hashkey, t_map *map)
+uint8_t			get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
 {
 	uint64_t	tmp;
 
 	tmp = *hashkey;
 	while (map->hashtab[*hashkey]->name != NULL)
-   	{
-		if (*hashkey == map->hashtab[*hashkey]->key)
-			return (EXIT_SUCCESS);
+	{
+		if (buffer)
+		{
+			if ((ft_strncmp(map->hashtab[*hashkey]->name, buffer, ptr - buffer)) == 0)
+				return (EXIT_SUCCESS);
+		}
+		else		
+			if ((ft_strcmp(map->hashtab[*hashkey]->name, ptr + 1)) == 0)
+				return (EXIT_SUCCESS);		
 		(*hashkey)++;
 		if (UNLIKELY(*hashkey == MAX_VERTICES))
 			*hashkey = 0;
@@ -50,11 +56,11 @@ uint8_t			get_connections(char const *buffer, char *ptr, t_map *map)
 		return (EXIT_FAILURE);
 	hash2 = hash(ptr + 1);
 	hash1 = hashn(buffer, ptr - buffer);
-	if (get_collision_key(&hash1, map) == EXIT_FAILURE)
+	if (get_collision_key(&hash1, map, ptr, buffer) == EXIT_FAILURE)
 		return (EXIT_FAILURE);	
-	if (get_collision_key(&hash2, map) == EXIT_FAILURE)
+	if (get_collision_key(&hash2, map, ptr, NULL) == EXIT_FAILURE)
 		return (EXIT_FAILURE);	
- 	if (add_connection(hash1, hash2, map))
+	if (add_connection(hash1, hash2, map))
 		return (EXIT_FAILURE);
 	if (add_connection(hash2, hash1, map))
 		return (EXIT_FAILURE);
