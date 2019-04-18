@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 17:29:49 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 23:02:16 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@ void						ft_free_stacks(t_stack **head)
 	}
 }
 
+void						set_last_to_null(t_stack *stack)
+{
+	t_stack *tmp;
+	t_stack *tmp_free;
+
+	if (!stack)
+		return ;
+	tmp = stack;
+	if (!tmp->next)
+	{
+		tmp_free = tmp;
+		tmp = NULL;
+		free(tmp_free);
+	}
+	while (tmp->next->size != 0)
+		tmp = tmp->next;
+	tmp_free = tmp->next;
+	tmp->next = NULL;
+	free(tmp_free);
+}
+
 uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 {
 	t_stack					*node;
@@ -58,11 +79,13 @@ uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 	while (node != NULL && node->path != NULL)
 		node = node->next;
 	paths = map->hashtab[map->end_index];
+	printf("\n===PATH===\n");
 	while (paths != NULL)
 	{
 		ft_queue_push(&node->path, paths->key);
-		paths = paths->prev;
+//		printf("%s\n", map->hashtab[paths->key]->name);
 		node->size++;
+		paths = paths->prev;
 	}
 	if ((node->next = ft_allocate_stack_memory()) == NULL)
 		return (EXIT_FAILURE);

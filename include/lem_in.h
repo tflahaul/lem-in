@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 18:34:55 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 20:22:21 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct			s_vertices
 	char const			*name;
 	uint64_t			key;
 	struct s_vertices	*prev;
-//	struct s_vertices	*end_paths;
 	struct s_edges		*adjc;
 }						t_vertices;
 
@@ -58,8 +57,8 @@ typedef struct			s_map
 	uint32_t			start_edges;
 	uint32_t			end_edges;
 	uint32_t			vertices;
-//	uint32_t			edges;
 	uint32_t			entry_point;
+	uint64_t			superposition;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
@@ -86,7 +85,7 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 /*
 **	algo
 */
-void					ft_algorithme(t_map *map);
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
+void					ft_algorithm(t_map *map);
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited, int *p);
 
 #endif

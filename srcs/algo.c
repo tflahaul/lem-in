@@ -6,35 +6,31 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/18 18:24:51 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 23:12:49 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
 #include <lem_in_queue.h>
-/*
-uint8_t				add_end_path(t_vertices *end)
-{
-	static uint8_t	ind;
 
-	end->end_paths[ind] = *end->prev;
-	ind++;
-	return (EXIT_SUCCESS);
-}
-*/
 uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 {
 	t_edges			*tmp;
 	uint8_t			entry;
 	uint64_t		key1;
-	
+
 	key1 = node->key;
 	entry = 0;
 	if (key1 == map->start_index || key2 == map->start_index)
 		entry = 1;
 	else if (key1 == map->end_index || key2 == map->end_index)
 		entry = 1;
+	if (!entry)
+	{
+		printf("HERE\n");
+		map->superposition = 1;
+	}
 	node->way = (entry) ? OPEN : REMOVED;
 	tmp = map->hashtab[key1]->adjc;
 	while (tmp && tmp->key != key2)
@@ -48,16 +44,18 @@ uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 **	test = 1, disappearing overlapping edge;
 **	test > 1, find every other non overlapping paths
 */
-static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr)
+static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, int *p)
 {
 	uint32_t		key;
 	t_edges			*node;
 	static uint8_t	test;
 
 	key = ptr->key;
-//	add_end_path(ptr);
 	if (test++ == 1)
+	{
+		*p = 0;
 		return (EXIT_SUCCESS);
+	}
 	while ((ptr = ptr->prev) != NULL)
 	{
 		node = map->hashtab[ptr->key]->adjc;
@@ -72,7 +70,7 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
+uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited, int *p)
 {
 	uint64_t		key;
 	t_edges			*node;
@@ -80,6 +78,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 	static uint8_t	test;
 
 	queue = NULL;
+	*p = 1;
 	visited[map->start_index] = 1;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)
@@ -89,7 +88,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 		{
 			test++;
 			ft_drain_queue(&queue);
-			return (ft_update_graph(map, map->hashtab[map->end_index]));
+			return (ft_update_graph(map, map->hashtab[map->end_index], p));
 		}
 		queue = ft_queue_pop(&queue);
 		node = map->hashtab[key]->adjc;
