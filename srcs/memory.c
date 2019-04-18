@@ -6,12 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 21:58:03 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 16:29:12 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
+#include <lem_in_queue.h>
 #include <lem_in_compiler.h>
 
 uint8_t					ft_initialize_hashtable(t_map *map)
@@ -25,11 +26,13 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 			return (printf("lem-in: %s (hint: %s)\n", MEMERR, MEMFULL));
 		map->hashtab[idx]->name = NULL;
 		map->hashtab[idx]->prev = NULL;
+//		map->hashtab[idx]->end_paths = NULL;
 		map->hashtab[idx]->adjc = NULL;
 		idx++;
 	}
 	return (EXIT_SUCCESS);
 }
+
 
 static inline void		ft_free_adjacency_list(t_edges **head)
 {
@@ -47,7 +50,12 @@ static inline void		ft_free_adjacency_list(t_edges **head)
 		}
 	}
 }
-
+/*
+void					ft_free_paths_list(__attribute__((unused)) t_stack **head)
+{
+	return ;
+}
+*/
 void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES])
 {
 	uint16_t			index;
