@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 19:03:47 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 18:34:55 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,22 @@
 # include <stdint.h>
 # include <stdlib.h>
 
-# define MAX_VERTICES	8192
+# define MAX_VERTICES	6000
 
-# undef CLOSED
-# define CLOSED			-1
+# define MIN(x, y)		(x < y ? x : y)
+# define ABS(x)			(x < 0 ? -x : x)
+
 # undef OPEN
 # define OPEN			1
+# undef REMOVED
+# define REMOVED		0
+# undef CLOSED
+# define CLOSED			-1
 
 typedef struct			s_edges
 {
-	int32_t				sens;
-	uint32_t			key;
+	int64_t				way;
+	uint64_t			key;
 	struct s_edges		*next;
 }						t_edges;
 
@@ -41,6 +46,7 @@ typedef struct			s_vertices
 	char const			*name;
 	uint64_t			key;
 	struct s_vertices	*prev;
+//	struct s_vertices	*end_paths;
 	struct s_edges		*adjc;
 }						t_vertices;
 
@@ -48,11 +54,11 @@ typedef struct			s_map
 {
 	uint64_t			start_index;
 	uint64_t			end_index;
-	uint32_t			population;
+	uint64_t			population;
 	uint32_t			start_edges;
 	uint32_t			end_edges;
 	uint32_t			vertices;
-	uint32_t			edges;
+//	uint32_t			edges;
 	uint32_t			entry_point;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
@@ -60,7 +66,7 @@ typedef struct			s_map
 /*
 **	Parsing
 */
-uint8_t					ft_read_std_input(t_map *map, uint32_t *paths);
+uint8_t					ft_read_std_input(t_map *map);
 uint8_t					ft_parse_edges(t_map *map, char const *buffer);
 uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 
@@ -69,6 +75,7 @@ uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 */
 void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
 void					print_hashtab(t_map *map);
+void					print_paths(t_map *map, void *ptr);
 uint8_t					ft_initialize_hashtable(t_map *map);
 
 /*
@@ -79,6 +86,7 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 /*
 **	algo
 */
+void					ft_algorithme(t_map *map);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
 
 #endif
