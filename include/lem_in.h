@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 17:47:14 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 18:34:55 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 /*
 **	algo
 */
+void					ft_algorithme(t_map *map);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
 
 #endif

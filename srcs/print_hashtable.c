@@ -7,7 +7,7 @@ void			print_paths(t_map *map, void *node)
 
 	while (ptr != NULL)
 	{
-		printf("\n==== PATH ====\n");
+		printf("\n==== PATH [%llu] ====\n", ptr->size);
 		while (ptr->path != NULL)
 		{
 			printf("%s\n", map->hashtab[ptr->path->key]->name);

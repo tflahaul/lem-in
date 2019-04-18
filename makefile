@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/18 17:10:25 by thflahau         ###   ########.fr        #
+#    Updated: 2019/04/18 18:35:07 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC 		= 	main						parsing						\
 				errors						parsing_edges				\
 				print_hashtable				connection_list				\
 				algo						hash						\
-				queue						stacks
+				queue						stacks						\
+				algorithme
 				
 OBJDIR 		= 	obj
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))

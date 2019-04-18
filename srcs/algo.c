@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/18 17:44:05 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 18:24:51 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 	while (queue != NULL)
 	{
 		key = queue->key;
-		if (key == map->end_index && ++test)
+		if (key == map->end_index)
 		{
+			test++;
 			ft_drain_queue(&queue);
 			return (ft_update_graph(map, map->hashtab[map->end_index]));
 		}
@@ -99,7 +100,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 				if (visited[node->key] == 0 && (visited[node->key] = 1))
 				{
 					map->hashtab[node->key]->prev = map->hashtab[key];
-					ft_queue_push(&queue, node->key);
+					ft_queue_append(&queue, node->key);
 				}
 			}
 			else if (node->way == CLOSED && test <= 1)
