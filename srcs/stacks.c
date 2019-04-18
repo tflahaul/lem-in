@@ -6,23 +6,50 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 16:34:41 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 17:29:49 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 
-t_stack						*ft_allocate_stack_memory(t_stack *head)
+inline t_stack				*ft_allocate_stack_memory(void)
 {
+	t_stack					*head;
+
 	if ((head = (t_stack *)malloc(sizeof(t_stack))) == NULL)
 		return (NULL);
+	head->size = 0;
 	head->path = NULL;
 	head->next = NULL;
 	return (head);
 }
 
-uint8_t						ft_add_path_to_stack(t_map *map, t_stack **stack)
+void						ft_free_stacks(t_stack **head)
+{
+	t_stack					*ptr;
+	t_stack					*node;
+	t_queue					*temp;
+
+	if (head != NULL && *head != NULL)
+	{
+		node = *head;
+		while (node != NULL)
+		{
+			ptr = node->next;
+			while (node->path != NULL)
+			{
+				temp = node->path->next;
+				free((void *)node->path);
+				node->path = temp;
+			}
+			free((void *)node);
+			node = ptr;
+		}
+	}
+}
+
+uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 {
 	t_stack					*node;
 	t_vertices				*paths;
@@ -33,15 +60,11 @@ uint8_t						ft_add_path_to_stack(t_map *map, t_stack **stack)
 	paths = map->hashtab[map->end_index];
 	while (paths != NULL)
 	{
+		ft_queue_push(&node->path, paths->key);
 		paths = paths->prev;
+		node->size++;
 	}
+	if ((node->next = ft_allocate_stack_memory()) == NULL)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
-}
-
-int							main(void)
-{
-	t_stack					*ptr;
-
-	ptr = ft_allocate_stack_memory(ptr);
-	return (0);
 }

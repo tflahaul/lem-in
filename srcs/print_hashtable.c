@@ -1,4 +1,21 @@
 #include "../include/lem_in.h"
+#include <lem_in_stacks.h>
+
+void			print_paths(t_map *map, void *node)
+{
+	t_stack		*ptr = (t_stack *)node;
+
+	while (ptr != NULL)
+	{
+		printf("\n==== PATH ====\n");
+		while (ptr->path != NULL)
+		{
+			printf("%s\n", map->hashtab[ptr->path->key]->name);
+			ptr->path = ptr->path->next;
+		}
+		ptr = ptr->next;
+	}
+}
 
 void	print_hashtab(t_map *map)
 {

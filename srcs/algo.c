@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/18 16:37:34 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 17:44:05 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 **	test = 1, disappearing overlapping edge;
 **	test > 1, find every other non overlapping paths
 */
-static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, t_queue **q)
+static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr)
 {
 	uint32_t		key;
 	t_edges			*node;
@@ -69,7 +69,6 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, t_queue **q)
 		}
 		key = ptr->key;
 	}
-	ft_drain_queue(q);
 	return (EXIT_SUCCESS);
 }
 
@@ -86,10 +85,10 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 	while (queue != NULL)
 	{
 		key = queue->key;
-		if (key == map->end_index)
+		if (key == map->end_index && ++test)
 		{
-			test++;
-			return (ft_update_graph(map, map->hashtab[map->end_index], &queue));
+			ft_drain_queue(&queue);
+			return (ft_update_graph(map, map->hashtab[map->end_index]));
 		}
 		queue = ft_queue_pop(&queue);
 		node = map->hashtab[key]->adjc;
@@ -108,6 +107,6 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 			node = node->next;
 		}
 	}
-//	ft_update_graph(map, map->hashtab[map->end_index], &queue);
+	ft_drain_queue(&queue);
 	return (EXIT_FAILURE);
 }
