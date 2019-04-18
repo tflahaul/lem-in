@@ -14,7 +14,7 @@ void	print_hashtab(t_map *map)
 			tmp = map->hashtab[ind]->adjc;
 			while (tmp)
 			{
-				printf("--> %llu[%lli]", tmp->key, tmp->sens);
+				printf("--> %llu[%lli]", tmp->key, tmp->way);
 	  			tmp = tmp->next;
 			}
 			printf("\n");

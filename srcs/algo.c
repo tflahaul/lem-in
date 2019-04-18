@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/18 12:48:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 16:37:34 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 		entry = 1;
 	else if (key1 == map->end_index || key2 == map->end_index)
 		entry = 1;
-	node->sens = (entry) ? OPEN : REMOVED;
+	node->way = (entry) ? OPEN : REMOVED;
 	tmp = map->hashtab[key1]->adjc;
 	while (tmp && tmp->key != key2)
 		tmp = tmp->next;
-	tmp->sens = (entry) ? OPEN : REMOVED;
+	tmp->way = (entry) ? OPEN : REMOVED;
 	return (EXIT_SUCCESS);
 }
 
@@ -63,8 +63,8 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, t_queue **q)
 		node = map->hashtab[ptr->key]->adjc;
 		while (node != NULL)
 		{
-			if (node->key == key && node->sens)
-				node->sens = CLOSED;
+			if (node->key == key && node->way)
+				node->way = CLOSED;
 			node = node->next;
 		}
 		key = ptr->key;
@@ -95,7 +95,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 		node = map->hashtab[key]->adjc;
 		while (node != NULL)
 		{
-			if (node->sens != CLOSED && node->sens != REMOVED)
+			if (node->way != CLOSED && node->way != REMOVED)
 			{
 				if (visited[node->key] == 0 && (visited[node->key] = 1))
 				{
@@ -103,7 +103,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 					ft_queue_push(&queue, node->key);
 				}
 			}
-			else if (node->sens == CLOSED && test <= 1)
+			else if (node->way == CLOSED && test <= 1)
 				close_connection(key, map, node);
 			node = node->next;
 		}
