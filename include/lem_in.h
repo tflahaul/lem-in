@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 23:21:12 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/18 14:41:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,22 @@
 # include <stdint.h>
 # include <stdlib.h>
 
-# define MAX_VERTICES	8192
+# define MAX_VERTICES	6000
 
-# undef CLOSED
-# define CLOSED			-1
+# define MIN(x, y)		(x <= y ? x : y)
+# define ABS(x)			(x < 0 ? -x : x)
+
 # undef OPEN
 # define OPEN			1
 # undef REMOVED
 # define REMOVED		0
+# undef CLOSED
+# define CLOSED			-1
 
 typedef struct			s_edges
 {
-	int32_t				sens;
-	uint32_t			key;
+	int64_t				sens;
+	uint64_t			key;
 	struct s_edges		*next;
 }						t_edges;
 
@@ -43,7 +46,7 @@ typedef struct			s_vertices
 	char const			*name;
 	uint64_t			key;
 	struct s_vertices	*prev;
-	struct s_vertices	*end_paths;
+//	struct s_vertices	*end_paths;
 	struct s_edges		*adjc;
 }						t_vertices;
 

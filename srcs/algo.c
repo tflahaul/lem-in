@@ -6,14 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/18 00:28:37 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/18 12:48:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
 #include <lem_in_queue.h>
-
+/*
 uint8_t				add_end_path(t_vertices *end)
 {
 	static uint8_t	ind;
@@ -22,7 +22,7 @@ uint8_t				add_end_path(t_vertices *end)
 	ind++;
 	return (EXIT_SUCCESS);
 }
-
+*/
 uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 {
 	t_edges			*tmp;
@@ -31,7 +31,9 @@ uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 	
 	key1 = node->key;
 	entry = 0;
-	if (key1 == map->start_index || key2 == map->start_index || key1 == map->end_index || key2 == map->end_index)
+	if (key1 == map->start_index || key2 == map->start_index)
+		entry = 1;
+	else if (key1 == map->end_index || key2 == map->end_index)
 		entry = 1;
 	node->sens = (entry) ? OPEN : REMOVED;
 	tmp = map->hashtab[key1]->adjc;
@@ -53,7 +55,7 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, t_queue **q)
 	static uint8_t	test;
 
 	key = ptr->key;
-	add_end_path(ptr);
+//	add_end_path(ptr);
 	if (test++ == 1)
 		return (EXIT_SUCCESS);
 	while ((ptr = ptr->prev) != NULL)
