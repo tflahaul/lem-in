@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 20:22:21 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/19 01:25:35 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 */
 void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
 void					print_hashtab(t_map *map);
-void					print_paths(t_map *map, void *ptr);
 uint8_t					ft_initialize_hashtable(t_map *map);
 
 /*
@@ -83,9 +82,11 @@ uint8_t					ft_initialize_hashtable(t_map *map);
 uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 
 /*
-**	algo
+**	Algorithme
 */
 void					ft_algorithm(t_map *map);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited, int *p);
+//void					ft_print_movements(t_map *map, void *path, uint64_t nb);
+void					ft_print_movements(t_map *map, void *list, uint32_t nb);
 
 #endif

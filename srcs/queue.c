@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 17:42:35 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/19 02:45:13 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static inline t_queue			*ft_allocate_queue_node(uint64_t key)
 	if ((node = (t_queue *)malloc(sizeof(t_queue))) == NULL)
 		return (NULL);
 	node->key = key;
+	node->ant = 0;
+	node->prev = NULL;
 	node->next = NULL;
 	return (node);
 }

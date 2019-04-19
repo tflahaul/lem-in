@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 23:02:16 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/19 02:44:40 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ inline t_stack				*ft_allocate_stack_memory(void)
 	if ((head = (t_stack *)malloc(sizeof(t_stack))) == NULL)
 		return (NULL);
 	head->size = 0;
+	head->save = NULL;
 	head->path = NULL;
 	head->next = NULL;
 	return (head);
@@ -79,11 +80,11 @@ uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 	while (node != NULL && node->path != NULL)
 		node = node->next;
 	paths = map->hashtab[map->end_index];
-	printf("\n===PATH===\n");
+//	printf("\n===PATH===\n");
 	while (paths != NULL)
 	{
 		ft_queue_push(&node->path, paths->key);
-//		printf("%s\n", map->hashtab[paths->key]->name);
+	//	printf("%s\n", map->hashtab[paths->key]->name);
 		node->size++;
 		paths = paths->prev;
 	}

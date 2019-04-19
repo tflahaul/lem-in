@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 20:22:49 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/19 01:38:23 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 typedef struct			s_stack
 {
 	uint64_t			size;
+	struct s_queue		*save;
 	struct s_queue		*path;
 	struct s_stack		*next;
 }						t_stack;
