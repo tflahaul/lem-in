@@ -86,7 +86,7 @@ uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 **	Algorithm
 */
 void					ft_algorithm(t_map *map);
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited, int *p);
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
 void					ft_print_movements(t_map *map, void *list, uint16_t nb);
 
 #endif

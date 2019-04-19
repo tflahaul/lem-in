@@ -80,8 +80,10 @@ uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 	while (node != NULL && node->path != NULL)
 		node = node->next;
 	paths = map->hashtab[map->end_index];
+	printf("\n====PATH====\n");
 	while (paths != NULL)
 	{
+		printf("%s\n", map->hashtab[paths->key]->name);
 		ft_queue_push(&node->path, paths->key);
 		node->size++;
 		paths = paths->prev;

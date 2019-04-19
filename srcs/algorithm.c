@@ -50,14 +50,20 @@ void					ft_algorithm(t_map *map)
 	t_stack				*list;
 	uint32_t			paths;
 	uint8_t				visited[MAX_VERTICES];
-	int					p = 0;
 
 	list = ft_allocate_stack_memory();
 	ft_memset(visited, 0, MAX_VERTICES);
-	while (ft_breadth_first_search(map, visited, &p) == EXIT_SUCCESS)
+	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
-		if (p > 0)
+//		if (!map->superposition)
 			ft_push_path_to_stack(map, &list);
+/*
+**		else
+**			clean_up_graph(map, &list);
+**		reset-->edges at -1 to 1;
+**		figure out how to exploit new paths
+*/
+		print_hashtab(map);
 		ft_memset(visited, 0, MAX_VERTICES);
 	}
 //	printf("%u = start %u = end\n", map->start_edges, map->end_edges);
