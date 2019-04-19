@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:54:45 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 18:54:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/19 16:59:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void					ft_putstr(char const *str)
+inline void					ft_putstr(char const *str)
 {
 	write(1, str, ft_strlen(str));
 }

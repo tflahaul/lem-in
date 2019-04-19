@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in_compiler.h                                  :+:      :+:    :+:   */
+/*   lem_in_stacks.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/08 22:05:06 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 20:33:40 by thflahau         ###   ########.fr       */
+/*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
+/*   Updated: 2019/04/19 01:38:23 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEM_IN_COMPILER_H
-# define LEM_IN_COMPILER_H
+#ifndef LEM_IN_STACKS_H
+# define LEM_IN_STACKS_H
 
-/*
-**	Macros qui permettent au processeur de savoir à l'avance si une condition
-**	a plus de chances d'être vraie ou non.
-*/
-# define LIKELY(x)			__builtin_expect(!!(x), 1)
-# define UNLIKELY(x)		__builtin_expect(!!(x), 0)
+# include <lem_in_queue.h>
+
+typedef struct			s_stack
+{
+	uint64_t			size;
+	struct s_queue		*save;
+	struct s_queue		*path;
+	struct s_stack		*next;
+}						t_stack;
+
+void						ft_free_stacks(t_stack **head);
+t_stack						*ft_allocate_stack_memory(void);
+uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack);
+void						set_last_to_null(t_stack *stack);
 
 #endif

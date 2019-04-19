@@ -6,13 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 12:51:07 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/18 17:21:59 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
 #include <lem_in_queue.h>
+#include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
 uint8_t					ft_initialize_hashtable(t_map *map)

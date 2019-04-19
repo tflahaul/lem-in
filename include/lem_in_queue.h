@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:46:39 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 12:38:24 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/19 18:52:19 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,10 @@
 
 typedef struct			s_queue
 {
-	uint64_t			key;
+	uint32_t			key;
+	uint32_t			ant;
 	struct s_queue		*next;
 }						t_queue;
-
-typedef struct			s_stack
-{
-	struct s_queue		*path;
-	struct s_stack		*next;
-}						t_stack;
 
 void					ft_queue_push(t_queue **queue, uint32_t key);
 void					ft_queue_append(t_queue **head, uint32_t key);
