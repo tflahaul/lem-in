@@ -12,102 +12,51 @@
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
+#include <lem_in_compiler.h>
 
-/*static void					ft_print_single_ant(uint16_t nb, const char *name)
+static inline void		ft_print_single_ant(uint16_t nb, const char *name)
 {
 	ft_putchar('L');
 	ft_putnbr_light(nb);
 	ft_putchar('-');
 	ft_putstr(name);
 	ft_putchar(' ');
-}*/
-
-/*void						ft_print_movements(t_map *map, void *path, uint64_t nb)
-{
-	uint64_t				i;
-	uint64_t				n;
-	uint64_t				ants;
-	t_queue					*node;
-
-	ants = 1;
-	node = (t_queue *)path;
-	while (ants <= map->population + nb)
-	{
-		i = 1;
-		n = ants;
-		while (i <= ants)
-		{
-			i++;
-			node = (t_queue *)path;
-			while (node != NULL && (n-- > i))
-				node = node->next;
-			n = ants;
-			if (node != NULL && i <= map->population)
-			{
-				ft_print_single_ant(i);
-				ft_putstr(map->hashtab[node->key]->name);
-				ft_putchar(' ');
-			}
-		}
-		ants++;
-		if (ants <= map->population + nb)
-			ft_putchar('\n');
-	}
-}*/
-t_stack						*get_max_path_node(t_stack *list, uint32_t nb)
-{
-	uint32_t				ind;
-	t_stack					*tmp;
-
-	tmp = list;
-	ind = 0;
-	while (++ind < nb)
-		tmp = tmp->next;
-	return (tmp);
 }
 
-void						reset_path(t_stack **list, t_stack *set)
+static inline void		ft_print_stack(t_map *map, t_queue *queue)
 {
-	t_stack					*tmp;
-	t_queue					*node;
-	t_queue					*prev;
+	while ((queue = queue->next) != NULL)
+		if (queue->ant && queue->ant <= map->population)
+			ft_print_single_ant(queue->ant, map->hashtab[queue->key]->name);
+}
 
-	tmp = *list;
-	while (tmp != set->next)
+static inline void		ft_update_stack(t_queue *queue, uint64_t size)
+{
+	uint16_t			index;
+
+	index = 0;
+	while (queue != NULL && index++ <= size)
 	{
-		node = tmp->path;
-		tmp->path = tmp->path->next;
-		tmp->save = tmp->path;
-		free(node);
-		node = tmp->path;
-		while (node)
-		{
-			prev = node;
-			node = node->next;
-			if (node)
-				node->prev = prev;	
-		}
-		tmp = tmp->next;
+		queue->ant = queue->ant + 1;
+		queue = queue->next;
 	}
 }
 
-void						ft_print_movements(t_map *map, void *list, uint32_t nb)
+void					ft_print_movements(t_map *map, void *list, uint16_t nb)
 {
-	uint64_t				i;
-//	uint64_t				key;
-	uint64_t				takes;
-	t_stack					*tmp;
-	t_stack					*set;
+	uint64_t			ant;
+	t_stack				*stacks;
 
-	takes = 1;
-	set = get_max_path_node(list, nb);
-	reset_path((t_stack **)(&list), set);
-	tmp = list;
-	i = 1;
-	while (takes < map->population / nb + set->size - 2)
+	ant = 0;
+	while (ant++ <= map->population + nb)
 	{
-		takes++;
+		stacks = (t_stack *)list;
+		while (stacks->next != NULL)
+		{
+			ft_print_stack(map, stacks->path);
+			ft_update_stack(stacks->path, ant);
+			stacks = stacks->next;
+		}
 		ft_putchar('\n');
 	}
-	printf("%llu = lines\n", takes - 1);
 }

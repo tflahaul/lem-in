@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:46:39 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 02:45:44 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/19 18:52:19 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 
 typedef struct			s_queue
 {
-	uint64_t			key;
-	uint64_t			ant;
-	struct s_queue		*prev;
+	uint32_t			key;
+	uint32_t			ant;
 	struct s_queue		*next;
 }						t_queue;
 

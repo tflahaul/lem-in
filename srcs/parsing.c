@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 20:30:17 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/19 16:01:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 		return (ft_puterror(NULL, EMPTYLINE));
 	if (buffer[0] == '#')
 	{
-		if (strcmp(buffer, "##start") == 0 || strcmp(buffer, "##end") == 0)
+		if (!ft_strcmp(buffer, "##start") || !ft_strcmp(buffer, "##end"))
 			map->entry_point = buffer[2] == 's' ? 1 : 2;
 		ft_putstr_endl(buffer);
 	}

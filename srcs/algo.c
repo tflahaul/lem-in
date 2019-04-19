@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/18 23:12:49 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/19 16:09:29 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,13 @@ uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 		entry = 1;
 	else if (key1 == map->end_index || key2 == map->end_index)
 		entry = 1;
-	if (!entry)
-	{
-		printf("HERE\n");
+	else
 		map->superposition = 1;
-	}
-	node->way = (entry) ? OPEN : REMOVED;
+	node->way = entry ? OPEN : REMOVED;
 	tmp = map->hashtab[key1]->adjc;
 	while (tmp && tmp->key != key2)
 		tmp = tmp->next;
-	tmp->way = (entry) ? OPEN : REMOVED;
+	tmp->way = entry ? OPEN : REMOVED;
 	return (EXIT_SUCCESS);
 }
 
@@ -44,6 +41,7 @@ uint8_t				close_connection(uint64_t key2, t_map *map, t_edges *node)
 **	test = 1, disappearing overlapping edge;
 **	test > 1, find every other non overlapping paths
 */
+
 static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, int *p)
 {
 	uint32_t		key;
@@ -61,7 +59,7 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, int *p)
 		node = map->hashtab[ptr->key]->adjc;
 		while (node != NULL)
 		{
-			if (node->key == key && node->way)
+			if (node->key == key)
 				node->way = CLOSED;
 			node = node->next;
 		}

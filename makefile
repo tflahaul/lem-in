@@ -6,14 +6,14 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/18 18:56:58 by thflahau         ###   ########.fr        #
+#    Updated: 2019/04/19 15:14:37 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	 	= 	lem-in
 
 HDR			=	include
-CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g
+CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g -fsanitize=address
 INC 		= 	-I include
 LIBFT 		= 	libft/libft.a
 #PRINTF		= 	ft_printf/libftprintf.a
@@ -24,7 +24,7 @@ SRC 		= 	main						parsing						\
 				print_hashtable				connection_list				\
 				algo						hash						\
 				queue						stacks						\
-				algorithme					movements
+				algorithm					movements
 
 OBJDIR 		= 	obj
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))

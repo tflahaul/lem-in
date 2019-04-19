@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 01:25:35 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/19 18:54:48 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ typedef struct			s_vertices
 {
 	int32_t				x;
 	int32_t				y;
-	char const			*name;
 	uint64_t			key;
+	char const			*name;
 	struct s_vertices	*prev;
 	struct s_edges		*adjc;
 }						t_vertices;
@@ -82,11 +82,10 @@ uint8_t					ft_initialize_hashtable(t_map *map);
 uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
 
 /*
-**	Algorithme
+**	Algorithm
 */
 void					ft_algorithm(t_map *map);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited, int *p);
-//void					ft_print_movements(t_map *map, void *path, uint64_t nb);
-void					ft_print_movements(t_map *map, void *list, uint32_t nb);
+void					ft_print_movements(t_map *map, void *list, uint16_t nb);
 
 #endif
