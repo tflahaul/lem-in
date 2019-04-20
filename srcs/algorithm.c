@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:27:29 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/20 17:32:07 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/20 18:01:35 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void					ft_algorithm(t_map *map)
 	uint8_t				visited[MAX_VERTICES];
 	int					p = 0;
 
+	if (map->vertices == 0)
+		return ;
 	list = ft_allocate_stack_memory();
 	ft_memset(visited, 0, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited, &p) == EXIT_SUCCESS)

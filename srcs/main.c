@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/18 19:28:05 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/20 18:00:06 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,8 @@ int						main(void)
 	ft_memset(&map, 0, sizeof(t_map));
 	if (ft_initialize_hashtable(&map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
-	if (ft_read_std_input(&map) == EXIT_FAILURE)
-	{
-		ft_free_hashtable(map.hashtab);
-		return (EXIT_FAILURE);
-	}
-	ft_algorithm(&map);
+	if (ft_read_std_input(&map) != EXIT_FAILURE)
+		ft_algorithm(&map);
 	ft_free_hashtable(map.hashtab);
 	return (EXIT_SUCCESS);
 }
