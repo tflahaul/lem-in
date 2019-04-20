@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:27:29 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 18:59:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/20 17:32:07 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void					ft_algorithm(t_map *map)
 //	printf("%u = start %u = end\n", map->start_edges, map->end_edges);
 	set_last_to_null(list);
 	paths = get_optimum_path_nb(list, map->population, map->superposition);
-	ft_print_movements(map, list, paths + 1);
-//	ft_print_movements(map, list->path, list->size);
+	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }
