@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 16:01:32 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/20 17:58:38 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,13 @@ uint8_t					ft_read_std_input(t_map *map)
 {
 	char				*buffer;
 
-	buffer = NULL;
 	while (get_next_line_stdin(&buffer) > 0)
 	{
 		if (ft_parse_buffer(map, buffer) == EXIT_FAILURE)
 			return (ft_variadic_memory_freeing(1, (void *)buffer));
 		free((void *)buffer);
 	}
-	map->start_edges = MIN(map->start_edges, map->end_edges);
 	free((void *)buffer);
+	map->start_edges = MIN(map->start_edges, map->end_edges);
 	return (EXIT_SUCCESS);
 }

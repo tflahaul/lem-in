@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 18:54:48 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/20 17:30:42 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ uint8_t					ft_initialize_hashtable(t_map *map);
 /*
 **	link_list
 */
-uint8_t					add_connection(uint64_t hash1, uint64_t hash2, t_map *map);
+uint8_t					add_connection(uint64_t h1, uint64_t h2, t_map *map);
 
 /*
 **	Algorithm
 */
 void					ft_algorithm(t_map *map);
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
-void					ft_print_movements(t_map *map, void *list, uint16_t nb);
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v);
+void					ft_print_movements(t_map *map, void *list);
 
 #endif
