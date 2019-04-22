@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 20:51:34 by abrunet           #+#    #+#             */
-/*   Updated: 2019/04/19 16:09:29 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/22 10:31:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static uint8_t		ft_update_graph(t_map *map, t_vertices *ptr, int *p)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited, int *p)
+uint8_t				ft_breadth_first_search(t_map *map, uint8_t *visited)
 {
 	uint64_t		key;
 	t_edges			*node;

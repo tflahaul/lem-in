@@ -6,14 +6,14 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/19 15:14:37 by thflahau         ###   ########.fr        #
+#    Updated: 2019/04/22 11:21:49 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	 	= 	lem-in
 
 HDR			=	include
-CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g
+CFLAGS 		= 	-Wall -Werror -Wextra -Wpadded -g -fsanitize=address
 INC 		= 	-I include
 LIBFT 		= 	libft/libft.a
 #PRINTF		= 	ft_printf/libftprintf.a
@@ -22,19 +22,19 @@ SRC 		= 	main						parsing						\
 				parsing_vertices			memory						\
 				errors						parsing_edges				\
 				print_hashtable				connection_list				\
-				algo						hash						\
-				queue						stacks						\
-				algorithm					movements
+				hash						queue						\
+				stacks						algorithm_test				\
+				movements
 
 OBJDIR 		= 	obj
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
 OBJ 		= 	$(patsubst %, $(OBJDIR)/%.o, $(SRC))
 
 ########## COLOR ##########
-STD = \033[0m
-GREEN = \033[1;32m
-RED = \033[1;31m
-YELLOW = \033[1;33m
+STD			=	\033[0m
+GREEN		=	\033[1;32m
+RED			=	\033[1;31m
+YELLOW		=	\033[1;33m
 ###########################
 
 all				: $(NAME)
@@ -54,7 +54,7 @@ $(LIBFT)		: $(HDR)/libft.h
 #	make -C ft_printf/
 #	echo "$(GREEN)DONE$(STD)"
 
-$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h #/lem_in.h $(HDR)/libft.h #ft_printf/$(HDR)/ft_printf.h
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h
 	@mkdir -p $(OBJDIR)
 	@echo " > Compiling $<..."
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@

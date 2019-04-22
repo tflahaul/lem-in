@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/20 17:30:42 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/22 12:09:34 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,20 @@ typedef struct			s_vertices
 	int32_t				y;
 	uint64_t			key;
 	char const			*name;
-	struct s_vertices	*prev;
 	struct s_edges		*adjc;
+	struct s_vertices	*prev;
 }						t_vertices;
 
 typedef struct			s_map
 {
-	uint64_t			start_index;
-	uint64_t			end_index;
+	uint32_t			start_index;
+	uint32_t			end_index;
 	uint64_t			population;
-	uint32_t			start_edges;
-	uint32_t			end_edges;
+	uint16_t			start_edges;
+	uint16_t			end_edges;
 	uint32_t			vertices;
 	uint32_t			entry_point;
-	uint64_t			superposition;
+	uint32_t			superposition;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
@@ -85,7 +85,7 @@ uint8_t					add_connection(uint64_t h1, uint64_t h2, t_map *map);
 **	Algorithm
 */
 void					ft_algorithm(t_map *map);
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v, int *p);
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v);
 void					ft_print_movements(t_map *map, void *list);
 
 #endif

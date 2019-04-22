@@ -6,13 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/20 18:00:06 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/20 18:04:22 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
-#include <lem_in_queue.h>
-#include <lem_in_stacks.h>
 
 int						main(void)
 {

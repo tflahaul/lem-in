@@ -91,16 +91,14 @@ static inline void			ft_init_movements(t_stack *stack)
 
 void						ft_print_movements(t_map *map, void *list)
 {
-	uint64_t				step;
-	uint32_t				length;
+	int32_t					length;
 	t_stack					*stacks;
 
-	step = 0;
 	length = get_steps((t_stack *)list, map);
-	while (step++ <= length + 1)
+	while (length-- >= 0)
 	{
 		stacks = (t_stack *)list;
-		if (map->superposition)
+		if (map->superposition)	// Doit disparaitre
 			stacks = stacks->next;
 		ft_init_movements(stacks);
 		while (stacks != NULL)

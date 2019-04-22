@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 21:59:45 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/22 09:47:59 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
 	char			*name;
 
 	index = 0;
-	if (UNLIKELY(buffer[0] == 'L'))
+	if (UNLIKELY(buffer[0] == 'L' || buffer[0] == ' '))
 		return (ft_puterror(buffer, BADNAME));
 	while (ft_isblank(buffer[index]) == 0)
 		index++;
