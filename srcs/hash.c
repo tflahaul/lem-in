@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 16:19:40 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 20:33:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:25:15 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ uint32_t				hash(const char *s)
 
 	h = 0;
 	while (*s)
-		h = h * MULTIPLIER + *s++;
+	{
+		h = h * MULTIPLIER + *s;
+		s++;
+	}
 	return (h % MAX_VERTICES);
 }
 
@@ -29,8 +32,11 @@ uint32_t				hashn(const char *s, size_t size)
 	size_t				ind;
 
 	h = 0;
-	ind = -1;
-	while (*s && ++ind < size)
-		h = h * MULTIPLIER + *s++;
+	ind = 0;
+	while (*s && ind++ < size)
+	{
+		h = h * MULTIPLIER + *s;
+		s++;
+	}
 	return (h % MAX_VERTICES);
 }

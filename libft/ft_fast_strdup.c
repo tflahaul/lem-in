@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 19:50:54 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/17 20:24:49 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 17:10:15 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char					*ft_fast_strdup(char const *str)
 	uint32_t			*step_str;
 	uint32_t			*step_ptr;
 
+	if (str == NULL)
+		return (NULL);
 	size = ft_strlen(str);
 	if ((ptr = (char *)malloc(sizeof(char) * (size + 1))) == NULL)
 		return (NULL);

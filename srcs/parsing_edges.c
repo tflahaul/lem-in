@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/22 11:59:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 18:08:48 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 #include <lem_in_hash.h>
 #include <lem_in_compiler.h>
 
-uint8_t				get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const char *buffer)
+uint8_t				get_collision_key(uint32_t *hashkey, t_map *map, char *ptr, const char *buffer)
 {
-	uint64_t		tmp;
+	uint32_t		tmp;
 
 	tmp = *hashkey;
 	while (map->hashtab[*hashkey]->name != NULL)
 	{
 		if (buffer)
 		{
-			if ((ft_strncmp(map->hashtab[*hashkey]->name, buffer, ptr - buffer)) == 0)
+			if (!(ft_strncmp(map->hashtab[*hashkey]->name, buffer, ptr - buffer)))
 				return (EXIT_SUCCESS);
 		}
 		else
@@ -39,7 +39,7 @@ uint8_t				get_collision_key(uint64_t *hashkey, t_map *map, char *ptr, const cha
 	return (ft_puterror(NULL, NOROOM));
 }
 
-void				check_for_entry_edges(t_map *map, uint64_t h1, uint64_t h2)
+void				check_for_entry_edges(t_map *map, uint32_t h1, uint32_t h2)
 {
 	if (h1 == map->end_index || h2 == map->end_index)
 		map->end_edges++;
@@ -49,8 +49,8 @@ void				check_for_entry_edges(t_map *map, uint64_t h1, uint64_t h2)
 
 uint8_t				get_connections(char const *buffer, char *ptr, t_map *map)
 {
-	uint64_t 		hash1;
-	uint64_t		hash2;
+	uint32_t 		hash1;
+	uint32_t		hash2;
 
 	if (!(ptr + 1))
 		return (EXIT_FAILURE);

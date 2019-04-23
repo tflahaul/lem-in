@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movements.c                                       :+:      :+:    :+:   */
+/*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 03:29:35 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/23 16:32:12 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
-
+/*
 uint32_t					get_steps(t_stack *list, t_map *map)
 {
 	uint32_t				res;
@@ -43,7 +43,7 @@ uint32_t					get_steps(t_stack *list, t_map *map)
 	}
 	return (sum2);
 }
-
+*/
 static inline void			ft_print_single_ant(uint16_t nb, const char *name)
 {
 	ft_putchar('L');
@@ -89,17 +89,15 @@ static inline void			ft_init_movements(t_stack *stack)
 	}
 }
 
-void						ft_print_movements(t_map *map, void *list)
+void						ft_print_movements(t_map *map, t_stack *list)
 {
 	int32_t					length;
 	t_stack					*stacks;
 
-	length = get_steps((t_stack *)list, map);
+	length = 50;
 	while (length-- >= 0)
 	{
-		stacks = (t_stack *)list;
-		if (map->superposition)	// Doit disparaitre
-			stacks = stacks->next;
+		stacks = list;
 		ft_init_movements(stacks);
 		while (stacks != NULL)
 		{

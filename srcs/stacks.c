@@ -6,22 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/22 10:44:10 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 13:24:07 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
-
-inline t_stack				*ft_allocate_stack_memory(void)
-{
-	t_stack					*head;
-
-	if ((head = (t_stack *)malloc(sizeof(t_stack))) == NULL)
-		return (NULL);
-	ft_memset(head, 0, sizeof(t_stack));
-	return (head);
-}
 
 void						ft_free_stacks(t_stack **head)
 {
@@ -47,43 +37,48 @@ void						ft_free_stacks(t_stack **head)
 	}
 }
 
-void						set_last_to_null(t_stack *stack)
+static inline t_stack		*ft_allocate_stack_memory(void)
 {
-	t_stack					*tmp;
-	t_stack					*tmp_free;
+	t_stack					*head;
 
-	if (!stack)
-		return ;
-	tmp = stack;
-	if (!tmp->next)
+	if ((head = (t_stack *)malloc(sizeof(t_stack))) == NULL)
+		return (NULL);
+	ft_memset(head, 0, sizeof(t_stack));
+	return (head);
+}
+
+static inline void			ft_fill_stack(t_map *map, t_stack **node)
+{
+	t_vertices				*path;
+
+	path = map->hashtab[map->end_index];
+	while (path != NULL)
 	{
-		tmp_free = tmp;
-		tmp = NULL;
-		free(tmp_free);
+		ft_queue_push(&(*node)->path, path->key);
+		path = path->prev;
+		++(*node)->size;
 	}
-	while (tmp->next->size != 0)
-		tmp = tmp->next;
-	tmp_free = tmp->next;
-	tmp->next = NULL;
-	free(tmp_free);
 }
 
 uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 {
+	t_stack					*tmp;
 	t_stack					*node;
-	t_vertices				*paths;
 
 	node = *stack;
-	while (node != NULL && node->path != NULL)
-		node = node->next;
-	paths = map->hashtab[map->end_index];
-	while (paths != NULL)
-	{
-		ft_queue_push(&node->path, paths->key);
-		node->size++;
-		paths = paths->prev;
-	}
-	if ((node->next = ft_allocate_stack_memory()) == NULL)
+	if ((tmp = ft_allocate_stack_memory()) == NULL)
 		return (EXIT_FAILURE);
+	if (node == NULL)
+	{
+		*stack = tmp;
+		ft_fill_stack(map, stack);
+	}
+	else
+	{
+		while (node->next != NULL)
+			node = node->next;
+		node->next = tmp;
+		ft_fill_stack(map, &node->next);
+	}
 	return (EXIT_SUCCESS);
 }

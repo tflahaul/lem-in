@@ -6,15 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:46:39 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 18:52:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 13:47:41 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_QUEUE_H
 # define LEM_IN_QUEUE_H
-
-# include <stdint.h>
-# include <stdlib.h>
 
 typedef struct			s_queue
 {

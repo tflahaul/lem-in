@@ -6,11 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 13:33:54 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 17:18:22 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 17:10:53 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
+#include <unistd.h>
+#define UNLIKELY(x)			__builtin_expect(!!(x), 0)
 
 int8_t						get_next_line_stdin(char **line)
 {
@@ -31,10 +33,10 @@ int8_t						get_next_line_stdin(char **line)
 	if (string[ret] == 0x0a)
 		++ret;
 	ptr = string;
-	if (!(string = ft_strdup(ptr + ret)))
+	if (UNLIKELY(!(string = ft_strdup(ptr + ret))))
 		return (-1);
 	free((void *)ptr);
-	if (ret == 0)
+	if (UNLIKELY(ret == 0))
 		free((void *)string);
 	return (ret > 0 ? 1 : 0);
 }

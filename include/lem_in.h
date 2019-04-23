@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/22 12:09:34 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 18:12:02 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include <stdio.h>
 # include <libft.h>
-# include <string.h>
-# include <unistd.h>
-# include <stdint.h>
-# include <stdlib.h>
 
 # define MAX_VERTICES	6000
 
@@ -53,9 +49,9 @@ typedef struct			s_map
 {
 	uint32_t			start_index;
 	uint32_t			end_index;
-	uint64_t			population;
-	uint16_t			start_edges;
-	uint16_t			end_edges;
+	uint32_t			population;
+	uint32_t			start_edges;
+	uint32_t			end_edges;
 	uint32_t			vertices;
 	uint32_t			entry_point;
 	uint32_t			superposition;
@@ -79,13 +75,12 @@ uint8_t					ft_initialize_hashtable(t_map *map);
 /*
 **	link_list
 */
-uint8_t					add_connection(uint64_t h1, uint64_t h2, t_map *map);
+uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 
 /*
 **	Algorithm
 */
 void					ft_algorithm(t_map *map);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v);
-void					ft_print_movements(t_map *map, void *list);
 
 #endif

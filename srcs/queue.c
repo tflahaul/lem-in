@@ -6,10 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/22 12:00:17 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 13:47:14 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <lem_in_queue.h>
 
 static inline t_queue			*ft_allocate_queue_node(uint64_t key)

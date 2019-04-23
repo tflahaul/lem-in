@@ -1,7 +1,12 @@
 {
 	"files.associations": {
 		"lem_in.h": "c",
-		"lem_in_bug.h": "c"
+		"lem_in_bug.h": "c",
+		"stdio.h": "c",
+		"lem_in_stacks.h": "c",
+		"lem_in_queue.h": "c",
+		"stdint.h": "c",
+		"libft.h": "c"
 	},
 	"editor.rulers": [80]
 }

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/22 12:14:48 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 18:11:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,90 @@
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
+#include <lem_in_compiler.h>
 
 void					print_paths(t_map *map, t_stack *list);
 
+uint8_t					ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
+{
+	t_edges				*ptr;
+	t_edges				*node;
+
+	node = map->hashtab[prevkey]->adjc;
+	while (node != NULL)
+	{
+		if (node->key == key && node->way == CLOSED)
+		{
+			ptr = map->hashtab[key]->adjc;
+			while (ptr != NULL)
+			{
+				if (ptr->key == prevkey && ptr->way == CLOSED)
+					return (EXIT_SUCCESS);
+				ptr = ptr->next;
+			}
+		}
+		node = node->next;
+	}
+	return (EXIT_FAILURE);
+}
+
+void					ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
+{
+	t_edges				*node;
+
+	node = map->hashtab[prevkey]->adjc;
+	while (node != NULL)
+	{
+		if (node->key == key)
+		{
+			node->way = OPEN;
+			break ;
+		}
+		node = node->next;
+	}
+	node = map->hashtab[key]->adjc;
+	while (node != NULL)
+	{
+		if (node->key == prevkey)
+		{
+			node->way = OPEN;
+			break ;
+		}
+		node = node->next;
+	}
+}
+
 /*
-**	Regarde si le dernier chemin trouvé est passé par des bouts de
-**	chemins dirigés et bloque définitivement ces portions de chemins
-**	si c'est le cas.
+**	Pb: tout les chemins devant etre réouverts ne le sont pas en sortie de cette
+**	fonction à cause de la méthode d'exploration du graph.
 */
 
-void					ft_check_for_overlaps(t_map *map, t_stack *stacks)
+void					ft_bfs_update_graph(t_map *map, uint8_t *vstd)
 {
-	t_vertices			*node;
+	uint32_t			key;
+	t_edges				*ptr;
+	t_queue				*queue;
 
-	while (stacks->next != NULL)
-		stacks = stacks->next;
-	node = map->hashtab[map->end_index];
-	while ((node = node->prev) != NULL)
+	queue = NULL;
+	vstd[map->start_index] = 1;
+	ft_queue_push(&queue, map->start_index);
+	while (queue != NULL)
 	{
-		printf("lel\n");
-//		if ()
-//			node->adjc->way = REMOVED;
+		key = queue->key;
+		queue = ft_queue_pop(&queue);
+		ptr = map->hashtab[key]->adjc;
+		while (ptr != NULL)
+		{
+			if (!vstd[ptr->key] && (vstd[ptr->key] = 1))
+			{
+				printf("%s\t%s\n", map->hashtab[ptr->key]->name, map->hashtab[key]->name);
+				if (LIKELY(ft_overlaps(map, key, ptr->key) == EXIT_FAILURE))
+					ft_open_path(map, key, ptr->key);
+				map->hashtab[ptr->key]->prev = map->hashtab[key];
+				ft_queue_append(&queue, ptr->key);
+			}
+			ptr = ptr->next;
+		}
 	}
 }
 
@@ -46,9 +109,9 @@ void					ft_check_for_overlaps(t_map *map, t_stack *stacks)
 **	dans le même temps. (à voir plus tard si c'est vraiment utile)
 */
 
-void					ft_make_directed(t_map *map)
+static void				ft_make_directed(t_map *map)
 {
-	uint64_t			key;
+	uint32_t			key;
 	t_edges				*ptr;
 	t_vertices			*tmp;
 	t_vertices			*node;
@@ -75,14 +138,13 @@ void					ft_make_directed(t_map *map)
 **	Trouve uniquement le chemin le plus court, ne fais rien d'autre.
 */
 
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited)
+uint8_t					ft_breadth_first_search(t_map *map, uint8_t *vstd)
 {
-	uint64_t			key;
+	uint32_t			key;
 	t_edges				*node;
-	t_queue				*queue;
+	t_queue				*queue = NULL;
 
-	queue = NULL;
-	visited[map->start_index] = 1;
+	vstd[map->start_index] = 1;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)
 	{
@@ -93,9 +155,8 @@ uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited)
 		node = map->hashtab[key]->adjc;
 		while (node != NULL)
 		{
-			if (node->way == OPEN && !visited[node->key])
+			if (node->way == OPEN && !vstd[node->key] && (vstd[node->key] = 1))
 			{
-				visited[node->key] = 1;
 				map->hashtab[node->key]->prev = map->hashtab[key];
 				ft_queue_append(&queue, node->key);
 			}
@@ -111,17 +172,23 @@ void					ft_algorithm(t_map *map)
 	t_stack				*list;
 	uint8_t				visited[MAX_VERTICES];
 
-	list = ft_allocate_stack_memory();
+	list = NULL;
 	ft_memset(visited, 0, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
 		ft_memset(visited, 0, MAX_VERTICES);
-//		ft_push_path_to_stack(map, &list);
 		ft_make_directed(map);
-		if (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
-			ft_check_for_overlaps(map, list);
-		else	// Plus de chemins possibles
-			break ;
+	}
+	ft_memset(visited, 0, MAX_VERTICES);
+	print_hashtab(map);
+	ft_bfs_update_graph(map, visited);
+	print_hashtab(map);
+	ft_memset(visited, 0, MAX_VERTICES);
+	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
+	{
+		ft_push_path_to_stack(map, &list);
+		ft_make_directed(map);
+		ft_memset(visited, 0, MAX_VERTICES);
 	}
 //	print_paths(map, list);
 	ft_free_stacks(&list);

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/22 09:47:59 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:18:44 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static inline void	set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
 {
 	if (entry == 1)
 		map->start_index = hashkey;
-	else if (entry == 2)
+	else if (LIKELY(entry == 2))
 		map->end_index = hashkey;
 	map->entry_point = 0;
 }
@@ -57,14 +57,14 @@ static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 	hashkey = hash(name);
 	while (hashkey < MAX_VERTICES && map->hashtab[hashkey]->name != NULL)
 	{
-		if (ft_strcmp(map->hashtab[hashkey++]->name, name) == 0)
+		if (UNLIKELY(!ft_strcmp(map->hashtab[hashkey++]->name, name)))
 			return (ft_puterror(name, DUPLICATE));
 		if (UNLIKELY(hashkey == MAX_VERTICES))
 			hashkey = index++;
-		else if (index > 1)
+		else if (UNLIKELY(index > 1))
 			return (ft_puterror(name, TOOBIG));
 	}
-	if (map->entry_point)
+	if (UNLIKELY(map->entry_point))
 		set_entry(map->entry_point, map, hashkey);
 	map->hashtab[hashkey]->name = name;
 	map->hashtab[hashkey]->key = hashkey;
@@ -78,21 +78,21 @@ static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 
 uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
 {
-	uint16_t		index;
 	char			*name;
+	uint16_t		index;
 
 	index = 0;
 	if (UNLIKELY(buffer[0] == 'L' || buffer[0] == ' '))
 		return (ft_puterror(buffer, BADNAME));
 	while (ft_isblank(buffer[index]) == 0)
 		index++;
-	if (buffer[index] != ' ')
+	if (UNLIKELY(buffer[index] != ' '))
 		return (ft_puterror(buffer, BADNAME));
-	if ((name = ft_strsub(buffer, 0, index)) == NULL)
+	if (UNLIKELY(!(name = ft_strsub(buffer, 0, index))))
 		return (ft_puterror(buffer, MEMERR));
-	if (ft_add_to_hashtable(map, name) == EXIT_FAILURE)
+	if (UNLIKELY(ft_add_to_hashtable(map, name) == EXIT_FAILURE))
 		return (ft_variadic_memory_freeing(1, (void *)name));
-	if (ft_coordinate(map, name, buffer + index + 1) == EXIT_FAILURE)
+	if (UNLIKELY(ft_coordinate(map, name, buffer + index + 1) == EXIT_FAILURE))
 		return (ft_puterror(buffer, BADINPUT));
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);

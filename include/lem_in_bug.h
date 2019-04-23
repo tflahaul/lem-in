@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/16 15:14:49 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 11:28:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define MEMFULL		"No space left on device"
 # define BADINPUT		"Invalid argument"
 # define EMPTYLINE		"Empty line"
+# define EMPTYFILE		"Empty file"
+# define INVALIDFMT		"File type is not supported"
 # define DUPLINK		"Connection already exists"
 # define NOROOM			"Room doesn't exist"
 # define TOOSMALLFARM	"Ant farm doesn't have enough rooms"

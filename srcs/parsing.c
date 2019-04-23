@@ -6,22 +6,24 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/20 17:58:38 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 17:22:00 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
 #include <lem_in_compiler.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 {
-	uint16_t			index;
+	register uint16_t	index;
 
 	index = 0;
 	while (buffer[index])
 	{
-		if (ft_isdigit(buffer[index]) == 0)
+		if (UNLIKELY(ft_isdigit(buffer[index]) == 0))
 			return (ft_puterror(buffer, BADINPUT));
 		else
 			map->population = map->population * 10 + buffer[index] - 48;
@@ -40,7 +42,7 @@ static uint8_t			ft_tokenize_buffer(char const *buffer)
 
 	if ((index = ft_word_count(buffer)) == 3)
 		return (2);
-	else if (index == 2)
+	else if (LIKELY(index == 2))
 		return (1);
 	return (0);
 }
@@ -59,7 +61,7 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	funptr[0] = &ft_parse_ants;
 	funptr[1] = &ft_parse_edges;
 	funptr[2] = &ft_parse_vertices;
-	if (!buffer || !buffer[0])
+	if (UNLIKELY(!buffer || !buffer[0]))
 		return (ft_puterror(NULL, EMPTYLINE));
 	if (buffer[0] == '#')
 	{
@@ -67,7 +69,7 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 			map->entry_point = buffer[2] == 's' ? 1 : 2;
 		ft_putstr_endl(buffer);
 	}
-	else if (index == 0)
+	else if (UNLIKELY(index == 0))
 		return ((funptr[index++])(map, buffer));
 	else if ((index = ft_tokenize_buffer(buffer)) != 0)
 	{
@@ -80,13 +82,22 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 }
 
 /*
-**	Fonction de récupération de l'entrée std.
+**	Lecture de l'entrée std. Si le file descriptor 0 correspond à une
+**	redirection (isatty == 0) -> vérifie que le fichier redirigé soit bien
+**	de type régulier (S_ISREG) ou pipe (S_ISFIFO).
 */
 
 uint8_t					ft_read_std_input(t_map *map)
 {
 	char				*buffer;
+	struct stat			informations;
 
+	if (isatty(STDIN_FILENO) == 0)
+	{
+		fstat(STDIN_FILENO, &informations);
+		if (!S_ISREG(informations.st_mode) && !S_ISFIFO(informations.st_mode))
+			return (printf("lem-in: %s\n", INVALIDFMT));
+	}
 	while (get_next_line_stdin(&buffer) > 0)
 	{
 		if (ft_parse_buffer(map, buffer) == EXIT_FAILURE)
@@ -94,6 +105,8 @@ uint8_t					ft_read_std_input(t_map *map)
 		free((void *)buffer);
 	}
 	free((void *)buffer);
+	if (UNLIKELY(map->vertices < 2))
+		return (printf("lem-in: %s\n", TOOSMALLFARM));
 	map->start_edges = MIN(map->start_edges, map->end_edges);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:56:53 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/14 16:44:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:16:57 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ uint32_t				ft_word_count(char const *str)
 		{
 			++words;
 			while (ft_isblank(*str) == 0 && *str)
-				if (UNLIKELY(ft_isprintable(*str++) == 0))
+				if (UNLIKELY(!ft_isprintable(*str++)))
 					return (0);
 		}
 		else

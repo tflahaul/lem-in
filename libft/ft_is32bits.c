@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/15 16:45:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/15 16:46:03 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:27:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-int						ft_is32bits(int64_t nb)
+inline int						ft_is32bits(int64_t nb)
 {
 	return (nb <= INT32_MAX && nb >= INT32_MIN);
 }

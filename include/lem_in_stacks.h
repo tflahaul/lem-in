@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/19 01:38:23 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/04/23 13:42:25 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@
 typedef struct			s_stack
 {
 	uint64_t			size;
-	struct s_queue		*save;
 	struct s_queue		*path;
 	struct s_stack		*next;
 }						t_stack;
 
 void						ft_free_stacks(t_stack **head);
-t_stack						*ft_allocate_stack_memory(void);
+void						ft_print_movements(t_map *map, t_stack *list);
 uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack);
-void						set_last_to_null(t_stack *stack);
 
 #endif
