@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/23 18:11:01 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/24 17:32:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
+void					print_hashtab(t_map *map);
 void					print_paths(t_map *map, t_stack *list);
 
-uint8_t					ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
+static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 {
 	t_edges				*ptr;
 	t_edges				*node;
@@ -44,9 +45,9 @@ uint8_t					ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 	return (EXIT_FAILURE);
 }
 
-void					ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
+static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 {
-	t_edges				*node;
+	register t_edges	*node;
 
 	node = map->hashtab[prevkey]->adjc;
 	while (node != NULL)
@@ -70,37 +71,22 @@ void					ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 	}
 }
 
-/*
-**	Pb: tout les chemins devant etre réouverts ne le sont pas en sortie de cette
-**	fonction à cause de la méthode d'exploration du graph.
-*/
-
-void					ft_bfs_update_graph(t_map *map, uint8_t *vstd)
+static inline void		ft_update_graph(t_map *map, t_stack *lst)
 {
-	uint32_t			key;
-	t_edges				*ptr;
-	t_queue				*queue;
+	t_queue				*node;
+	uint32_t			hashkey;
 
-	queue = NULL;
-	vstd[map->start_index] = 1;
-	ft_queue_push(&queue, map->start_index);
-	while (queue != NULL)
+	while (lst != NULL)
 	{
-		key = queue->key;
-		queue = ft_queue_pop(&queue);
-		ptr = map->hashtab[key]->adjc;
-		while (ptr != NULL)
+		node = lst->path;
+		hashkey = node->key;
+		while ((node = node->next) != NULL)
 		{
-			if (!vstd[ptr->key] && (vstd[ptr->key] = 1))
-			{
-				printf("%s\t%s\n", map->hashtab[ptr->key]->name, map->hashtab[key]->name);
-				if (LIKELY(ft_overlaps(map, key, ptr->key) == EXIT_FAILURE))
-					ft_open_path(map, key, ptr->key);
-				map->hashtab[ptr->key]->prev = map->hashtab[key];
-				ft_queue_append(&queue, ptr->key);
-			}
-			ptr = ptr->next;
+			if (LIKELY(ft_overlaps(map, hashkey, node->key) == EXIT_FAILURE))
+				ft_open_path(map, hashkey, node->key);
+			hashkey = node->key;
 		}
+		lst = lst->next;
 	}
 }
 
@@ -142,8 +128,9 @@ uint8_t					ft_breadth_first_search(t_map *map, uint8_t *vstd)
 {
 	uint32_t			key;
 	t_edges				*node;
-	t_queue				*queue = NULL;
+	t_queue				*queue;
 
+	queue = NULL;
 	vstd[map->start_index] = 1;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)
@@ -163,7 +150,6 @@ uint8_t					ft_breadth_first_search(t_map *map, uint8_t *vstd)
 			node = node->next;
 		}
 	}
-	ft_drain_queue(&queue);
 	return (EXIT_FAILURE);
 }
 
@@ -173,23 +159,24 @@ void					ft_algorithm(t_map *map)
 	uint8_t				visited[MAX_VERTICES];
 
 	list = NULL;
-	ft_memset(visited, 0, MAX_VERTICES);
+	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
-		ft_memset(visited, 0, MAX_VERTICES);
+		ft_fast_bzero(visited, MAX_VERTICES);
+		ft_push_path_to_stack(map, &list);
+		if (map->population < list->size - 1)
+			return (ft_print_movements(map, list));
 		ft_make_directed(map);
 	}
-	ft_memset(visited, 0, MAX_VERTICES);
-	print_hashtab(map);
-	ft_bfs_update_graph(map, visited);
-	print_hashtab(map);
-	ft_memset(visited, 0, MAX_VERTICES);
+	ft_fast_bzero(visited, MAX_VERTICES);
+	ft_update_graph(map, list);
+	ft_free_stacks(&list);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
+		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_push_path_to_stack(map, &list);
 		ft_make_directed(map);
-		ft_memset(visited, 0, MAX_VERTICES);
 	}
-//	print_paths(map, list);
+	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }

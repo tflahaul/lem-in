@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 18:37:35 by thflahau          #+#    #+#              #
-#    Updated: 2019/04/22 11:57:03 by thflahau         ###   ########.fr        #
+#    Updated: 2019/04/24 16:16:19 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC		=	gcc
 
 INCLUDE	=	../include/
 
-CFLAGS	=	-Wall -Wextra -Werror -I $(INCLUDE) -c -g
+CFLAGS	=	-Wall -Wextra -Werror -I $(INCLUDE) -c
 
 NAME	=	libft.a
 
@@ -25,7 +25,7 @@ SRCS	=	ft_isaligned.c	ft_isblank.c	ft_isdigit.c	ft_isprintable.c \
 			ft_strdup.c		ft_strndup.c	ft_strchr.c		ft_strsub.c		 \
 			ft_strcmp.c		ft_strncmp.c	ft_atoi_parsing.c ft_is32bits.c	 \
 			ft_fast_strdup.c				ft_putnbr_light.c				 \
-			ft_strrchr.c
+			ft_strrchr.c	ft_fast_bzero.c
 
 OBJDIR	=	objs/
 

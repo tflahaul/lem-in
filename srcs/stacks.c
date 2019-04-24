@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/23 13:24:07 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:49:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void						ft_free_stacks(t_stack **head)
 			node = ptr;
 		}
 	}
+	*head = NULL;
 }
 
 static inline t_stack		*ft_allocate_stack_memory(void)
@@ -60,18 +61,20 @@ static inline void			ft_fill_stack(t_map *map, t_stack **node)
 	}
 }
 
-uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
+uint64_t					ft_push_path_to_stack(t_map *map, t_stack **stack)
 {
 	t_stack					*tmp;
 	t_stack					*node;
+	uint64_t				length;
 
 	node = *stack;
 	if ((tmp = ft_allocate_stack_memory()) == NULL)
-		return (EXIT_FAILURE);
+		return (0);
 	if (node == NULL)
 	{
 		*stack = tmp;
 		ft_fill_stack(map, stack);
+		length = (*stack)->size;
 	}
 	else
 	{
@@ -79,6 +82,7 @@ uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 			node = node->next;
 		node->next = tmp;
 		ft_fill_stack(map, &node->next);
+		length = node->next->size;
 	}
-	return (EXIT_SUCCESS);
+	return (length);
 }

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/23 18:12:02 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/24 15:20:05 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 
 typedef struct			s_edges
 {
-	int64_t				way;
-	uint64_t			key;
+	int32_t				way;
+	uint32_t			key;
 	struct s_edges		*next;
 }						t_edges;
 
@@ -69,7 +69,6 @@ uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 **	Memory
 */
 void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
-void					print_hashtab(t_map *map);
 uint8_t					ft_initialize_hashtable(t_map *map);
 
 /*
