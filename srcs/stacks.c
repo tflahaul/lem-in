@@ -88,6 +88,7 @@ uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack)
 		node->size++;
 		paths = paths->prev;
 	}
+	printf("%llu = size\n", node->size);
 	if ((node->next = ft_allocate_stack_memory()) == NULL)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

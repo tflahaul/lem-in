@@ -64,16 +64,16 @@ void					clean_up_overlap(t_map *map)
 	}
 }
 
-void					clean_up_graph(t_map *map, t_stack *list)
+void					clean_up_graph(t_map *map, t_stack **list)
 {
 	t_queue		*node;
 	t_edges		*edges;
-	t_stack		*tmp;
+//	t_stack		*tmp;
 
-	tmp = list;
-	while (tmp->next->next)
-		tmp = tmp->next;
-	node = tmp->path;
+//	tmp = list;
+	while ((*list)->next->next)
+		*list = (*list)->next;
+	node = (*list)->path;
 	while (node)
 	{
 		edges = map->hashtab[node->key]->adjc;	
@@ -108,7 +108,7 @@ void					ft_algorithm(t_map *map)
 			ft_push_path_to_stack(map, &list);
 		else
 		{
-			clean_up_graph(map, list);
+			clean_up_graph(map, &list);
 			map->superposition = 0;
 		}
 		ft_memset(visited, 0, MAX_VERTICES);
