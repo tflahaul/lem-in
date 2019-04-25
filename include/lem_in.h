@@ -46,9 +46,14 @@ typedef struct			s_vertices
 	uint64_t			key;
 	char const			*name;
 	struct s_vertices	*prev;
-//	struct s_vertices	*end_paths;
 	struct s_edges		*adjc;
 }						t_vertices;
+
+typedef struct			s_overlap
+{
+	uint64_t			prev_key;
+	uint64_t			next_key;
+}						t_overlap;
 
 typedef struct			s_map
 {
@@ -60,6 +65,7 @@ typedef struct			s_map
 	uint32_t			vertices;
 	uint32_t			entry_point;
 	uint64_t			superposition;
+	struct s_overlap	overlap;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
@@ -88,5 +94,4 @@ uint8_t					add_connection(uint64_t h1, uint64_t h2, t_map *map);
 void					ft_algorithm(t_map *map);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v);
 void					ft_print_movements(t_map *map, void *list);
-
 #endif

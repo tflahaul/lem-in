@@ -24,6 +24,8 @@ uint8_t				check_inverse(uint32_t currnt_key, uint32_t prev_key, t_map *map)
 	if (node->way == CLOSED)
 	{
 		node->way = REMOVED;
+		map->overlap.prev_key = prev_key;
+		map->overlap.next_key = currnt_key;
 		return (1);
 	}
 	return (0);

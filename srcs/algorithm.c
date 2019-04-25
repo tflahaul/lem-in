@@ -15,36 +15,6 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
-uint32_t				get_optimum_path_nb(t_stack *list, uint32_t ants, uint64_t pos)
-{
-	uint32_t			res;
-	uint32_t			index;
-	uint32_t			sum1;
-	uint32_t			sum2;
-	t_stack				*tmp;
-
-	sum1 = ants + (list->size - 1) - 1;
-	tmp = list;
-	if (pos && tmp->next)
-		tmp = list->next;
-	if (!list)
-		return (0);
-	res = 1;
-	index = 1;
-	while (tmp)
-	{
-		sum2 = (ants / index + (tmp->size - 1) - 1);
-		if (sum1 > sum2)
-		{
-			sum1 = sum2;
-			res = index;
-		}
-		tmp = tmp->next;
-		index++;
-	}
-	return (res);
-}
-
 void					clean_up_overlap(t_map *map)
 {
 	t_vertices			*ptr;
@@ -64,16 +34,12 @@ void					clean_up_overlap(t_map *map)
 	}
 }
 
-void					clean_up_graph(t_map *map, t_stack **list)
+void					clean_up_graph(t_map *map, t_stack *list)
 {
 	t_queue		*node;
 	t_edges		*edges;
-//	t_stack		*tmp;
 
-//	tmp = list;
-	while ((*list)->next->next)
-		*list = (*list)->next;
-	node = (*list)->path;
+	node = list->path;
 	while (node)
 	{
 		edges = map->hashtab[node->key]->adjc;	
@@ -86,15 +52,82 @@ void					clean_up_graph(t_map *map, t_stack **list)
 		node = node->next;
 	}
 	clean_up_overlap(map);
-	printf("\n===CLEAN===\n");
-	print_hashtab(map);
+//	printf("\n===CLEAN===\n");
+//	print_hashtab(map);
 	
+}
+
+/*void					print_overlap(t_map *map)
+{
+	t_vertices *ptr;
+
+	ptr = map->hashtab[map->end_index];
+	printf("\n===OVERLAP===\n");
+	while ((ptr = ptr->prev))
+	{
+		printf("%s\n", map->hashtab[ptr->key]->name);
+	}
+}*/
+
+void					print_stack(t_stack *list, t_map *map)
+{
+	t_queue		*node;
+	t_stack		*tmp;
+
+	tmp = list;
+	while (tmp)
+	{
+		node = tmp->path;
+		printf("\n===PATH===\n");
+		while (node)
+		{
+			printf("%s\n", map->hashtab[node->key]->name);
+			node = node->next;
+		}
+		tmp = tmp->next;
+	}
+}
+
+void					free_ptr(t_stack *ptr)
+{
+	t_queue		*node;
+	t_queue		*tmp;
+
+	node = ptr->path;
+	while (node)
+	{
+		tmp = node;
+		node = node->next;
+		free((void *)node);
+	}
+	free(ptr);
+}
+
+void					reset_stack(t_stack *ptr, t_stack **list)
+{
+	t_stack		*tmp;
+	t_stack		*prev;
+	t_stack		*next;
+
+	tmp = *list;
+	prev = tmp;
+	while (tmp != ptr)
+	{
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	next = tmp->next;
+	if (prev != ptr)
+		prev->next = next;
+	else 
+		*list = next;
+	free_ptr(ptr);
 }
 
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
-	uint32_t			paths;
+	t_stack				*ptr;
 	uint8_t				visited[MAX_VERTICES];
 
 	if (map->vertices == 0)
@@ -108,13 +141,18 @@ void					ft_algorithm(t_map *map)
 			ft_push_path_to_stack(map, &list);
 		else
 		{
-			clean_up_graph(map, &list);
+	//		print_overlap(map);
+			if ((ptr = get_overlap_path(list, map)))
+			{
+				clean_up_graph(map, ptr);
+				reset_stack(ptr, &list);
+			}
 			map->superposition = 0;
 		}
 		ft_memset(visited, 0, MAX_VERTICES);
 	}
+	print_stack(list, map);
 	set_last_to_null(list);
-	paths = get_optimum_path_nb(list, map->population, map->superposition);
 	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }

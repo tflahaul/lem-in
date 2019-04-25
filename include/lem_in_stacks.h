@@ -27,5 +27,6 @@ void						ft_free_stacks(t_stack **head);
 t_stack						*ft_allocate_stack_memory(void);
 uint8_t						ft_push_path_to_stack(t_map *map, t_stack **stack);
 void						set_last_to_null(t_stack *stack);
+t_stack						*get_overlap_path(t_stack *list, t_map *map);
 
 #endif

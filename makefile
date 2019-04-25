@@ -24,7 +24,8 @@ SRC 		= 	main						parsing						\
 				print_hashtable				connection_list				\
 				algo						hash						\
 				queue						stacks						\
-				algorithm					movements
+				algorithm					movements					\
+				overlap
 
 OBJDIR 		= 	obj
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
