@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/04/22 11:21:49 by thflahau         ###   ########.fr        #
+#    Updated: 2019/04/28 11:44:27 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC 		= 	main						parsing						\
 				print_hashtable				connection_list				\
 				hash						queue						\
 				stacks						algorithm_test				\
-				movements
+				movements					breadth_first_search
 
 OBJDIR 		= 	obj
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))

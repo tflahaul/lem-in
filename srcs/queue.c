@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/24 16:19:57 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 11:55:44 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,6 @@ void							ft_queue_append(t_queue **head, uint32_t key)
 		}
 	}
 }
-
-/*
-**	Libère l'élément au sommet de la stack et retourne l'adresse du
-**	nouveau sommet.
-*/
 
 t_queue							*ft_queue_pop(t_queue **queue)
 {

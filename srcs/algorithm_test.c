@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/24 17:32:27 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 11:21:47 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,23 @@ static inline void		ft_update_graph(t_map *map, t_stack *lst)
 	}
 }
 
+static inline void		ft_update_visited(void *stacks, uint8_t *visited)
+{
+	t_queue				*node;
+
+	ft_fast_bzero(visited, MAX_VERTICES);
+	while (stacks != NULL)
+	{
+		node = ((t_stack *)stacks)->path;
+		while (node != NULL)
+		{
+			visited[node->key] = 2;
+			node = node->next;
+		}
+		stacks = ((t_stack *)stacks)->next;
+	}
+}
+
 /*
 **	Dirige le dernier chemin trouvé et met les pointeurs `prev` à null
 **	dans le même temps. (à voir plus tard si c'est vraiment utile)
@@ -120,39 +137,6 @@ static void				ft_make_directed(t_map *map)
 	}
 }
 
-/*
-**	Trouve uniquement le chemin le plus court, ne fais rien d'autre.
-*/
-
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *vstd)
-{
-	uint32_t			key;
-	t_edges				*node;
-	t_queue				*queue;
-
-	queue = NULL;
-	vstd[map->start_index] = 1;
-	ft_queue_push(&queue, map->start_index);
-	while (queue != NULL)
-	{
-		key = queue->key;
-		if (key == map->end_index && ft_drain_queue(&queue) == EXIT_SUCCESS)
-			return (EXIT_SUCCESS);
-		queue = ft_queue_pop(&queue);
-		node = map->hashtab[key]->adjc;
-		while (node != NULL)
-		{
-			if (node->way == OPEN && !vstd[node->key] && (vstd[node->key] = 1))
-			{
-				map->hashtab[node->key]->prev = map->hashtab[key];
-				ft_queue_append(&queue, node->key);
-			}
-			node = node->next;
-		}
-	}
-	return (EXIT_FAILURE);
-}
-
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
@@ -162,10 +146,8 @@ void					ft_algorithm(t_map *map)
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
-		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_push_path_to_stack(map, &list);
-		if (map->population < list->size - 1)
-			return (ft_print_movements(map, list));
+		ft_update_visited(list, visited);
 		ft_make_directed(map);
 	}
 	ft_fast_bzero(visited, MAX_VERTICES);
@@ -173,10 +155,10 @@ void					ft_algorithm(t_map *map)
 	ft_free_stacks(&list);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
-		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_push_path_to_stack(map, &list);
+		ft_update_visited(list, visited);
 		ft_make_directed(map);
 	}
-	ft_print_movements(map, list);
+	print_paths(map, list);
 	ft_free_stacks(&list);
 }

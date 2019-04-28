@@ -6,14 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/23 16:03:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 09:40:20 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
-#include <lem_in_queue.h>
-#include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
 uint8_t					ft_initialize_hashtable(t_map *map)
@@ -21,6 +19,8 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 	register uint16_t	idx;
 
 	idx = 0;
+	if (MAX_VERTICES > UINT16_MAX)
+		return (printf("lem-in: %s\n", EMAXVERT));
 	while (idx < MAX_VERTICES)
 	{
 		if (!(map->hashtab[idx] = (t_vertices *)malloc(sizeof(t_vertices))))

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/24 15:20:05 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 10:43:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 
 # undef OPEN
 # define OPEN			1
+
 # undef REMOVED
 # define REMOVED		0
+
 # undef CLOSED
 # define CLOSED			-1
 

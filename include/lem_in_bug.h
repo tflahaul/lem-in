@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/24 16:19:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 09:18:30 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define DUPLICATE		"Room has already been defined"
 # define OUTDOMAIN		"Numerical argument out of domain"
 # define NONNUM			"Non-numeric value encountered"
+# define EMAXVERT		"MAX_VERTICES is out of domain"
 # define MEMFULL		"No space left on device"
 # define BADINPUT		"Invalid argument"
 # define EMPTYLINE		"Empty line"
