@@ -6,30 +6,50 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 11:52:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:53:10 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_algorithm.h>
 
+static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
+{
+	while (node != NULL)
+	{
+		if (node->way == OPEN && g->visited[node->key] != VISITED)
+		{
+			g->visited[node->key] = VISITED;
+			g->map->hashtab[node->key]->prev = g->map->hashtab[key];
+			ft_queue_append(g->queue, node->key);
+		}
+		node = node->next;
+	}
+}
+
+/*
+**	Regarde la liste d'adjacence du maillon `node` et parcours toutes les
+**	listes d'adjacence des salles adjacentes pour savoir si certaines des
+**	connexions sont dirigées. Les connexions dirigées sont ajoutées à la
+**	file. Si aucune n'est dirigée (head == g->queue) -> EXIT_FAILURE.
+*/
+
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 {
 	t_edges			*lst;
-	uint8_t			pushed;
+	t_queue			*head;
 
-	pushed = 0;
+	head = *g->queue;
 	while (node != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] != 1)
+		if (node->way == OPEN && g->visited[node->key] != VISITED)
 		{
 			lst = g->map->hashtab[node->key]->adjc;
 			while (lst != NULL)
 			{
 				if (lst->key == key && lst->way == CLOSED)
 				{
-					pushed = 1;
-					g->visited[node->key] = 1;
+					g->visited[node->key] = VISITED;
 					g->map->hashtab[node->key]->prev = g->map->hashtab[key];
 					ft_queue_append(g->queue, node->key);
 				}
@@ -38,22 +58,15 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 		}
 		node = node->next;
 	}
-	return (pushed > 0 ? EXIT_SUCCESS : EXIT_FAILURE);
+	return (head != *g->queue ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 
-static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
-{
-	while (node != NULL)
-	{
-		if (node->way == OPEN && g->visited[node->key] != 1)
-		{
-			g->visited[node->key] = 1;
-			g->map->hashtab[node->key]->prev = g->map->hashtab[key];
-			ft_queue_append(g->queue, node->key);
-		}
-		node = node->next;
-	}
-}
+/*
+**	Trouve le chemin le plus court en priorisant totalement les connextions
+**	dirigées: si une connexion dirigée est trouvée lors de la recherche, on
+**	prend cette direction quoi qu'il arrive. Pas de retour en arrière même
+**	si le chemin final est bloquant.
+*/
 
 uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 {
@@ -63,7 +76,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 	t_queue			*queue;
 
 	queue = NULL;
-	vstd[map->start_index] = 1;
+	vstd[map->start_index] = VISITED;
 	graph.map = map;
 	graph.queue = &queue;
 	graph.visited = vstd;

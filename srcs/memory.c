@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 09:40:20 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 14:09:25 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 	register uint16_t	idx;
 
 	idx = 0;
-	if (MAX_VERTICES > UINT16_MAX)
+	if (UNLIKELY(MAX_VERTICES > UINT16_MAX))
 		return (printf("lem-in: %s\n", EMAXVERT));
 	while (idx < MAX_VERTICES)
 	{

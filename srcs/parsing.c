@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/23 17:22:00 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:03:51 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,15 @@ static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 	index = 0;
 	while (buffer[index])
 	{
+		if (UNLIKELY(map->population >> 16))
+			return (ft_puterror(buffer, OUTDOMAIN));
 		if (UNLIKELY(ft_isdigit(buffer[index]) == 0))
 			return (ft_puterror(buffer, BADINPUT));
 		else
 			map->population = map->population * 10 + buffer[index] - 48;
 		index++;
 	}
-	if (UNLIKELY(map->population > UINT16_MAX || map->population <= 0))
+	if (UNLIKELY(map->population == 0))
 		return (ft_puterror(buffer, OUTDOMAIN));
 	else
 		ft_putstr_endl(buffer);

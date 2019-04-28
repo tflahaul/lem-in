@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/24 17:13:21 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:42:14 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ static inline void			ft_print_single_ant(uint16_t nb, const char *name)
 static inline void			ft_print_stack(t_map *map, t_queue *queue)
 {
 	while ((queue = queue->next) != NULL)
-		if (queue->ant > 0 && queue->ant <= map->population)
+		if (queue->ant && queue->ant <= map->population)
 			ft_print_single_ant(queue->ant, map->hashtab[queue->key]->name);
 }
+
+/*
+**	Effectue une rotation vers le bas des valeurs (uniquement) de la stack
+**	`queue` pour simuler le mouvement des fourmis à travers les salles.
+*/
 
 static void					ft_update_stack(t_queue *queue, uint64_t size)
 {
@@ -48,16 +53,26 @@ static void					ft_update_stack(t_queue *queue, uint64_t size)
 		queue->ant = ants[index++];
 }
 
+/*
+**	Affecte une fourmie en haut de chaque stack/chemin. On utilise une
+**	variable statique pour ne pas perdre le numéro de la dernière fourmie
+**	envoyée.
+*/
+
 static inline void			ft_init_movements(t_stack *stack)
 {
-	static uint64_t			ants;
+	static uint64_t			ant;
 
 	while (stack != NULL)
 	{
-		stack->path->ant = ++ants;
+		stack->path->ant = ++ant;
 		stack = stack->next;
 	}
 }
+
+/*
+**	Fonction principale pour l'affichage du déplacement des fourmis.
+*/
 
 void						ft_print_movements(t_map *map, t_stack *list)
 {

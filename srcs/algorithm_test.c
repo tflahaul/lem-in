@@ -6,18 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 11:21:47 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/28 15:54:46 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-**	Je teste juste des trucs dans ce fichier! Le vrai algo reste dans
-**	algorithm.c!
-*/
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
+#include <lem_in_algorithm.h>
 
 void					print_hashtab(t_map *map);
 void					print_paths(t_map *map, t_stack *list);
@@ -71,6 +67,11 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 	}
 }
 
+/*
+**	Nettoie toutes les connexions du graph, sauf celles pour lesquelles deux
+**	chemins se superposent, qui restent bloquées... pour toujours...
+*/
+
 static inline void		ft_update_graph(t_map *map, t_stack *lst)
 {
 	t_queue				*node;
@@ -90,20 +91,17 @@ static inline void		ft_update_graph(t_map *map, t_stack *lst)
 	}
 }
 
-static inline void		ft_update_visited(void *stacks, uint8_t *visited)
+static inline void		ft_update_tab(t_stack *stacks, uint8_t *visited)
 {
 	t_queue				*node;
 
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (stacks != NULL)
 	{
-		node = ((t_stack *)stacks)->path;
-		while (node != NULL)
-		{
-			visited[node->key] = 2;
-			node = node->next;
-		}
-		stacks = ((t_stack *)stacks)->next;
+		node = stacks->path;
+		while ((node = node->next) != NULL)
+			visited[node->key] = SELECTED;
+		stacks = stacks->next;
 	}
 }
 
@@ -147,7 +145,7 @@ void					ft_algorithm(t_map *map)
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
 		ft_push_path_to_stack(map, &list);
-		ft_update_visited(list, visited);
+		ft_update_tab(list, visited);
 		ft_make_directed(map);
 	}
 	ft_fast_bzero(visited, MAX_VERTICES);
@@ -156,7 +154,7 @@ void					ft_algorithm(t_map *map)
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
 		ft_push_path_to_stack(map, &list);
-		ft_update_visited(list, visited);
+		ft_update_tab(list, visited);
 		ft_make_directed(map);
 	}
 	print_paths(map, list);
