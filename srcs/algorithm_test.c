@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 15:54:46 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/29 16:30:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,35 @@ static inline void		ft_update_graph(t_map *map, t_stack *lst)
 	}
 }
 
-static inline void		ft_update_tab(t_stack *stacks, uint8_t *visited)
+static inline void		ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 {
 	t_queue				*node;
 
-	ft_fast_bzero(visited, MAX_VERTICES);
+	ft_fast_bzero(vstd, MAX_VERTICES);
 	while (stacks != NULL)
 	{
 		node = stacks->path;
 		while ((node = node->next) != NULL)
-			visited[node->key] = SELECTED;
+			vstd[node->key] = SELECTED;
 		stacks = stacks->next;
+	}
+}
+
+/*
+**	Modifie le tableau `visited` pour bloquer les salles par lesquelles
+**	le BFS est déjà passé. Fonction utilisée uniquement après avoir géré
+**	les superpositions, au moment où on cherche des chemins distincts.
+*/
+
+static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
+{
+	t_queue				*ptr;
+
+	while ((node = node->next) != NULL)
+	{
+		ptr = node->path;
+		while ((ptr = ptr->next)->next != NULL)
+			visited[ptr->key] = VISITED;
 	}
 }
 
@@ -145,17 +163,17 @@ void					ft_algorithm(t_map *map)
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
 		ft_push_path_to_stack(map, &list);
-		ft_update_tab(list, visited);
+		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
-	ft_fast_bzero(visited, MAX_VERTICES);
 	ft_update_graph(map, list);
-	ft_free_stacks(&list);
-	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
+	ft_free_stacks(&list->next);
+	ft_fast_bzero(visited, MAX_VERTICES);
+	while (ft_simple_bfs(map, visited) == EXIT_SUCCESS)
 	{
 		ft_push_path_to_stack(map, &list);
+		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
-		ft_make_directed(map);
 	}
 	print_paths(map, list);
 	ft_free_stacks(&list);

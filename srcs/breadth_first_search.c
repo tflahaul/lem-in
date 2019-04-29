@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 15:53:10 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/29 16:41:53 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 }
 
 /*
-**	Trouve le chemin le plus court en priorisant totalement les connextions
+**	Trouve le chemin le plus court en priorisant totalement les connexions
 **	dirigées: si une connexion dirigée est trouvée lors de la recherche, on
-**	prend cette direction quoi qu'il arrive. Pas de retour en arrière même
-**	si le chemin final est bloquant.
+**	prend cette direction quoi qu'il arrive (sauf si le vertice a déjà été
+**	visité). Puis plus de retour en arrière même si le chemin final est
+**	bloquant.
 */
 
 uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
@@ -90,6 +91,40 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 		node = map->hashtab[key]->adjc;
 		if (ft_directed_edges(&graph, node, key) == EXIT_FAILURE)
 			ft_regular_edges(&graph, node, key);
+	}
+	return (EXIT_FAILURE);
+}
+
+/*
+**	BFS de base, pas de hiérarchisation de l'importance des salles à
+**	visiter.
+*/
+
+uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
+{
+	uint32_t		key;
+	t_edges			*v;
+	t_queue			*queue;
+
+	queue = NULL;
+	visited[map->start_index] = VISITED;
+	ft_queue_push(&queue, map->start_index);
+	while (queue != NULL)
+	{
+		key = queue->key;
+		if (key == map->end_index)
+			return (ft_drain_queue(&queue));
+		queue = ft_queue_pop(&queue);
+		v = map->hashtab[key]->adjc;
+		while (v != NULL)
+		{
+			if (v->way == OPEN && !visited[v->key] && (visited[v->key] = 1))
+			{
+				map->hashtab[v->key]->prev = map->hashtab[key];
+				ft_queue_append(&queue, v->key);
+			}
+			v = v->next;
+		}
 	}
 	return (EXIT_FAILURE);
 }

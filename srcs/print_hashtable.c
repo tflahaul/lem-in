@@ -25,9 +25,11 @@ void	print_hashtab(t_map *map)
 
 void				print_paths(t_map *map, t_stack *list)
 {
+	t_stack			*tmp = list;
+
 	while (list != NULL)
 	{
-		printf("\n====== PATH ======\n");
+		printf(list == tmp ? "\n=== SHORTEST ===\n" : "\n===== PATH =====\n");
 		t_queue			*ptr = list->path;
 		while (ptr != NULL)
 		{
