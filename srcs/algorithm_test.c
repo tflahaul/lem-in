@@ -69,7 +69,7 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 
 /*
 **	Nettoie toutes les connexions du graph, sauf celles pour lesquelles deux
-**	chemins se superposent, qui restent bloquées... pour toujours...
+**	chemins se superposent.
 */
 
 static inline void		ft_update_graph(t_map *map, t_stack *lst)
@@ -108,7 +108,7 @@ static inline void		ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 /*
 **	Modifie le tableau `visited` pour bloquer les salles par lesquelles
 **	le BFS est déjà passé. Fonction utilisée uniquement après avoir géré
-**	les superpositions, au moment où on cherche des chemins distincts.
+**	les superpositions, au moment où l'on cherche des chemins distincts.
 */
 
 static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
@@ -151,6 +151,34 @@ static void				ft_make_directed(t_map *map)
 		node->prev = NULL;
 		node = tmp;
 	}
+}
+
+/*
+**	Fonction pour la répartition des fourmis dans les chemins
+**	(fonctionne pas, pas de condition pour la non utilisation
+**	du chemin -pas encore-)
+**
+**		P(|S - 2s1| / S)
+**
+**	et pour calculer le nombre d'étapes par chemin (mais on
+**	risque de ne pas en avoir besoin), ajouter
+**
+**		s1 - 1
+*/
+
+uint32_t				ft_magic(__unused t_map *map, t_stack *stacks)
+{
+	t_stack				*ptr;
+	uint64_t			size;
+
+	size = 0;
+	ptr = stacks;
+	while (ptr != NULL)
+	{
+		size += ptr->size;
+		ptr = ptr->next;
+	}
+	return (size);
 }
 
 void					ft_algorithm(t_map *map)

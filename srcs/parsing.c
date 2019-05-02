@@ -33,12 +33,11 @@ static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 	}
 	if (UNLIKELY(map->population == 0))
 		return (ft_puterror(buffer, OUTDOMAIN));
-	else
-		ft_putstr_endl(buffer);
+	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }
 
-static uint8_t			ft_tokenize_buffer(char const *buffer)
+static uint8_t			ft_get_funptr_index(char const *buffer)
 {
 	uint32_t			index;
 
@@ -73,7 +72,7 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	}
 	else if (UNLIKELY(index == 0))
 		return ((funptr[index++])(map, buffer));
-	else if ((index = ft_tokenize_buffer(buffer)) != 0)
+	else if ((index = ft_get_funptr_index(buffer)) != 0)
 	{
 		if ((funptr[index])(map, buffer) != EXIT_SUCCESS)
 			return (EXIT_FAILURE);

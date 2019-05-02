@@ -28,10 +28,11 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 }
 
 /*
-**	Regarde la liste d'adjacence du maillon `node` et parcours toutes les
-**	listes d'adjacence des salles adjacentes pour savoir si certaines des
-**	connexions sont dirigées. Les connexions dirigées sont ajoutées à la
-**	file. Si aucune n'est dirigée (head == g->queue) -> EXIT_FAILURE.
+**	Regarde la liste d'adjacence du maillon `node` et parcours toutes
+**	les listes d'adjacence des salles adjacentes à celui-ci pour savoir
+**	si certaines des connexions sont dirigées. Les connexions dirigées
+**	sont ajoutées à la file.
+**	Si aucune n'est dirigée (head == g->queue) -> EXIT_FAILURE
 */
 
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
