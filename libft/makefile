@@ -6,13 +6,13 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 18:37:35 by thflahau          #+#    #+#              #
-#    Updated: 2019/04/24 16:16:19 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/07 10:43:18 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
 
-INCLUDE	=	../include/
+INCLUDE	=	./
 
 CFLAGS	=	-Wall -Wextra -Werror -I $(INCLUDE) -c
 
@@ -40,8 +40,8 @@ $(NAME): $(OBJS)
 	ar -cq $@ $(OBJS)
 	ranlib $@
 
-%.o: %.c	$(INCLUDE)libft.h
-	@gcc $(CFLAGS) -o $@ -c $<
+%.o: %.c	libft.h
+	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
 	/bin/rm -f $(OBJS)

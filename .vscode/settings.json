@@ -6,7 +6,8 @@
 		"lem_in_stacks.h": "c",
 		"lem_in_queue.h": "c",
 		"stdint.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"lem_in_algorithm.h": "c"
 	},
 	"editor.rulers": [80]
 }

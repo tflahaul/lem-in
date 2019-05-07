@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 15:03:51 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/07 14:46:30 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 		if (UNLIKELY(ft_isdigit(buffer[index]) == 0))
 			return (ft_puterror(buffer, BADINPUT));
 		else
-			map->population = map->population * 10 + buffer[index] - 48;
+			map->population = map->population * 10 + buffer[index] - '0';
 		index++;
 	}
 	if (UNLIKELY(map->population == 0))
@@ -93,12 +93,11 @@ uint8_t					ft_read_std_input(t_map *map)
 	char				*buffer;
 	struct stat			informations;
 
-	if (isatty(STDIN_FILENO) == 0)
-	{
-		fstat(STDIN_FILENO, &informations);
-		if (!S_ISREG(informations.st_mode) && !S_ISFIFO(informations.st_mode))
+	if (UNLIKELY(fstat(STDIN_FILENO, &informations) < 0))
+		return (EXIT_FAILURE);
+	else if (!S_ISREG(informations.st_mode) && !S_ISFIFO(informations.st_mode))
+		if (isatty(STDIN_FILENO) == 0)
 			return (printf("lem-in: %s\n", INVALIDFMT));
-	}
 	while (get_next_line_stdin(&buffer) > 0)
 	{
 		if (ft_parse_buffer(map, buffer) == EXIT_FAILURE)

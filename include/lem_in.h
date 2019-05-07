@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/29 16:21:55 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/07 12:05:12 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 # define LEM_IN_H
 
 # include <stdio.h>
-# include <libft.h>
+# include "../libft/libft.h"
 
 # define MAX_VERTICES	6000
 
 # define MIN(x, y)		(x < y ? x : y)
-# define ABS(x)			(x < 0 ? -x : x)
 
 # undef OPEN
 # define OPEN			1

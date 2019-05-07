@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 11:55:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/07 13:55:10 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ void							ft_queue_append(t_queue **head, uint32_t key)
 	}
 }
 
-t_queue							*ft_queue_pop(t_queue **queue)
+t_queue							*ft_queue_pop(t_queue **head)
 {
 	t_queue						*node;
 
-	if (queue == NULL || *queue == NULL)
+	if (head == NULL || *head == NULL)
 		return (NULL);
-	node = (*queue)->next;
-	free((void *)(*queue));
+	node = (*head)->next;
+	free((void *)(*head));
 	return (node);
 }

@@ -6,12 +6,23 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/24 16:49:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/07 13:55:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
+
+inline t_stack				*ft_stack_pop(t_stack **head)
+{
+	t_stack					*node;
+
+	if (head == NULL || *head == NULL)
+		return (NULL);
+	node = (*head)->next;
+	free((void *)(*head));
+	return (node);
+}
 
 void						ft_free_stacks(t_stack **head)
 {
