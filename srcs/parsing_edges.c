@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 17:00:15 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/08 19:16:40 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ uint8_t				get_collision_key(uint32_t *hashkey, t_map *map,
 		else if ((ft_strcmp(map->hashtab[*hashkey]->name, ptr + 1)) == 0)
 			return (EXIT_SUCCESS);
 		(*hashkey)++;
-		if (UNLIKELY(*hashkey == MAX_VERTICES || *hashkey == tmp))
+		if (UNLIKELY(*hashkey == MAX_VERTICES))
 			*hashkey = 0;
 		if (UNLIKELY(*hashkey == tmp))
 			return (ft_puterror(NULL, TOOBIG));
