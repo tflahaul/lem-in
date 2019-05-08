@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/24 15:36:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/08 17:03:20 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void				ft_putstr(char const *s);
 char				*ft_strchr(char const *s, int c);
 char				*ft_strrchr(const char *str, int c);
 size_t				ft_strlen(char const *str);
-char				*ft_fast_strdup(char const *str);
 char				*ft_strndup(char const *s, size_t n);
 char				*ft_strnew(size_t n);
 char				*ft_strdup(char const *s);

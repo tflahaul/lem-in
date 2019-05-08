@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/08 16:38:38 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/08 17:07:30 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,5 +103,5 @@ fclean			: clean
 
 re				: fclean all
 
-.PHONY			: all clean fclean
+.PHONY			: all $(LIBFT) $(PRINTF) silent clean fclean re
 .SILENT			: $(NAME) $(LIBFT) $(PRINTF) clean fclean

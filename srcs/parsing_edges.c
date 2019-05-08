@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/23 18:08:48 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/08 17:00:15 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 #include <lem_in_hash.h>
 #include <lem_in_compiler.h>
 
-uint8_t				get_collision_key(uint32_t *hashkey, t_map *map, char *ptr, const char *buffer)
+uint8_t				get_collision_key(uint32_t *hashkey, t_map *map,
+										char *ptr, char const *buff)
 {
 	uint32_t		tmp;
 
 	tmp = *hashkey;
 	while (map->hashtab[*hashkey]->name != NULL)
 	{
-		if (buffer)
+		if (buff != NULL)
 		{
-			if (!(ft_strncmp(map->hashtab[*hashkey]->name, buffer, ptr - buffer)))
+			if (!(ft_strncmp(map->hashtab[*hashkey]->name, buff, ptr - buff)))
 				return (EXIT_SUCCESS);
 		}
-		else
-			if ((ft_strcmp(map->hashtab[*hashkey]->name, ptr + 1)) == 0)
-				return (EXIT_SUCCESS);
+		else if ((ft_strcmp(map->hashtab[*hashkey]->name, ptr + 1)) == 0)
+			return (EXIT_SUCCESS);
 		(*hashkey)++;
-		if (UNLIKELY(*hashkey == MAX_VERTICES))
+		if (UNLIKELY(*hashkey == MAX_VERTICES || *hashkey == tmp))
 			*hashkey = 0;
 		if (UNLIKELY(*hashkey == tmp))
 			return (ft_puterror(NULL, TOOBIG));
@@ -49,7 +49,7 @@ void				check_for_entry_edges(t_map *map, uint32_t h1, uint32_t h2)
 
 uint8_t				get_connections(char const *buffer, char *ptr, t_map *map)
 {
-	uint32_t 		hash1;
+	uint32_t		hash1;
 	uint32_t		hash2;
 
 	if (!(ptr + 1))
@@ -57,9 +57,9 @@ uint8_t				get_connections(char const *buffer, char *ptr, t_map *map)
 	hash2 = hash(ptr + 1);
 	hash1 = hashn(buffer, ptr - buffer);
 	if (get_collision_key(&hash1, map, ptr, buffer) == EXIT_FAILURE)
-		return (EXIT_FAILURE);	
+		return (EXIT_FAILURE);
 	if (get_collision_key(&hash2, map, ptr, NULL) == EXIT_FAILURE)
-		return (EXIT_FAILURE);	
+		return (EXIT_FAILURE);
 	if (add_connection(hash1, hash2, map))
 		return (EXIT_FAILURE);
 	if (add_connection(hash2, hash1, map))
@@ -71,7 +71,7 @@ uint8_t				get_connections(char const *buffer, char *ptr, t_map *map)
 uint8_t				ft_parse_edges(t_map *map, char const *buffer)
 {
 	uint16_t		index;
-	char 			*ptr;
+	char			*ptr;
 
 	index = 0;
 	if (UNLIKELY(map->vertices < 2))
