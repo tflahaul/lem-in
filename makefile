@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/07 16:00:13 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/08 16:38:38 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRC 		= 	main						parsing						\
 				hash						queue						\
 				stacks						algorithm					\
 				movements					breadth_first_search		\
-				graph_manipulation
+				graph_manipulation			distribution
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
 OBJ 		= 	$(patsubst %, $(OBJDIR)/%.o, $(SRC))
@@ -67,12 +67,12 @@ YELLOW		=	\033[1;33m
 all				: $(NAME)
 
 $(NAME)			: $(LIBFT) $(PRINTF) $(OBJ)
-	printf "$(YELLOW)%-35s$(STD)" "Building $@... " 1> $(STDOUT)
+	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
 	gcc $(CFLAGS) $(LIBFT) $(PRINTF) $(OBJ) -o $@
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
 $(LIBFT)		: $(LIBDIR)/libft.h
-	printf "$(YELLOW)%-35s$(STD)" "Building $@... " 1> $(STDOUT)
+	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
 	make -C $(LIBDIR)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
@@ -86,17 +86,20 @@ $(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h
 	@echo " > Compiling $<..." > $(STDOUT)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
+silent			:
+	@make MODE=silent
+
 clean			:
 	/bin/rm -rf $(OBJDIR)
 	make clean -C $(LIBDIR)
 #	make clean -C $(LIBPRINTF)
-	echo "$(RED)Object files removed$(STD)" 1> $(STDOUT)
+	echo "$(RED)Object files removed$(STD)" > $(STDOUT)
 
 fclean			: clean
 	/bin/rm -rf $(NAME)
 	make fclean -C $(LIBDIR)
 #	make fclean -C $(LIBPRINTF)
-	echo "$(RED)$(NAME) removed$(STD)" 1> $(STDOUT)
+	echo "$(RED)$(NAME) removed$(STD)" > $(STDOUT)
 
 re				: fclean all
 

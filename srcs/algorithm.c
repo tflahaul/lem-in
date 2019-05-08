@@ -6,12 +6,10 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/07 18:51:11 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/08 16:37:46 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem_in.h>
-#include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 
 /*
@@ -30,23 +28,6 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 		while ((ptr = ptr->next)->next != NULL)
 			visited[ptr->key] = VISITED;
 	}
-}
-
-/*
-**	Retourne la somme des tailles des `nb` chemins les plus courts.
-*/
-
-static uint64_t			ft_get_total_size(t_stack *stacks, uint32_t nb)
-{
-	uint64_t			size;
-
-	size = 0;
-	while (nb-- && LIKELY(stacks != NULL))
-	{
-		size += stacks->size - 1;
-		stacks = stacks->next;
-	}
-	return (size);
 }
 
 /*
@@ -70,57 +51,6 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb)
 	}
 }
 */
-
-static inline uint64_t	ft_magic_formula(t_map *map, t_stack *p, uint64_t size)
-{
-	return (map->population * (double)ABS(1 + (-p->size / size)) + p->size - 2);
-}
-
-static uint32_t			ft_compute_steps(t_map *map, t_stack *lst, uint32_t nb)
-{
-	t_stack				*ptr;
-	int64_t				steps;
-	uint16_t			index;
-	uint64_t			length;
-
-	steps = 0;
-	if (nb == 1)
-		return (map->population + (lst->size - 1) - 1);
-	else if (LIKELY((lst = lst->next) != NULL))
-	{
-		index = 1;
-		ptr = lst;
-		length = ft_get_total_size(lst, nb);
-		steps = (map->population / nb) + (ptr->size - 1) - 1;
-		while (index++ < nb && LIKELY(ptr != NULL))
-		{
-			steps += ABS(steps - ft_magic_formula(map, ptr, length)); // ERR
-			ptr = ptr->next;
-		}
-	}
-	return ((uint32_t)steps);
-}
-
-/*
-**	Fonction pour la distribution des fourmis dans les chemins
-*/
-
-static uint16_t			ft_population_distribution(t_map *map, t_stack *stacks)
-{
-	uint16_t			index;
-	uint32_t			steps;
-
-	index = 2;
-	steps = ft_compute_steps(map, stacks, 1);
-	printf("steps = %u\n", steps);
-	while (index <= map->start_edges)
-	{
-		steps = ft_compute_steps(map, stacks, index);
-		printf("steps = %u\n", steps);
-		index++;
-	}
-	return (index - 1);
-}
 
 void					ft_algorithm(t_map *map)
 {

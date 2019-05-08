@@ -6,11 +6,10 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/29 16:41:53 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/08 15:52:48 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem_in.h>
 #include <lem_in_algorithm.h>
 
 static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)

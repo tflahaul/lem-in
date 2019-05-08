@@ -6,12 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/07 13:55:01 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/08 16:16:09 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
+#include <lem_in_compiler.h>
 
 inline t_stack				*ft_stack_pop(t_stack **head)
 {
@@ -67,8 +68,9 @@ static inline void			ft_fill_stack(t_map *map, t_stack **node)
 	while (path != NULL)
 	{
 		ft_queue_push(&(*node)->path, path->key);
+		if (LIKELY(path->key != map->start_index))
+			++(*node)->size;
 		path = path->prev;
-		++(*node)->size;
 	}
 }
 

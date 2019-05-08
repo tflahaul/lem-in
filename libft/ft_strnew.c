@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:55:37 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/10 18:55:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/08 15:49:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ char					*ft_strnew(size_t size)
 
 	if (!(str = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	ft_memset(str, 0, size + 1);
+	ft_fast_bzero(str, size + 1);
 	return (str);
 }
