@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/08 17:07:30 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/09 17:17:02 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,16 @@ ifeq '$(MODE)' 'silent'
 endif
 
 ########## FLAGS ##########
-CFLAGS 		= 	-Wall				-Wextra				-Werror			\
-				-Wpadded			-Wstack-protector	-std=c99
+CFLAGS 		= 	-Wall						\
+				-Wextra						\
+				-Werror						\
+				-Wpadded					\
+				-std=c99
 
 INC 		= 	-I $(HDR)
+CLIBFT		=	-L $(LIBDIR) -lft
+CPRINTF		=	-L $(LIBPRINTF) -lftprintf
+
 CDEBUG		=	-g -O0 -fsanitize=address
 COPTI		=	-O3
 
@@ -51,13 +57,13 @@ SRC 		= 	main						parsing						\
 				movements					breadth_first_search		\
 				graph_manipulation			distribution
 
+LIBFT		=	$(LIBDIR)/libft.a
+#PRINTF		=	$(LIBPRINTF)/libftprintf.a
+
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
-OBJ 		= 	$(patsubst %, $(OBJDIR)/%.o, $(SRC))
+OBJ 		= 	$(patsubst %,$(OBJDIR)/%.o, $(SRC))
 
-LIBFT 		= 	$(LIBDIR)/libft.a
-#PRINTF		= 	$(LIBPRINTF)/libftprintf.a
-
-########## COLORS #########
+######### COLORS ##########
 STD			=	\033[0m
 GREEN		=	\033[1;32m
 RED			=	\033[1;31m
@@ -68,7 +74,7 @@ all				: $(NAME)
 
 $(NAME)			: $(LIBFT) $(PRINTF) $(OBJ)
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
-	gcc $(CFLAGS) $(LIBFT) $(PRINTF) $(OBJ) -o $@
+	gcc $(CFLAGS) $(OBJ) -o $@ $(CLIBFT) #$(CPRINTF)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
 $(LIBFT)		: $(LIBDIR)/libft.h
@@ -83,6 +89,9 @@ $(LIBFT)		: $(LIBDIR)/libft.h
 
 $(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h
 	@mkdir -p $(OBJDIR)
+ifneq '$(MODE)' ''
+	@printf "[%s]" $(MODE) > $(STDOUT)
+endif
 	@echo " > Compiling $<..." > $(STDOUT)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
@@ -103,5 +112,5 @@ fclean			: clean
 
 re				: fclean all
 
-.PHONY			: all $(LIBFT) $(PRINTF) silent clean fclean re
+.phony			: all $(LIBFT) $(PRINTF) silent clean fclean re
 .SILENT			: $(NAME) $(LIBFT) $(PRINTF) clean fclean

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 16:16:09 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/09 16:10:35 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ inline t_stack				*ft_stack_pop(t_stack **head)
 		return (NULL);
 	node = (*head)->next;
 	free((void *)(*head));
+	*head = NULL;
 	return (node);
 }
 
