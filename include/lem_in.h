@@ -46,6 +46,12 @@ typedef struct			s_vertices
 	struct s_vertices	*prev;
 }						t_vertices;
 
+typedef struct			s_overlap
+{
+	uint64_t			prev_key;
+	uint64_t			next_key;
+}						t_overlap;
+
 typedef struct			s_map
 {
 	uint32_t			start_index;
