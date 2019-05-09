@@ -26,5 +26,6 @@ void						ft_free_stacks(t_stack **head);
 void						ft_print_movements(t_map *map, t_stack *list);
 uint64_t					ft_push_path_to_stack(t_map *map, t_stack **stack);
 t_stack						*ft_stack_pop(t_stack **head);
+uint8_t						write_paths_to_file(t_map *map,	t_stack *list);
 
 #endif

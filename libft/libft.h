@@ -43,5 +43,8 @@ uint8_t				ft_variadic_memory_freeing(unsigned int nb, ...);
 int64_t				ft_atoi_parsing(char const **string);
 uint32_t			ft_word_count(char const *s);
 int8_t				get_next_line_stdin(char **s);
+void				ft_putstr_fd(char const *s, int fd);
+void				ft_putchar_fd(char c, int fd);
+void				ft_putendl_fd(char const *s, int fd);
 
 #endif

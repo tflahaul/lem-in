@@ -55,7 +55,8 @@ SRC 		= 	main						parsing						\
 				hash						queue						\
 				stacks						algorithm					\
 				movements					breadth_first_search		\
-				graph_manipulation			distribution
+				graph_manipulation			distribution				\
+				visual
 
 LIBFT		=	$(LIBDIR)/libft.a
 #PRINTF		=	$(LIBPRINTF)/libftprintf.a

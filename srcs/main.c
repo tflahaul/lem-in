@@ -12,13 +12,15 @@
 
 #include <lem_in.h>
 
-int						main(void)
+int						main(int argc, char **argv)
 {
 	t_map				map;
 
 	ft_fast_bzero(&map, sizeof(t_map));
 	if (ft_initialize_hashtable(&map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
+	if (argc > 1 && !(ft_strcmp("-v", argv[1])))
+		map.visual = 1;
 	if (ft_read_std_input(&map) == EXIT_SUCCESS)
 		ft_algorithm(&map);
 	ft_free_hashtable(map.hashtab);

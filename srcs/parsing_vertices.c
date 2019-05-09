@@ -94,6 +94,9 @@ uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
 		return (ft_variadic_memory_freeing(1, (void *)name));
 	if (UNLIKELY(ft_coordinate(map, name, buffer + index + 1) == EXIT_FAILURE))
 		return (ft_puterror(buffer, BADINPUT));
+	if (map->visual)
+		if (append_to_file("../visual/vertices.txt", buffer) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);
 }

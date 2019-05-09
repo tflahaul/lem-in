@@ -74,6 +74,9 @@ void					ft_algorithm(t_map *map)
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
+	if (map->visual)
+		if (write_paths_to_file(map, list) == EXIT_FAILURE)
+				return ;
 	ft_population_distribution(map, list);
 	ft_free_stacks(&list);
 }

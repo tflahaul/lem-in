@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 15:30:45 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/07 10:36:52 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/04/24 16:42:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void							ft_fast_bzero(void *str, size_t size)
 	while (size >= sizeof(uint_fast64_t))
 	{
 		size -= sizeof(uint_fast64_t);
-		*addr++ = 0ULL;
+		*addr++ = 0x0UL;
 	}
 	ptr = (unsigned char *)addr;
 	while (size-- > 0)

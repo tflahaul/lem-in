@@ -56,6 +56,7 @@ typedef struct			s_map
 	uint32_t			vertices;
 	uint32_t			entry_point;
 	uint32_t			superposition;
+	uint64_t			visual;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
@@ -83,5 +84,10 @@ uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 void					ft_algorithm(t_map *map);
 uint8_t					ft_simple_bfs(t_map *map, uint8_t *v);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v);
+
+/*
+**  Visualization
+*/
+uint8_t					append_to_file(char const *file, char const *s);
 
 #endif
