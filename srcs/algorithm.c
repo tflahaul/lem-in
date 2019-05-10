@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 16:37:46 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/10 18:00:36 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ void					ft_algorithm(t_map *map)
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
-	if (map->visual)
-		if (write_paths_to_file(map, list) == EXIT_FAILURE)
-				return ;
-	ft_population_distribution(map, list);
+	if (map->visual != 0 && write_paths_to_file(map, list) == EXIT_FAILURE)
+	{
+		ft_free_stacks(&list);
+		return ;
+	}
+	printf("\nRES = %hu\n", ft_population_distribution(map, list));
 	ft_free_stacks(&list);
 }
