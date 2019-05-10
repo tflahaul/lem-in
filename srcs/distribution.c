@@ -6,12 +6,17 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/09 17:39:59 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:23:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
+
+static inline uint64_t	ft_abs(int64_t nb)
+{
+	return ((nb < 0) ? -nb : nb);
+}
 
 static uint64_t			ft_sum_npaths_size(t_stack *stacks, uint32_t nb)
 {
@@ -27,7 +32,7 @@ static uint64_t			ft_sum_npaths_size(t_stack *stacks, uint32_t nb)
 }
 
 /*
-**	Formule implémentée:	P(1 - sx/S)
+**	Formule implémentée:	P/N...
 **
 **	Ici le problème vient de l'équation qui ajoute une certaine proportion de
 **	fourmis à chaque nouveau chemin étudié (ex: 3 chemins +18% de fourmis, 4
@@ -48,14 +53,6 @@ static uint64_t			ft_sum_npaths_size(t_stack *stacks, uint32_t nb)
 **	Proportion inverse:		50%		75%		75%		(+100%)
 */
 
-static inline uint32_t	ft_ratio(t_map *map, t_stack *stack, uint64_t size)
-{
-	double				ratio;
-
-	ratio = (double)(stack->size - 1.) / (double)size;
-	return (map->population * (double)(1. - ratio));
-}
-
 static int64_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 {
 	int64_t				step;
@@ -65,13 +62,13 @@ static int64_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 	step = 0;
 	if (nb == 1)
 		return (map->population + ptr->size - 1);
-	else if (LIKELY((ptr = ptr->next) != NULL))
+	else if (LIKELY((ptr = ptr->next) != NULL) && map->population / nb > 0)
 	{
 		index = 0;
 		size = ft_sum_npaths_size(ptr, nb);
-		step = ft_ratio(map, ptr, size) + ptr->size - 1;
+		step = (map->population / nb) + ptr->size - 1;
 		while (++index < (uint16_t)nb && LIKELY((ptr = ptr->next) != NULL))
-			step += ABS(step - (ft_ratio(map, ptr, size) + ptr->size - 1));
+			step += ft_abs(step - ((map->population / nb) + ptr->size - 1));
 	}
 	return (step);
 }

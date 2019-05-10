@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 16:36:02 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:02:16 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 # include <lem_in.h>
 # include <lem_in_stacks.h>
 
-# define ABS(x)				(x < 0 ? -(x) : x)
-
-enum {
+enum
+{
 	UNVISITED = 0,
 	VISITED,
 	SELECTED

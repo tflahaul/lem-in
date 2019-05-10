@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/23 16:18:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:21:19 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,15 @@ static inline void	set_entry(uint64_t entry, t_map *map, uint64_t hashkey)
 	map->entry_point = 0;
 }
 
-static uint8_t		ft_coordinate(t_map *map, char *name, char const *buffer)
+static uint8_t		ft_coordinate(char const *buffer)
 {
-	int64_t			coord;
-	uint64_t		hashkey;
-
 	if (UNLIKELY(buffer[0] == ' '))
 		return (EXIT_FAILURE);
-	hashkey = hash(name);
-	if (LIKELY(ft_is32bits(coord = ft_atoi_parsing(&buffer))))
-		map->hashtab[hashkey]->x = coord;
-	else
+	else if (UNLIKELY(ft_is32bits(ft_atoi_parsing(&buffer)) == 0))
 		return (EXIT_FAILURE);
-	if (LIKELY(ft_is32bits(coord = ft_atoi_parsing(&buffer))))
-		map->hashtab[hashkey]->y = coord;
-	else
+	else if (UNLIKELY((*(buffer + 1) && *(buffer + 1) == ' ')))
+		return (EXIT_FAILURE);
+	else if (UNLIKELY(ft_is32bits(ft_atoi_parsing(&buffer)) == 0))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -92,9 +86,9 @@ uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
 		return (ft_puterror(buffer, MEMERR));
 	if (UNLIKELY(ft_add_to_hashtable(map, name) == EXIT_FAILURE))
 		return (ft_variadic_memory_freeing(1, (void *)name));
-	if (UNLIKELY(ft_coordinate(map, name, buffer + index + 1) == EXIT_FAILURE))
+	if (UNLIKELY(ft_coordinate(buffer + index + 1) == EXIT_FAILURE))
 		return (ft_puterror(buffer, BADINPUT));
-	if (map->visual)
+	if (map->visual != 0)
 		if (append_to_file("../visual/vertices.txt", buffer) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	ft_putstr_endl(buffer);
