@@ -46,5 +46,6 @@ int8_t				get_next_line_stdin(char **s);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putendl_fd(char const *s, int fd);
+char				*ft_itoa(int n);
 
 #endif

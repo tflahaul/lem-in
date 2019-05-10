@@ -21,6 +21,16 @@ def read_vertices(G):
             y = int(data[2].strip('\n'))
             G.node[name]['pos'] = (x, y)
 
+def read_data():
+    data = {}
+    with open('data.txt', 'r') as f:
+        lines = f.readlines()
+        data['ants'] = int(lines[0].strip('\n'))
+        data['vertices'] = int(lines[1].strip('\n'))
+        data['start'] = lines[2].strip('\n')
+        data['end'] = lines[3].strip('\n')
+    return (data)
+
 def read_paths():
     paths = []
     lst = []
@@ -48,6 +58,8 @@ def clear_files():
         os.remove('edges.txt')
     if os.path.exists('paths.txt'):
         os.remove('paths.txt')
+    if os.path.exists('data.txt'):
+        os.remove('data.txt')
 
 if __name__ == '__main__':
     clear_files()
@@ -60,7 +72,8 @@ if __name__ == '__main__':
         G = nx.Graph()
         read_edges(G)
         read_vertices(G)
+        data = read_data()
         paths = read_paths()
-        graph(G, paths)    
+        graph(G, paths, data)    
     except Exception as e:
         print(e)

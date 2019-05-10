@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include "../libft/libft.h"
+# include <lem_in_visual.h>
 
 # define MAX_VERTICES	6000
 

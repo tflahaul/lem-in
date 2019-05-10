@@ -2,15 +2,19 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-def graph(G, paths):
+def get_options(G, vertices):
+    options = {
+        'pos': nx.get_node_attributes(G, 'pos') if vertices < 50 else nx.random_layout(G),
+        'node_size': 500 if vertices < 50 else 10,
+        'alpha': 0.60,
+        'width': 10.0 if vertices < 50 else 1.0,
+    }
+    return (options)
+
+def graph(G, paths, data):
     shrtlen = len(paths[0])
     frames = shrtlen + len(paths[len(paths) - 1])
-    options = {
-        'pos': nx.get_node_attributes(G, 'pos'),
-        'node_size': 500,
-        'alpha': 0.60,
-        'width': 10.0,
-    }
+    options = get_options(G, data['vertices']) 
 
     # set subplots
     fig, ax = plt.subplots(figsize=(6, 4))
@@ -44,5 +48,5 @@ def graph(G, paths):
 
     # animation
     ani = animation.FuncAnimation(fig, update, frames=frames, interval=1000, repeat=True)
-    ani.save('map_simple3.mp4', fps=1, extra_args=['-vcodec', 'libx264'])
+    ani.save('big.mp4', fps=1, extra_args=['-vcodec', 'libx264'])
     plt.show()

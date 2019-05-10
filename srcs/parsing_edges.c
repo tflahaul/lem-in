@@ -86,7 +86,7 @@ uint8_t				ft_parse_edges(t_map *map, char const *buffer)
 	else
 		return (ft_puterror(buffer, UNKCOMM));
 	if (map->visual)
-		if (append_to_file("../visual/edges.txt", buffer) == EXIT_FAILURE)
+		if (append_to_file(EDGES, buffer) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);

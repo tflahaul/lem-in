@@ -16,22 +16,32 @@ uint8_t		append_to_file(char const *file, char const *s)
 
 }
 
+uint8_t		write_data(t_map *map)
+{
+	append_to_file(DATA, ft_itoa(map->population));
+	append_to_file(DATA, ft_itoa(map->vertices));
+	append_to_file(DATA, map->hashtab[map->start_index]->name);
+	append_to_file(DATA, map->hashtab[map->end_index]->name);
+	return (EXIT_SUCCESS);
+}
+
 uint8_t		write_paths_to_file(t_map *map, t_stack *list)
 {
 	t_stack *tmp;
 	t_queue *ptr;
 
 	tmp = list;
+	write_data(map);
 	while (tmp)
 	{
 		ptr = tmp->path;
 		while (ptr)
 		{
-			if (append_to_file("../visual/paths.txt", map->hashtab[ptr->key]->name) == EXIT_FAILURE)
+			if (append_to_file(PATHS, map->hashtab[ptr->key]->name) == EXIT_FAILURE)
 				   return (EXIT_FAILURE);	
 			ptr = ptr->next;
 		}
-		append_to_file("../visual/paths.txt", "");
+		append_to_file(PATHS, "");
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);
