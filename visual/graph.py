@@ -16,6 +16,7 @@ def get_options(G, vertices, ax):
     return (options)
 
 def graph(G, paths, data):
+    #add to frames lines of ants + return dic of ants and pos, all at start pos
     shrtlen = len(paths[0])
     frames = shrtlen + len(paths[len(paths) - 1])
 
@@ -40,7 +41,8 @@ def graph(G, paths, data):
             ax.set_title("SHORTEST PATH")
 
         # draw any other needed paths 
-        if (i and i > shrtlen):
+        # check frames - moves
+        if (i and shrtlen < i < frames - moves):
             idx = i - shrtlen
             for n in range(len(paths) - 1):
                 nodelist = paths[n + 1][(idx - idx):(idx + 1)]
