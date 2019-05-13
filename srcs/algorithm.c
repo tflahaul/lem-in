@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/10 18:00:36 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/13 16:44:25 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,25 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 /*
 **	Supprime les stacks qui correspondent aux chemins qui ne seront pas
 **	utilisés pour la solution finale.
+*/
 
 static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb)
 {
+	t_stack				*tmp;
 	t_stack				*node;
 
-	node = *stacks;
 	if (nb == 1)
-		ft_free_stacks(&(*stacks)->next);
-	else
+		return (ft_free_stacks(&(*stacks)->next));
+	*stacks = ft_stack_pop(stacks);
+	node = *stacks;
+	while (nb-- && node != NULL)
 	{
-		*stacks = ft_stack_pop(stacks);
-		node = *stacks;
-		while (node != NULL && nb--)
-			node = node->next;
-		ft_free_stacks(&node);
+		tmp = node;
+		node = node->next;
 	}
+	tmp->next = NULL;
+	ft_free_stacks(&node);
 }
-*/
 
 void					ft_algorithm(t_map *map)
 {
@@ -75,10 +76,8 @@ void					ft_algorithm(t_map *map)
 		ft_update_tab(list, visited);
 	}
 	if (map->visual != 0 && write_paths_to_file(map, list) == EXIT_FAILURE)
-	{
-		ft_free_stacks(&list);
-		return ;
-	}
-	printf("\nRES = %hu\n", ft_population_distribution(map, list));
+		return (ft_free_stacks(&list));
+	ft_delete_unused_stacks(&list, ft_population_distribution(map, list));
+	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }

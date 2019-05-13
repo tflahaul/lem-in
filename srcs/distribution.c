@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/10 18:00:16 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/13 16:44:53 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ uint16_t				ft_population_distribution(t_map *map, t_stack *stacks)
 	uint32_t			steps;
 	register uint16_t	index;
 
+	if (map->population == 1)
+		return (1);
 	index = 2;
 	steps = ft_compute_steps(map, stacks, 1);
 	while (index <= map->start_edges)
