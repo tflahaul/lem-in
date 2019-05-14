@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/13 16:44:02 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/14 12:05:12 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,6 @@ static inline void			ft_init_movements(t_stack *stack)
 	}
 }
 
-static inline uint64_t		ft_last_path_length(t_stack *list)
-{
-	if (list != NULL)
-		while (list->next != NULL)
-			list = list->next;
-	return (list->size);
-}
-
-uint64_t					ft_list_size(t_stack *list)
-{
-	uint64_t				length;
-
-	length = 0;
-	while (list != NULL && ++length)
-		list = list->next;
-	return (length);
-}
-
 /*
 **	Fonction principale pour l'affichage du déplacement des fourmis.
 */
@@ -97,8 +79,8 @@ void						ft_print_movements(t_map *map, t_stack *list)
 	uint32_t				length;
 	t_stack					*stacks;
 
-	length = map->population / ft_list_size(list) + ft_last_path_length(list);
-	while (length--)
+	length = (map->population / ft_list_size(list)) + ft_last_path_length(list);
+	while (length-- > 0)
 	{
 		stacks = list;
 		ft_init_movements(stacks);

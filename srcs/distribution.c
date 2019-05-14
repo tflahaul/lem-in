@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/13 16:44:53 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/14 12:44:37 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,37 +19,15 @@ static inline uint64_t	ft_abs(int64_t nb)
 }
 
 /*
-**	Formule implémentée:	P/N...
-**
-**	Ici le problème vient de l'équation qui ajoute une certaine proportion de
-**	fourmis à chaque nouveau chemin étudié (ex: 3 chemins +18% de fourmis, 4
-**	chemins +24% de fourmis, 5 chemins +30% de fourmis...). -- la somme des
-**	ratios est supérieure à 1 -- Le résultat de tout ça c'est que sur les
-**	petites cartes avec assez peu de fourmis les solutions trouvées peuvent
-**	paraître correctes mais sur les grosses cartes (superbig - 480 fourmis),
-**	même si le calcul du nombre d'étapes est bon, la solution trouvée est
-**	toujours croissante de part l'augmentation du nombre de fourmis. Par
-**	exemple, sur `superbig`, une augmentation de 24% du nombre de fourmis,
-**	ça fait environ 115 nouvelles fourmis... et sur les solutions qui utilisent
-**	beaucoup de chemins il est pas impossible de doubler le nombre de départ.
-**	C'est moche.
-**
-**	Exemple pratique pour 3 chemins:
-**	Chemin:					1		2		3
-**	Proportion:				50%		25%		25%
-**	Proportion inverse:		50%		75%		75%		(+100%)
-**
-**	!! Attention au cas à une seule fourmie !!
-*/
-
 static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 {
+	uint32_t			ants;
 	uint32_t			step;
 	uint32_t			ratio;
 	register uint16_t	index;
 
 	step = 0;
-	ratio = map->population / nb;
+	ratio = (double)map->population / (double)nb;
 	if (nb == 1)
 		return (map->population + ptr->size - 1);
 	else if (LIKELY((ptr = ptr->next) != NULL))
@@ -61,10 +39,37 @@ static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 	}
 	return (step);
 }
+*/
+
+static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
+{
+	uint32_t			ants;
+	uint32_t			steps;
+	register uint32_t	tmpsize;
+
+	ants = (map->population >> 1);
+	if (LIKELY(ants > nb))
+	{
+		tmpsize = ptr->size;
+		steps = (ants -= nb) + ptr->size - 1;
+		while ((ptr = ptr->next) != NULL && ants > 0)
+		{
+			if (ants > (ptr->size - tmpsize))
+			{
+				ants = ants - (ptr->size - tmpsize);
+				steps += ft_abs(steps - (ants + ptr->size - 1));
+				tmpsize = ptr->size;
+			}
+			else
+				return (steps + ft_abs(steps - (ants + ptr->size - 1)));
+		}
+	}
+	return (0);
+}
 
 uint16_t				ft_population_distribution(t_map *map, t_stack *stacks)
 {
-	uint32_t			tmp;
+//	uint32_t			tmp;
 	uint32_t			steps;
 	register uint16_t	index;
 
@@ -72,16 +77,10 @@ uint16_t				ft_population_distribution(t_map *map, t_stack *stacks)
 		return (1);
 	index = 2;
 	steps = ft_compute_steps(map, stacks, 1);
-	while (index <= map->start_edges)
+	while (index < ft_list_size(stacks) * 10)
 	{
-		tmp = ft_compute_steps(map, stacks, index);
-		if (tmp > steps)
-			return (index);
-		else
-		{
-			steps = tmp;
-			index++;
-		}
+		steps = ft_compute_steps(map, stacks->next, index++);
+		printf("steps = %u\n", steps);
 	}
-	return (index - 1);
+	return (0xf);
 }

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/13 16:44:25 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/13 19:37:47 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,26 @@ void					ft_algorithm(t_map *map)
 	ft_delete_unused_stacks(&list, ft_population_distribution(map, list));
 	ft_print_movements(map, list);
 	ft_free_stacks(&list);
+}
+
+/*
+**	Tools
+*/
+
+inline uint64_t			ft_last_path_length(t_stack *list)
+{
+	if (list != NULL)
+		while (list->next != NULL)
+			list = list->next;
+	return (list->size);
+}
+
+uint64_t				ft_list_size(t_stack *list)
+{
+	uint64_t			length;
+
+	length = 0;
+	while (list != NULL && ++length)
+		list = list->next;
+	return (length);
 }
