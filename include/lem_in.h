@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/07 12:05:12 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/10 17:06:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ typedef struct			s_edges
 
 typedef struct			s_vertices
 {
-	int32_t				x;
-	int32_t				y;
 	uint64_t			key;
 	char const			*name;
 	struct s_edges		*adjc;

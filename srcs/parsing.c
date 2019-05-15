@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/07 17:45:40 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/14 11:59:56 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 	return (EXIT_SUCCESS);
 }
 
-static uint8_t			ft_get_funptr_index(char const *buffer)
+static inline uint8_t	ft_get_funptr_index(char const *buffer)
 {
 	uint32_t			index;
 
-	if ((index = ft_word_count(buffer)) == 3)
-		return (2);
-	else if (LIKELY(index == 2))
-		return (1);
+	if (LIKELY((index = ft_word_count(buffer)) > 0))
+		return (index - 1);
 	return (0);
 }
 

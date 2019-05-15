@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 15:42:14 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/14 12:05:12 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void					ft_update_stack(t_queue *queue, uint64_t size)
 
 	index = 0;
 	node = queue;
-	while (node != NULL)
+	while (node != NULL && index < size)
 	{
 		ants[index++] = node->ant;
 		node = node->next;
@@ -79,8 +79,8 @@ void						ft_print_movements(t_map *map, t_stack *list)
 	uint32_t				length;
 	t_stack					*stacks;
 
-	length = map->population + list->size - 1;
-	while (length--)
+	length = (map->population / ft_list_size(list)) + ft_last_path_length(list);
+	while (length-- > 0)
 	{
 		stacks = list;
 		ft_init_movements(stacks);

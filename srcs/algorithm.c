@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 16:37:46 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/14 23:17:10 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,33 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 /*
 **	Supprime les stacks qui correspondent aux chemins qui ne seront pas
 **	utilisés pour la solution finale.
+*/
 
 static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb)
 {
+	t_stack				*tmp;
 	t_stack				*node;
 
-	node = *stacks;
-	if (nb == 1)
-		ft_free_stacks(&(*stacks)->next);
-	else
+	tmp = *stacks;
+	printf("===LIST===\n");
+	while (tmp)
 	{
-		*stacks = ft_stack_pop(stacks);
-		node = *stacks;
-		while (node != NULL && nb--)
-			node = node->next;
-		ft_free_stacks(&node);
+		printf("%lld = size\n", tmp->size);
+		tmp = tmp->next;
 	}
+	printf("===END===\n");
+	if (nb == 1)
+		return (ft_free_stacks(&(*stacks)->next));
+	*stacks = ft_stack_pop(stacks);
+	node = *stacks;
+	while (nb-- && node != NULL)
+	{
+		tmp = node;
+		node = node->next;
+	}
+	tmp->next = NULL;
+	ft_free_stacks(&node);
 }
-*/
 
 void					ft_algorithm(t_map *map)
 {
@@ -74,9 +83,32 @@ void					ft_algorithm(t_map *map)
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
-	if (map->visual)
-		if (write_paths_to_file(map, list) == EXIT_FAILURE)
-				return ;
+	if (map->visual != 0 && write_paths_to_file(map, list) == EXIT_FAILURE)
+		return (ft_free_stacks(&list));
+	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list));
 	ft_population_distribution(map, list);
+//	ft_print_movements(map, list);
 	ft_free_stacks(&list);
+}
+
+/*
+**	Tools
+*/
+
+inline uint64_t			ft_last_path_length(t_stack *list)
+{
+	if (list != NULL)
+		while (list->next != NULL)
+			list = list->next;
+	return (list->size);
+}
+
+uint64_t				ft_list_size(t_stack *list)
+{
+	uint64_t			length;
+
+	length = 0;
+	while (list != NULL && ++length)
+		list = list->next;
+	return (length);
 }
