@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/14 19:17:52 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 02:45:12 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,41 @@ static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 }
 */
 
-static inline double	func(int ants, int paths, int path_len)
+double	func(int ants, int paths, int path_len)
 {
 	return ((double)ants / (double)paths + (path_len - 1));
 }
 
 int						nbr_optimum_paths(t_map *map, t_stack *stacks)
 {
-	float a;
-	float b;
+	double a;
+	double b;
+	int cnt;
 	int paths;
+	uint64_t prev;
 	t_stack *tmp;
 
 	if (UNLIKELY(map->population == 1))
 		return (1);
-    tmp = stacks;
+	tmp = stacks->next;
     paths = 1;
-    a = func(map->population, paths, tmp->size);
+	cnt = 0;
+	a = func(map->population, paths, stacks->size);
+	prev = stacks->size;
     while ((tmp=tmp->next) != NULL)
     {
-        b = func(map->population, ++paths, tmp->size);
-        if (a < b)
-            return (paths - 1);
-        a = b;
+		if (prev != tmp->size)
+		{
+        	b = func(map->population, ++paths, tmp->size);
+        	if (a < b)
+            	return (paths + cnt);
+        	a = b;
+		}
+		else
+			cnt++;
+		prev = tmp->size;
     }
-    return (paths - 1);
+    return (paths + cnt);
 }
 
 static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
@@ -74,7 +84,7 @@ static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 	uint32_t			diff;
 	uint32_t			steps;
 	uint32_t			tmpsize;
-
+	
 	ants = ((double)map->population / (double)nb);
 	tmpsize = ptr->size;
 	steps = ants + ptr->size - 1;
@@ -90,6 +100,33 @@ static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 	return (steps);
 }
 
+int						get_init_ants(t_map *map, t_stack *stacks)
+{
+	t_stack *tmp;
+	int		total;
+	int		size;
+	int		ants;
+	int		idx;
+
+	total = 0;
+	tmp = stacks;
+	idx = 1;
+	size = stacks->size;
+	while ((tmp=tmp->next))	
+	{
+		printf("%llu = tmp->size\n", tmp->size);
+		total += tmp->size - size;
+		idx++;
+	}
+	printf("map->pop = %u\n", map->population);
+	printf("%d = idx\n", idx);
+	printf("%d = total\n", total);
+	ants = (map->population + total) / idx;
+	printf("%d = ants\n", ants + 1);
+	printf("%llu = steps\n", ants + stacks->size - 1);
+	return (1);
+}
+
 uint16_t				ft_population_distribution(t_map *map, t_stack *stacks)
 {
 	uint32_t			tmp;
@@ -97,6 +134,7 @@ uint16_t				ft_population_distribution(t_map *map, t_stack *stacks)
 	register uint16_t	index;
 
 	index = 2;
+	get_init_ants(map, stacks);
 	tmp = ft_compute_steps(map, stacks->next, 1);
 	while ((steps = ft_compute_steps(map, stacks->next, index++)) < tmp)
 		tmp = steps;

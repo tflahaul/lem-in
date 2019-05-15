@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/14 19:05:14 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/14 23:17:10 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb)
 	t_stack				*tmp;
 	t_stack				*node;
 
+	tmp = *stacks;
+	printf("===LIST===\n");
+	while (tmp)
+	{
+		printf("%lld = size\n", tmp->size);
+		tmp = tmp->next;
+	}
+	printf("===END===\n");
 	if (nb == 1)
 		return (ft_free_stacks(&(*stacks)->next));
 	*stacks = ft_stack_pop(stacks);
@@ -79,7 +87,7 @@ void					ft_algorithm(t_map *map)
 		return (ft_free_stacks(&list));
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list));
 	ft_population_distribution(map, list);
-	ft_print_movements(map, list);
+//	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }
 
