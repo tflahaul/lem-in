@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 00:52:29 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/16 01:25:00 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-
+#include <stdio.h>
 /*
 static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
 {
@@ -114,7 +114,7 @@ int						get_init_ants(t_map *map, t_stack *stacks)
 	}
 	ants = (map->population + total) / idx;
 	if (map->population % 2)
-		ants += 1
+		ants += 1;
 	return (ants);
 }
 
@@ -125,14 +125,15 @@ uint32_t				ft_population_distribution(t_map *map, t_stack *stacks)
 	uint32_t			steps;
 	uint32_t			tmpsize;
 
-	index = 2;
-	get_init_ants(map, stacks);
-	tmp = ft_compute_steps(map, stacks->next, 1);
-	while ((steps = ft_compute_steps(map, stacks->next, index++)) < tmp)
-		tmp = steps;
+//	index = 2;
+//	ants = get_init_ants(map, stacks);
+//	tmp = ft_compute_steps(map, stacks->next, 1);
+//	while ((steps = ft_compute_steps(map, stacks->next, index++)) < tmp)
+//		tmp = steps;
 	tmpsize = stacks->size;
 	ants = get_init_ants(map, stacks);
 	steps = ants + stacks->size - 1;
+	printf("%u = steps\n", steps);
 	while (LIKELY((stacks = stacks->next) != NULL))
 	{
 		diff = stacks->size - tmpsize;
