@@ -6,10 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 15:52:48 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 19:52:29 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 
 static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
@@ -26,6 +27,18 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 	}
 }
 
+static uint8_t		ft_isdirected(t_map *map, uint32_t dest, uint32_t source)
+{
+	t_edges			*ptr;
+
+	ptr = map->hashtab[dest]->adjc;
+	while (LIKELY(ptr != NULL) && ptr->key != source)
+		ptr = ptr->next;
+	if (ptr->way == CLOSED)
+		return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
+}
+
 /*
 **	Regarde la liste d'adjacence du maillon `node` et parcours toutes
 **	les listes d'adjacence des salles adjacentes à celui-ci pour savoir
@@ -36,27 +49,42 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 {
-	t_edges			*lst;
+	t_edges			*tmp;
 	t_queue			*head;
 
+	tmp = node;
 	head = *g->queue;
-	while (node != NULL)
+	while (tmp != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] != VISITED)
+		if (tmp->way == OPEN && g->visited[tmp->key] == UNVISITED)
 		{
-			lst = g->map->hashtab[node->key]->adjc;
-			while (lst != NULL)
+			if (ft_isdirected(g->map, key, tmp->key) == EXIT_FAILURE)
 			{
-				if (lst->key == key && lst->way == CLOSED)
-				{
-					g->visited[node->key] = VISITED;
-					g->map->hashtab[node->key]->prev = g->map->hashtab[key];
-					ft_queue_append(g->queue, node->key);
-				}
-				lst = lst->next;
+				g->visited[tmp->key] = VISITED;
+				g->map->hashtab[tmp->key]->prev = g->map->hashtab[key];
+				ft_queue_append(g->queue, tmp->key);
 			}
 		}
-		node = node->next;
+		tmp = tmp->next;
+	}
+	if (head != *g->queue)
+		return (EXIT_SUCCESS);
+	else
+	{
+		tmp = node;
+		while (tmp != NULL)
+		{
+			if (LIKELY(tmp->way == OPEN && g->visited[tmp->key] == VISITED))
+			{
+				if (ft_isdirected(g->map, key, tmp->key) == EXIT_SUCCESS)
+				{
+					g->visited[tmp->key] = SELECTED;
+					g->map->hashtab[tmp->key]->prev = g->map->hashtab[key];
+					ft_queue_append(g->queue, tmp->key);
+				}
+			}
+			tmp = tmp->next;
+		}
 	}
 	return (head != *g->queue ? EXIT_SUCCESS : EXIT_FAILURE);
 }
@@ -77,9 +105,9 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 	t_queue			*queue;
 
 	queue = NULL;
-	vstd[map->start_index] = VISITED;
 	graph.map = map;
 	graph.queue = &queue;
+	vstd[map->start_index] = VISITED;
 	graph.visited = vstd;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)

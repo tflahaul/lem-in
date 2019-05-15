@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/14 18:22:15 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 17:22:30 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 enum
 {
-	UNVISITED = 0,
+	UNVISITED,
 	VISITED,
 	SELECTED
 };
@@ -34,6 +34,7 @@ int                     	nbr_optimum_paths(t_map *map, t_stack *stacks);
 void						ft_make_directed(t_map *map);
 void						ft_update_graph(t_map *map, t_stack *lst);
 void						ft_update_visited_array(t_stack *s, uint8_t *v);
-uint16_t					ft_population_distribution(t_map *map, t_stack *s);
+uint32_t					ft_population_distribution(t_map *map, t_stack *s);
+uint64_t					ft_abs(int64_t nb);
 
 #endif

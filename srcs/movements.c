@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/14 12:05:12 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 19:45:07 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
-static inline void			ft_print_single_ant(uint16_t nb, const char *name)
+static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 {
 	ft_putchar('L');
 	ft_putnbr_light(nb);
@@ -25,9 +25,19 @@ static inline void			ft_print_single_ant(uint16_t nb, const char *name)
 
 static inline void			ft_print_stack(t_map *map, t_queue *queue)
 {
+	uint32_t				tmp;
+
+	tmp = map->visual >= COLORS ? (queue->ant | map->visual) : queue->ant;
 	while ((queue = queue->next) != NULL)
+	{
 		if (queue->ant && queue->ant <= map->population)
-			ft_print_single_ant(queue->ant, map->hashtab[queue->key]->name);
+		{
+			if (map->visual >= COLORS)
+				ft_print_colored_ant(tmp, map->hashtab[queue->key]->name);
+			else
+				ft_print_single_ant(tmp, map->hashtab[queue->key]->name);
+		}
+	}
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/26 17:53:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 18:03:35 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int						main(int argc, char **argv)
 	if (ft_initialize_hashtable(&map) != EXIT_SUCCESS)
 		return (EXIT_FAILURE);
 	if (argc > 1 && !(ft_strcmp("-v", argv[1])))
-		map.visual = 1;
+		map.visual |= VISUAL;
 	if (ft_read_std_input(&map) == EXIT_SUCCESS)
 		ft_algorithm(&map);
 	ft_free_hashtable(map.hashtab);
