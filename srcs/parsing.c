@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/14 11:59:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 20:29:34 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+static void				ft_parse_command_lines(t_map *map, char const *buffer)
+{
+	if (ft_strcmp(buffer, "##start") == 0)
+		map->entry_point = 1;
+	else if (ft_strcmp(buffer, "##end") == 0)
+		map->entry_point = 2;
+	else if (ft_strncmp(buffer, "##color=", 8) == 0)
+		if (buffer[8] - '0' < 8 && buffer[9] == 0)
+			map->visual |= ((buffer[8] - '0') << 0x10u);
+}
+
 static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 {
 	register uint16_t	index;
@@ -23,7 +34,7 @@ static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 	index = 0;
 	while (buffer[index])
 	{
-		if (UNLIKELY(map->population >> 0x10U))
+		if (UNLIKELY(map->population >> 0x10u))
 			return (ft_puterror(buffer, OUTDOMAIN));
 		if (UNLIKELY(ft_isdigit(buffer[index]) == 0))
 			return (ft_puterror(buffer, BADINPUT));
@@ -64,8 +75,8 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 		return (ft_puterror(NULL, EMPTYLINE));
 	if (buffer[0] == '#')
 	{
-		if (!ft_strcmp(buffer, "##start") || !ft_strcmp(buffer, "##end"))
-			map->entry_point = buffer[2] == 's' ? 1 : 2;
+		if (buffer[1] == '#')
+			ft_parse_command_lines(map, buffer);
 		ft_putstr_endl(buffer);
 	}
 	else if (UNLIKELY(index == 0))
@@ -95,7 +106,7 @@ uint8_t					ft_read_std_input(t_map *map)
 		return (EXIT_FAILURE);
 	else if (!S_ISREG(informations.st_mode) && !S_ISFIFO(informations.st_mode))
 		if (isatty(STDIN_FILENO) == 0)
-			return (printf("lem-in: %s\n", INVALIDFMT));
+			return (ft_printf("lem-in: %s\n", INVALIDFMT));
 	while (get_next_line_stdin(&buffer) > 0)
 	{
 		if (ft_parse_buffer(map, buffer) == EXIT_FAILURE)
@@ -104,7 +115,7 @@ uint8_t					ft_read_std_input(t_map *map)
 	}
 	free((void *)buffer);
 	if (UNLIKELY(map->vertices < 2))
-		return (printf("lem-in: %s\n", TOOSMALLFARM));
+		return (ft_printf("lem-in: %s\n", TOOSMALLFARM));
 	map->start_edges = MIN(map->start_edges, map->end_edges);
 	return (EXIT_SUCCESS);
 }

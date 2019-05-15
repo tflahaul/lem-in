@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 19:16:40 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 00:49:49 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ uint8_t				ft_parse_edges(t_map *map, char const *buffer)
 	}
 	else
 		return (ft_puterror(buffer, UNKCOMM));
-	if (map->visual)
-		if (append_to_file(EDGES, buffer) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 14:07:17 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/16 00:49:28 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
 		return (ft_variadic_memory_freeing(1, (void *)name));
 	if (UNLIKELY(ft_coordinate(buffer + index + 1) == EXIT_FAILURE))
 		return (ft_puterror(buffer, BADINPUT));
-	if (map->visual)
-		if (append_to_file(VERTICES, buffer) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 	ft_putstr_endl(buffer);
 	return (EXIT_SUCCESS);

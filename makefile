@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/14 21:52:05 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/15 19:53:14 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ endif
 SRC 		= 	main						parsing						\
 				parsing_vertices			memory						\
 				errors						parsing_edges				\
-				print_hashtable				connection_list				\
+				tools						connection_list				\
 				hash						queue						\
 				stacks						algorithm					\
 				movements					breadth_first_search		\

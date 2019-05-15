@@ -6,14 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/10 17:06:01 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 20:29:11 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
-# include <stdio.h>
 # include "../libft/libft.h"
 # include <lem_in_visual.h>
 
@@ -21,14 +20,15 @@
 
 # define MIN(x, y)		(x < y ? x : y)
 
-# undef OPEN
-# define OPEN			1
+# define VISUAL			0x00000001u
+# define COLORS			0x00010000u
 
-# undef REMOVED
-# define REMOVED		0
-
-# undef CLOSED
-# define CLOSED			-1
+enum
+{
+	CLOSED = -1,
+	REMOVED = 0,
+	OPEN = 1
+};
 
 typedef struct			s_edges
 {
@@ -45,12 +45,6 @@ typedef struct			s_vertices
 	struct s_vertices	*prev;
 }						t_vertices;
 
-typedef struct			s_overlap
-{
-	uint64_t			prev_key;
-	uint64_t			next_key;
-}						t_overlap;
-
 typedef struct			s_map
 {
 	uint32_t			start_index;
@@ -60,8 +54,7 @@ typedef struct			s_map
 	uint32_t			end_edges;
 	uint32_t			vertices;
 	uint32_t			entry_point;
-	uint32_t			superposition;
-	uint64_t			visual;
+	uint32_t			visual;
 	struct s_vertices	*hashtab[MAX_VERTICES];
 }						t_map;
 
@@ -79,7 +72,7 @@ void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
 uint8_t					ft_initialize_hashtable(t_map *map);
 
 /*
-**	link_list
+**	Linked lists
 */
 uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 
@@ -89,10 +82,12 @@ uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 void					ft_algorithm(t_map *map);
 uint8_t					ft_simple_bfs(t_map *map, uint8_t *v);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v);
+uint64_t				ft_abs(int64_t nb);
 
 /*
-**  Visualization
+**	Visualization
 */
+void					ft_print_colored_ant(uint32_t nb, char const *name);
 uint8_t					append_to_file(char const *file, char const *s);
 
 #endif

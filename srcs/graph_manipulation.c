@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/09 15:15:11 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 21:05:23 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ void					ft_make_directed(t_map *map)
 		while (ptr != NULL)
 		{
 			if (ptr->key == key)
+			{
 				ptr->way = CLOSED;
+				break ;
+			}
 			ptr = ptr->next;
 		}
 		key = node->key;

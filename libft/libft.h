@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/08 17:03:20 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 20:23:36 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # define BUFF_SIZE	2048
 
+int					ft_printf(char const *arg, ...);
 int					ft_isaligned(void *p);
 int					ft_isblank(int c);
 int					ft_isdigit(int c);
