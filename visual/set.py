@@ -3,24 +3,6 @@ from graph import graph
 import subprocess 
 import os
 
-def read_edges(G):
-    with open('edges.txt', 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            line = line.split('-')
-            e = (tuple((line[0], line[1].strip('\n'))))
-            G.add_edge(*e)
-
-def read_vertices(G):
-    with open('vertices.txt', 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            data = line.split(' ')
-            name = data[0]
-            x = int(data[1])
-            y = int(data[2].strip('\n'))
-            G.node[name]['pos'] = (x, y)
-
 def read_data():
     data = {}
     with open('data.txt', 'r') as f:
@@ -29,6 +11,7 @@ def read_data():
         data['vertices'] = int(lines[1].strip('\n'))
         data['start'] = lines[2].strip('\n')
         data['end'] = lines[3].strip('\n')
+        data['init'] = int(lines[4].strip('\n'))
     return (data)
 
 def read_paths():
@@ -44,18 +27,25 @@ def read_paths():
                 lst = []
     return (paths)
                 
-def read_output(lines):
+def read_output(lines, G):
     for line in lines:
         if (line):
             if ('\033' in line[0]):
                 raise Exception('Invalid Map')
+            if (line.startswith(('#', 'L')) == False):
+                if (line.find(' ') != -1):
+                    data = line.split(' ')
+                    name = data[0]
+                    x = int(data[1])
+                    y = int(data[2])
+                    G.add_node(name, pos=(x, y))
+                elif (line.find('-') != -1):
+                    e = line.split('-')
+                    e = (tuple((e[0], e[1])))
+                    G.add_edge(*e)
             print (line)
 
 def clear_files():
-    if os.path.exists('vertices.txt'):
-        os.remove('vertices.txt')
-    if os.path.exists('edges.txt'):
-        os.remove('edges.txt')
     if os.path.exists('paths.txt'):
         os.remove('paths.txt')
     if os.path.exists('data.txt'):
@@ -63,15 +53,15 @@ def clear_files():
 
 if __name__ == '__main__':
     clear_files()
+    if (os.path.exists('../lem-in') == False):
+        subprocess.call('make -C ..', shell=True)
     cmd = '../lem-in -v'
     p = subprocess.check_output(cmd, shell=True)
     output = p.decode("utf-8")
     lines = output.split('\n')
     try:
-        read_output(lines)
         G = nx.Graph()
-        read_edges(G)
-        read_vertices(G)
+        read_output(lines, G)
         data = read_data()
         paths = read_paths()
         graph(G, paths, data)    

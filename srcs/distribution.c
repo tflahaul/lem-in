@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 02:45:12 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/15 21:14:56 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,17 +114,21 @@ int						get_init_ants(t_map *map, t_stack *stacks)
 	size = stacks->size;
 	while ((tmp=tmp->next))	
 	{
-		printf("%llu = tmp->size\n", tmp->size);
+//		printf("%llu = tmp->size\n", tmp->size);
 		total += tmp->size - size;
 		idx++;
 	}
-	printf("map->pop = %u\n", map->population);
-	printf("%d = idx\n", idx);
-	printf("%d = total\n", total);
+//	printf("map->pop = %u\n", map->population);
+//	printf("%d = idx\n", idx);
+//	printf("%d = total\n", total);
 	ants = (map->population + total) / idx;
-	printf("%d = ants\n", ants + 1);
-	printf("%llu = steps\n", ants + stacks->size - 1);
-	return (1);
+	if (map->population % 2)
+		ants += 1;
+	if (map->visual != 0)
+		append_to_file(DATA, ft_itoa(ants));
+//	printf("%d = ants\n", ants + 1);
+//	printf("%llu = steps\n", ants + stacks->size - 1);
+	return (ants);
 }
 
 uint16_t				ft_population_distribution(t_map *map, t_stack *stacks)
@@ -138,6 +142,6 @@ uint16_t				ft_population_distribution(t_map *map, t_stack *stacks)
 	tmp = ft_compute_steps(map, stacks->next, 1);
 	while ((steps = ft_compute_steps(map, stacks->next, index++)) < tmp)
 		tmp = steps;
-	printf("steps = %u\n", steps);
+//	printf("steps = %u\n", steps);
 	return (steps);
 }

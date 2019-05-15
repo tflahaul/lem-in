@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/14 23:17:10 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/15 20:26:17 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,30 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 **	utilisés pour la solution finale.
 */
 
-static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb)
+static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map)
 {
 	t_stack				*tmp;
 	t_stack				*node;
+	t_queue				*ptr;
 
 	tmp = *stacks;
-	printf("===LIST===\n");
-	while (tmp)
+	if (map->visual != 0)
 	{
-		printf("%lld = size\n", tmp->size);
-		tmp = tmp->next;
+		ptr = tmp->path;
+		while (ptr)
+		{
+			append_to_file(PATHS, map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		append_to_file(PATHS, "");
 	}
-	printf("===END===\n");
+//	printf("===LIST===\n");
+//	while (tmp)
+//	{
+//		printf("%lld = size\n", tmp->size);
+//		tmp = tmp->next;
+//	}
+//	printf("===END===\n");
 	if (nb == 1)
 		return (ft_free_stacks(&(*stacks)->next));
 	*stacks = ft_stack_pop(stacks);
@@ -83,9 +94,9 @@ void					ft_algorithm(t_map *map)
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
+	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list), map);
 	if (map->visual != 0 && write_paths_to_file(map, list) == EXIT_FAILURE)
 		return (ft_free_stacks(&list));
-	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list));
 	ft_population_distribution(map, list);
 //	ft_print_movements(map, list);
 	ft_free_stacks(&list);
