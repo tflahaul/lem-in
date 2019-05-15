@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/09 16:10:35 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 21:23:33 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static inline t_stack		*ft_allocate_stack_memory(void)
 {
 	t_stack					*head;
 
-	if ((head = (t_stack *)malloc(sizeof(t_stack))) == NULL)
+	if (UNLIKELY((head = (t_stack *)malloc(sizeof(t_stack))) == NULL))
 		return (NULL);
 	ft_memset(head, 0, sizeof(t_stack));
 	return (head);
@@ -69,7 +69,7 @@ static inline void			ft_fill_stack(t_map *map, t_stack **node)
 	while (path != NULL)
 	{
 		ft_queue_push(&(*node)->path, path->key);
-		if (LIKELY(path->key != map->start_index))
+		if (path->key != map->start_index)
 			++(*node)->size;
 		path = path->prev;
 	}
@@ -82,7 +82,7 @@ uint64_t					ft_push_path_to_stack(t_map *map, t_stack **stack)
 	uint64_t				length;
 
 	node = *stack;
-	if ((tmp = ft_allocate_stack_memory()) == NULL)
+	if (UNLIKELY((tmp = ft_allocate_stack_memory()) == NULL))
 		return (0);
 	if (node == NULL)
 	{

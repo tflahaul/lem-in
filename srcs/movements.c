@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 19:45:07 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 21:19:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,17 @@ static inline void			ft_print_stack(t_map *map, t_queue *queue)
 {
 	uint32_t				tmp;
 
-	tmp = map->visual >= COLORS ? (queue->ant | map->visual) : queue->ant;
 	while ((queue = queue->next) != NULL)
 	{
 		if (queue->ant && queue->ant <= map->population)
 		{
 			if (map->visual >= COLORS)
+			{
+				tmp = (queue->ant | map->visual);
 				ft_print_colored_ant(tmp, map->hashtab[queue->key]->name);
+			}
 			else
-				ft_print_single_ant(tmp, map->hashtab[queue->key]->name);
+				ft_print_single_ant(queue->ant, map->hashtab[queue->key]->name);
 		}
 	}
 }

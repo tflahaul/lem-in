@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 19:52:29 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/15 22:10:44 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 		node = node->next;
 	}
 }
-
+/*
 static uint8_t		ft_isdirected(t_map *map, uint32_t dest, uint32_t source)
 {
 	t_edges			*ptr;
@@ -38,7 +38,7 @@ static uint8_t		ft_isdirected(t_map *map, uint32_t dest, uint32_t source)
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }
-
+*/
 /*
 **	Regarde la liste d'adjacence du maillon `node` et parcours toutes
 **	les listes d'adjacence des salles adjacentes à celui-ci pour savoir
@@ -49,44 +49,29 @@ static uint8_t		ft_isdirected(t_map *map, uint32_t dest, uint32_t source)
 
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 {
-	t_edges			*tmp;
-	t_queue			*head;
+	t_edges*lst;
+	t_queue*head;
 
-	tmp = node;
-	head = *g->queue;
-	while (tmp != NULL)
+	head = *(g->queue);
+	while (node != NULL)
 	{
-		if (tmp->way == OPEN && g->visited[tmp->key] == UNVISITED)
+		if (node->way == OPEN && g->visited[node->key] != VISITED)
 		{
-			if (ft_isdirected(g->map, key, tmp->key) == EXIT_FAILURE)
+			lst = g->map->hashtab[node->key]->adjc;
+			while (lst != NULL)
 			{
-				g->visited[tmp->key] = VISITED;
-				g->map->hashtab[tmp->key]->prev = g->map->hashtab[key];
-				ft_queue_append(g->queue, tmp->key);
-			}
-		}
-		tmp = tmp->next;
-	}
-	if (head != *g->queue)
-		return (EXIT_SUCCESS);
-	else
-	{
-		tmp = node;
-		while (tmp != NULL)
-		{
-			if (LIKELY(tmp->way == OPEN && g->visited[tmp->key] == VISITED))
-			{
-				if (ft_isdirected(g->map, key, tmp->key) == EXIT_SUCCESS)
+				if (lst->key == key && lst->way == CLOSED)
 				{
-					g->visited[tmp->key] = SELECTED;
-					g->map->hashtab[tmp->key]->prev = g->map->hashtab[key];
-					ft_queue_append(g->queue, tmp->key);
+					g->visited[node->key] = VISITED;
+					g->map->hashtab[node->key]->prev = g->map->hashtab[key];
+					ft_queue_append(g->queue, node->key);
 				}
+				lst = lst->next;
 			}
-			tmp = tmp->next;
 		}
+		node = node->next;
 	}
-	return (head != *g->queue ? EXIT_SUCCESS : EXIT_FAILURE);
+	return (head != *(g->queue) ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 
 /*
