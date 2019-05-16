@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 01:24:58 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/16 14:39:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void				ft_parse_command_lines(t_map *map, char const *buffer)
 	else if (ft_strcmp(buffer, "##end") == 0)
 		map->entry_point = 2;
 	else if (ft_strncmp(buffer, "##color=", 8) == 0)
-		if (buffer[8] - '0' < 8 && buffer[9] == 0)
+		if (ft_isdigit(buffer[8]) && buffer[8] - '0' < 8 && buffer[9] == 0)
 			map->visual |= ((buffer[8] - '0') << 0x10u);
 }
 

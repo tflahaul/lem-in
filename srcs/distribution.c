@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 01:25:00 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/16 14:24:19 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ uint32_t				ft_population_distribution(t_map *map, t_stack *stacks)
 		diff = stacks->size - tmpsize;
 		if (diff > ants)
 			steps += ft_abs(steps - ((ants -= diff) + stacks->size - 1));
-		else if (ants > 0)
+		else if (LIKELY(ants > 0))
 			return (steps + ft_abs(steps - (ants + stacks->size - 1)));
 	}
 	return (steps);
