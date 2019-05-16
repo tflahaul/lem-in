@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 15:43:59 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 18:42:44 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 **	utilisés pour la solution finale.
 */
 
-static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map)
+static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
+												t_map *map)
 {
 	t_stack				*node;
 	t_stack				*tmp;
@@ -64,6 +65,20 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map
 	ft_free_stacks(&node);
 }
 
+#include <stdio.h>
+void					print_paths(t_map *map, t_stack *list)
+{
+	while (list != NULL) {
+		t_queue	*ptr = list->path;
+		printf("========\n");
+		while (ptr != NULL) {
+			printf("[%s]\n", map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		list = list->next;
+	}
+}
+
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
@@ -77,6 +92,7 @@ void					ft_algorithm(t_map *map)
 		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
+	print_paths(map, list);
 	ft_update_graph(map, list);
 	ft_free_stacks(&list->next);
 	ft_fast_bzero(visited, MAX_VERTICES);

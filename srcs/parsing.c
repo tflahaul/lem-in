@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 16:19:38 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 18:47:23 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,7 @@ uint8_t					ft_read_std_input(t_map *map)
 			return (ft_variadic_freeing(2, (void *)buffer, (void *)string));
 		free((void *)buffer);
 	}
-	free((void *)buffer);
-	free((void *)string);
+	ft_variadic_freeing(2, (void *)buffer, (void *)string);
 	if (UNLIKELY(map->vertices < 2))
 		return (ft_printf("lem-in: %s\n", TOOSMALLFARM));
 	map->start_edges = MIN(map->start_edges, map->end_edges);

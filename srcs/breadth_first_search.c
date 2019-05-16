@@ -6,12 +6,41 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 22:10:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 18:43:24 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
+#include <string.h>
+
+static uint8_t		ft_depth_first_search(t_map *map, uint8_t *visited,
+										uint32_t key)
+{
+	t_edges			*node;
+
+	node = map->hashtab[key]->adjc;
+	if (key == map->end_index)
+		return (EXIT_SUCCESS);
+	while (node != NULL)
+	{
+		if (visited[node->key] == UNVISITED && node->way == OPEN)
+		{
+			visited[node->key] = VISITED;
+			ft_depth_first_search(map, visited, node->key);
+		}
+		node = node->next;
+	}
+	return (EXIT_FAILURE);
+}
+
+static uint8_t		ft_indepth_exploration(t_graph *graph, uint32_t key)
+{
+	uint8_t			visited[MAX_VERTICES];
+
+	memcpy(visited, graph->visited, MAX_VERTICES); // !!
+	return (ft_depth_first_search(graph->map, visited, key));
+}
 
 static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 {
@@ -26,19 +55,7 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 		node = node->next;
 	}
 }
-/*
-static uint8_t		ft_isdirected(t_map *map, uint32_t dest, uint32_t source)
-{
-	t_edges			*ptr;
 
-	ptr = map->hashtab[dest]->adjc;
-	while (LIKELY(ptr != NULL) && ptr->key != source)
-		ptr = ptr->next;
-	if (ptr->way == CLOSED)
-		return (EXIT_SUCCESS);
-	return (EXIT_FAILURE);
-}
-*/
 /*
 **	Regarde la liste d'adjacence du maillon `node` et parcours toutes
 **	les listes d'adjacence des salles adjacentes à celui-ci pour savoir
@@ -55,16 +72,21 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 	head = *(g->queue);
 	while (node != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] != VISITED)
+		if (node->way == OPEN && g->visited[node->key] == UNVISITED)
 		{
 			lst = g->map->hashtab[node->key]->adjc;
 			while (lst != NULL)
 			{
 				if (lst->key == key && lst->way == CLOSED)
 				{
-					g->visited[node->key] = VISITED;
-					g->map->hashtab[node->key]->prev = g->map->hashtab[key];
-					ft_queue_append(g->queue, node->key);
+					if (ft_indepth_exploration(g, node->key) == EXIT_SUCCESS)
+					{
+						g->visited[node->key] = VISITED;
+						g->map->hashtab[node->key]->prev = g->map->hashtab[key];
+						ft_queue_append(g->queue, node->key);
+					}
+					else
+						return (EXIT_FAILURE);
 				}
 				lst = lst->next;
 			}
