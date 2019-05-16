@@ -6,12 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 16:43:41 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/16 19:06:26 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_algorithm.h>
-#include <stdio.h>
 
 /*
 **	Modifie le tableau `visited` pour bloquer les salles par lesquelles
@@ -65,6 +64,20 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map
 	ft_free_stacks(&node);
 }
 
+#include <stdio.h>
+void					print_paths(t_map *map, t_stack *list)
+{
+	while (list != NULL) {
+		t_queue	*ptr = list->path;
+		printf("========\n");
+		while (ptr != NULL) {
+			printf("[%s]\n", map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		list = list->next;
+	}
+}
+
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
@@ -78,6 +91,7 @@ void					ft_algorithm(t_map *map)
 		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
+	print_paths(map, list);
 	ft_update_graph(map, list);
 	ft_free_stacks(&list->next);
 	ft_fast_bzero(visited, MAX_VERTICES);

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 17:39:16 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/16 19:05:17 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ double					func(int ants, int paths, int path_len)
 	return ((double)ants / (double)paths + (path_len - 1));
 }
 
-int						nbr_optimum_paths(t_map *map, t_stack *stacks)
+uint32_t				nbr_optimum_paths(t_map *map, t_stack *stacks)
 {
 	double				a;
 	double				b;
-	int					cnt;
-	int					paths;
+	uint32_t			cnt;
+	uint32_t			paths;
 	uint64_t			prev;
 	t_stack				*tmp;
 
-	if (UNLIKELY(map->population == 1))
+	if (UNLIKELY(map->population < stacks->size - 1))
 		return (1);
 	tmp = stacks->next;
 	paths = 1;

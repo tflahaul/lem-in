@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/15 19:53:14 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/16 16:33:00 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,6 @@ HDR			=	include
 LIBDIR		=	libft
 SRCDIR 		=	srcs
 OBJDIR 		= 	obj
-LIBPRINTF	=	ft_printf
 
 ###### MAKE VARIABLES #####
 STDOUT		=	/dev/fd/1
@@ -36,16 +35,6 @@ CFLAGS 		= 	-Wall						\
 
 INC 		= 	-I $(HDR)
 CLIBFT		=	-L $(LIBDIR) -lft
-CPRINTF		=	-L $(LIBPRINTF) -lftprintf
-
-CDEBUG		=	-g -O0 -fsanitize=address
-COPTI		=	-O3
-
-ifeq '$(MODE)' 'opti'
-	CFLAGS	+=	$(COPTI)
-else ifeq '$(MODE)' 'debug'
-	CFLAGS	+=	$(CDEBUG)
-endif
 
 ######### SOURCES #########
 SRC 		= 	main						parsing						\
@@ -59,7 +48,6 @@ SRC 		= 	main						parsing						\
 				visual
 
 LIBFT		=	$(LIBDIR)/libft.a
-#PRINTF		=	$(LIBPRINTF)/libftprintf.a
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
 OBJ 		= 	$(patsubst %,$(OBJDIR)/%.o, $(SRC))
@@ -73,9 +61,9 @@ YELLOW		=	\033[1;33m
 ########## RULES ##########
 all				: $(NAME)
 
-$(NAME)			: $(LIBFT) $(PRINTF) $(OBJ)
+$(NAME)			: $(LIBFT) $(OBJ)
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
-	gcc $(CFLAGS) $(OBJ) -o $@ $(CLIBFT) #$(CPRINTF)
+	gcc $(CFLAGS) $(OBJ) -o $@ $(CLIBFT)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
 $(LIBFT)		: $(LIBDIR)/libft.h
@@ -83,16 +71,8 @@ $(LIBFT)		: $(LIBDIR)/libft.h
 	make -C $(LIBDIR)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
-#$(PRINTF)		: $(LIBPRINTF)/ft_printf.h
-#	printf "$(YELLOW)%-35s$(STD)" "Building $@... "
-#	make -C $(LIBPRINTF)
-#	echo "$(GREEN)DONE$(STD)"
-
 $(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h
 	@mkdir -p $(OBJDIR)
-ifneq '$(MODE)' ''
-	@printf "[%s]" $(MODE) > $(STDOUT)
-endif
 	@echo " > Compiling $<..." > $(STDOUT)
 	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
@@ -102,16 +82,14 @@ silent			:
 clean			:
 	/bin/rm -rf $(OBJDIR)
 	make clean -C $(LIBDIR)
-#	make clean -C $(LIBPRINTF)
 	echo "$(RED)Object files removed$(STD)" > $(STDOUT)
 
 fclean			: clean
 	/bin/rm -rf $(NAME)
 	make fclean -C $(LIBDIR)
-#	make fclean -C $(LIBPRINTF)
 	echo "$(RED)$(NAME) removed$(STD)" > $(STDOUT)
 
 re				: fclean all
 
-.phony			: all $(LIBFT) $(PRINTF) silent clean fclean re
-.SILENT			: $(NAME) $(LIBFT) $(PRINTF) clean fclean
+.phony			: all $(LIBFT) silent clean fclean re
+.SILENT			: $(NAME) $(LIBFT) clean fclean
