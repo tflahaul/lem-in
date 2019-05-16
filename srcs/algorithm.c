@@ -6,12 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 15:06:40 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 15:43:59 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_algorithm.h>
-#include <stdio.h>
 
 /*
 **	Modifie le tableau `visited` pour bloquer les salles par lesquelles
@@ -36,24 +35,25 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 **	utilisés pour la solution finale.
 */
 
-static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, __unused t_map *map)
+static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map)
 {
 	t_stack				*node;
 	t_stack				*tmp;
-//	t_queue				*ptr;
+	t_queue				*ptr;
 
-	// if (!!(map->visual & VISUAL))
-	// {
-	// 	ptr = (*stacks)->path;
-	// 	while (ptr != NULL)
-	// 	{
-	// 		append_to_file(PATHS, map->hashtab[ptr->key]->name);
-	// 		ptr = ptr->next;
-	// 	}
-	// 	append_to_file(PATHS, "");
-	// }
+	if (!!(map->visual & VISUAL))
+	{
+		ptr = (*stacks)->path;
+		while (ptr != NULL)
+		{
+			append_to_file(PATHS, map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		append_to_file(PATHS, "");
+	}
 	if (nb == 1)
 		return (ft_free_stacks(&(*stacks)->next));
+	*stacks = ft_stack_pop(stacks);
 	node = (*stacks)->next;
 	while (nb-- > 0 && node != NULL)
 	{

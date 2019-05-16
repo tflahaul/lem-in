@@ -25,7 +25,7 @@ SRCS	=	ft_isaligned.c	ft_isblank.c	ft_isdigit.c	ft_isprintable.c \
 			ft_strdup.c		ft_strndup.c	ft_strchr.c		ft_strsub.c		 \
 			ft_strcmp.c		ft_strncmp.c	ft_is32bits.c	ft_putnbr_light.c\
 			ft_printf.c		ft_putchar_fd.c	ft_putstr_fd.c	ft_putendl_fd.c	 \
-			ft_variadic_memory_freeing.c  get_next_line_stdin.c ft_itoa.c
+			ft_variadic_freeing.c  get_next_line_stdin.c ft_itoa.c
 
 OBJDIR	=	objs/
 
