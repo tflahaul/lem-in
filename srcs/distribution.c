@@ -6,57 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 14:24:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 17:39:16 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 #include <stdio.h>
-/*
-static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
-{
-	uint32_t			ants;
-	uint32_t			step;
-	uint32_t			ratio;
-	register uint16_t	index;
-
-	step = 0;
-	ratio = (double)map->population / (double)nb;
-	if (nb == 1)
-		return (map->population + ptr->size - 1);
-	else if (LIKELY((ptr = ptr->next) != NULL))
-	{
-		index = 0;
-		step = ratio + ptr->size - 1;
-		while (++index < (uint16_t)nb && LIKELY((ptr = ptr->next) != NULL))
-			step += ft_abs(step - (ratio + ptr->size - 1));
-	}
-	return (step);
-}
-
-static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
-{
-	uint32_t			ants;
-	uint32_t			diff;
-	uint32_t			steps;
-	uint32_t			tmpsize;
-
-	ants = (map->population >> 1) - nb;
-	tmpsize = ptr->size;
-	steps = ants + ptr->size - 1;
-	while ((ptr = ptr->next) != NULL)
-	{
-		diff = ft_abs(ptr->size - tmpsize);
-		tmpsize = ptr->size;
-		if (ants > diff)
-			steps += ft_abs(steps - ((ants -= diff) + ptr->size + 1));
-		else
-			return (steps + ft_abs(steps - (ants + ptr->size + 1)));
-	}
-	return (steps);
-}
-*/
 
 double					func(int ants, int paths, int path_len)
 {
@@ -115,32 +71,56 @@ int						get_init_ants(t_map *map, t_stack *stacks)
 	ants = (map->population + total) / idx;
 	if (map->population % 2)
 		ants += 1;
+	if (map->visual != 0)
+		append_to_file(DATA, ft_itoa(ants));
 	return (ants);
 }
 
 uint32_t				ft_population_distribution(t_map *map, t_stack *stacks)
 {
-	uint32_t			diff;
 	uint32_t			ants;
+	int					sum;
+	uint32_t			tmpant;
 	uint32_t			steps;
-	uint32_t			tmpsize;
+	t_stack				*tmp;
 
-//	index = 2;
-//	ants = get_init_ants(map, stacks);
-//	tmp = ft_compute_steps(map, stacks->next, 1);
-//	while ((steps = ft_compute_steps(map, stacks->next, index++)) < tmp)
-//		tmp = steps;
-	tmpsize = stacks->size;
+	sum = 0;
+	printf("%u = pop\n", map->population);
+//got to next path = path->ant = ants - diff size and init size
+	tmp = stacks;
 	ants = get_init_ants(map, stacks);
+	tmpant = map->population - ants;
+	steps = ants + tmp->size - 1;
+	printf("%d = ant\n", ants);
+	printf("%u = steps\n", steps);
+	printf("%llu = tmp->size\n", tmp->size);
+	tmp->ant = ants;
+	while ((tmp = tmp->next) != NULL && tmpant > 0)
+	{
+		tmp->ant = ants - (tmp->size - stacks->size);
+//		if (tmp->size == stacks->size && tmp == stacks->next && map->population % 2)
+//			tmp->ant -= 1;
+		printf("%d = tmpant\n", tmpant);
+//		if (tmpant - tmp->ant <= 0)
+//		{
+//			printf("%d = tmpant\n", tmpant);
+//			tmp->ant = tmpant;
+//		}
+		printf("%d = ant\n", tmp->ant);
+		printf("%llu = tmp->size\n", tmp->size);
+//		tmpant -= tmp->ant;			
+	}
+	if (tmp)
+		printf("%llu = tmp->size\n", tmp->size);
+	tmp = stacks;
+	while (tmp && tmp->size > 0)
+	{
+//		printf("%d = ant\n", tmp->ant);
+		sum += tmp->ant;
+		tmp = tmp->next;
+	}
+	printf("%d = sum\n", sum);
 	steps = ants + stacks->size - 1;
 	printf("%u = steps\n", steps);
-	while (LIKELY((stacks = stacks->next) != NULL))
-	{
-		diff = stacks->size - tmpsize;
-		if (diff > ants)
-			steps += ft_abs(steps - ((ants -= diff) + stacks->size - 1));
-		else if (LIKELY(ants > 0))
-			return (steps + ft_abs(steps - (ants + stacks->size - 1)));
-	}
-	return (steps);
+	return (1);
 }

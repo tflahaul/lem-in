@@ -45,6 +45,7 @@ def read_output(lines, G):
                     G.add_edge(*e)
             print (line)
 
+
 def clear_files():
     if os.path.exists('paths.txt'):
         os.remove('paths.txt')

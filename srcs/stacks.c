@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 21:23:33 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 16:01:13 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ inline t_stack				*ft_stack_pop(t_stack **head)
 	if (head == NULL || *head == NULL)
 		return (NULL);
 	node = (*head)->next;
+	ft_drain_queue(&(*head)->path);
 	free((void *)(*head));
 	*head = NULL;
 	return (node);
