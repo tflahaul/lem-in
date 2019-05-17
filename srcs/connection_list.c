@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:15:36 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/17 22:37:13 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 23:02:33 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,32 +26,37 @@ static t_edges		*make_node(uint32_t hashkey)
 	return (new);
 }
 
+uint8_t				key_idx(uint32_t h1, uint32_t h2, t_map *map, t_edges *new)
+{
+	t_edges			*tmp;
+
+	tmp = map->hashtab[h1]->adjc;
+	while (tmp != NULL)
+	{
+		if (UNLIKELY(tmp->key == h2))
+		{
+			free((void *)new);
+			return (ft_puterror(map->hashtab[h2]->name, DUPLINK));
+		}
+		if (!tmp->next)
+		{
+			tmp->next = new;
+			return (EXIT_SUCCESS);
+		}
+		tmp = tmp->next;
+	}
+	return (EXIT_SUCCESS);
+}
+
 uint8_t				add_connection(uint32_t hash1, uint32_t hash2, t_map *map)
 {
 	t_edges			*new;
-	t_edges			*tmp;
 
 	if (!(new = make_node(hash2)))
 		return (EXIT_FAILURE);
 	if (!map->hashtab[hash1]->adjc)
 		map->hashtab[hash1]->adjc = new;
 	else
-	{
-		tmp = map->hashtab[hash1]->adjc;
-		while (tmp != NULL)
-		{
-			if (UNLIKELY(tmp->key == hash2))
-			{
-				free((void *)new);
-				return (ft_puterror(map->hashtab[hash2]->name, DUPLINK));
-			}
-			if (!tmp->next)
-			{
-				tmp->next = new;
-				return (EXIT_SUCCESS);
-			}
-			tmp = tmp->next;
-		}
-	}
+		return ((key_idx(hash1, hash2, map, new)));
 	return (EXIT_SUCCESS);
 }

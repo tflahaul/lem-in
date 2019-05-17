@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:10:09 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:44:35 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static inline void			ft_print_stack(t_map *map, t_queue *queue)
 }
 
 /*
-**	Sends values of each 'queue' element one rung lower to mime movements of ants 
-**	through each room.
+**	Sends values of each 'queue' element one rung lower to mime
+**	movements of ants through each room.
 */
 
 static void					ft_update_stack(t_queue *queue, uint64_t size)
@@ -67,8 +67,8 @@ static void					ft_update_stack(t_queue *queue, uint64_t size)
 }
 
 /*
-** Attributes one ant on top of each stack/path. A Static variable is used to keep track
-** of the last ant sent.
+**	Attributes one ant on top of each stack/path. A Static variable
+**	is used to keep track of the last ant sent.
 */
 
 static inline void			ft_init_movements(t_stack *stack)

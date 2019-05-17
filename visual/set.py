@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:22 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/17 20:16:44 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/17 23:20:48 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,7 @@ if __name__ == '__main__':
         read_output(lines, G)
         data = read_data()
         paths = read_paths()
-        graph(G, paths, data)    
+        graph(G, paths, data)
+        clear_files()
     except Exception as e:
         print(e)

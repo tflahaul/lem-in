@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:35:37 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:47:56 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ static inline uint8_t	ft_get_funptr_index(char const *buffer)
 }
 
 /*
-** 	Analyzes returned 'buffer' string by get_next_line to find out if we're dealing with 
-** 	a room definition, a tube one or the total amount of ants. It then proceeds to the 
+** 	Analyzes returned 'buffer' string by get_next_line to find
+**	out if we're dealing with a room definition, a tube one
+**	or the total amount of ants. It then proceeds to the
 ** 	corresponding function.
 */
 
@@ -92,8 +93,9 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 }
 
 /*
-** Reads Standard Input. If file descriptor 0 is redirection (isatty == 0), the checks if redirection
-** is towards a regular file (S_ISREG) or of the pipe kind (S_ISFIFO).
+** 	Reads Standard Input. If file descriptor 0 is redirection (isatty == 0),
+**	checks if redirection is towards a regular file (S_ISREG)
+**	or of the pipe kind (S_ISFIFO).
 */
 
 uint8_t					ft_read_std_input(t_map *map)

@@ -6,7 +6,7 @@
 /*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:23:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/17 22:32:44 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:41:47 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ uint8_t		write_data(t_map *map)
 
 uint8_t		write_paths_to_file(t_map *map, t_stack *list)
 {
-	t_stack 	*tmp;
-	t_queue 	*ptr;
+	t_stack		*tmp;
+	t_queue		*ptr;
 	const char	*name;
 
 	tmp = list;

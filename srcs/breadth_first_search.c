@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:37:37 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:50:02 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static void			ft_regular_edges(t_graph *graph, t_edges *ptr, uint32_t key)
 }
 
 /*
-** Looks at the adjacency list of the 'node' item then goes through 
-** all respective adjacency lists of each element within that list. 
-** This is done to find directed edges. If found, those are added to the queue. 
-** Else, (head == g->queue) -> EXIT_FAILURE
+** 	Looks at the adjacency list of the 'node' item then goes through
+** 	all respective adjacency lists of each element within that list.
+**	This is done to find directed edges. If found, those are added to the queue.
+** 	Else, (head == g->queue) -> EXIT_FAILURE
 */
 
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_stack *ptr)
@@ -106,8 +106,9 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_sta
 }
 
 /*
-** Finds the shortest path while prioritizing fully directed edges. If a directed edge is found
-** we go through that path no matter what (unless vertex has already been 'visited')
+**	Finds the shortest path while prioritizing fully directed edges.
+**	If a directed edge is found we go through that path no matter what
+**	(unless vertex has already been 'visited')
 */
 
 uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd, void *ptr)

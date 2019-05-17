@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:18:26 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:42:12 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static uint8_t		ft_coordinate(char const *buffer)
 }
 
 /*
-**  Retrieves array index where to put the room's name then 
+**  Retrieves array index where to put the room's name then
 **  iterates until an empty spot is found (if needed).
 */
 
