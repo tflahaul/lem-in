@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 16:10:11 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 18:22:47 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int					nbr_optimum_paths(t_map *map, t_stack *stacks, int *path)
 	stacks->next->ant = var;
 	if (*path == 2 && var == sum)
 		stacks->next->ant -= 1;
-	return (*path);	
+	return (*path);
 }
 
 void				ants_sup(int population, int sum, t_stack *stacks)

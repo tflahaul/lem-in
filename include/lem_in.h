@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 17:28:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 17:55:38 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include <lem_in_visual.h>
 
 # define MAX_VERTICES	6000
-
-# define MIN(x, y)		(x < y ? x : y)
 
 # define VISUAL			0x00000001u
 # define COLORS			0x00010000u

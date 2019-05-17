@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 17:30:03 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 18:27:56 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,26 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 **	utilisés pour la solution finale.
 */
 
-static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map)
+static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
+												t_map *map)
 {
 	t_stack				*node;
 	t_stack				*tmp;
 	t_queue				*ptr;
 
-	 if (!!(map->visual & VISUAL))
-	 {
-	 	ptr = (*stacks)->path;
-	 	while (ptr != NULL)
-	 	{
-	 		append_to_file(PATHS, map->hashtab[ptr->key]->name);
-	 		ptr = ptr->next;
-	 	}
-	 	append_to_file(PATHS, "");
-	 }
+	if (!!(map->visual & VISUAL))
+	{
+		ptr = (*stacks)->path;
+		while (ptr != NULL)
+		{
+			append_to_file(PATHS, map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		append_to_file(PATHS, "");
+	}
 	if (nb == 1)
 		return ((void)ft_free_stacks(&(*stacks)->next));
-	*stacks = ft_stack_pop(stacks); 
+	*stacks = ft_stack_pop(stacks);
 	node = (*stacks)->next;
 	while (nb-- > 0 && node != NULL)
 	{
@@ -65,43 +66,6 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map
 	tmp->next = NULL;
 	ft_free_stacks(&node);
 }
-/*
-#include <stdio.h>
-void					print_paths(t_map *map, t_stack *list)
-{
-	while (list != NULL) {
-		t_queue	*ptr = list->path;
-		printf("========\n");
-		while (ptr != NULL) {
-			printf("[%s]\n", map->hashtab[ptr->key]->name);
-			ptr = ptr->next;
-		}
-		list = list->next;
-	}
-}
-
-void					print_graph(t_map *map)
-{
-	register uint16_t	index = 0;
-
-	printf("\n==============\n");
-	while (index < MAX_VERTICES)
-	{
-		if (map->hashtab[index]->name != NULL)
-		{
-			printf("%s -> ", map->hashtab[index]->name);
-			t_edges *ptr = map->hashtab[index]->adjc;
-			while (ptr != NULL)
-			{
-				printf("%s[%d] ", map->hashtab[ptr->key]->name, ptr->way);
-				ptr = ptr->next;
-			}
-			printf("\n");
-		}
-		index++;
-	}
-}
-*/
 
 uint8_t					ft_algorithm(t_map *map)
 {
@@ -125,7 +89,8 @@ uint8_t					ft_algorithm(t_map *map)
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_simple_bfs(map, visited) == EXIT_SUCCESS)
 	{
-		ft_push_path_to_stack(map, &list);
+		if (UNLIKELY(ft_push_path_to_stack(map, &list)) == EXIT_FAILURE)
+			ft_make_directed(map);
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
