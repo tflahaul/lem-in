@@ -6,14 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 06:52:02 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 16:07:44 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
-#include <stdio.h>
 
 static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 {
@@ -28,7 +27,7 @@ static inline void			ft_print_stack(t_map *map, t_queue *queue)
 {
 	uint32_t				tmp;
 
-	while ((queue = queue->next) != NULL)
+	while (queue != NULL && queue->key != map->start_index)
 	{
 		if (queue->ant && queue->ant <= map->population)
 		{
@@ -40,6 +39,7 @@ static inline void			ft_print_stack(t_map *map, t_queue *queue)
 			else
 				ft_print_single_ant(queue->ant, map->hashtab[queue->key]->name);
 		}
+		queue = queue->prev;
 	}
 }
 
@@ -78,7 +78,13 @@ static inline void			ft_init_movements(t_stack *stack)
 
 	while (stack != NULL)
 	{
-		stack->path->ant = ++ant;
+		if (stack->ant > 0)
+		{
+			stack->ant = stack->ant - 1;
+			stack->path->ant = ++ant;
+		}
+		else
+			stack->path->ant = 0;
 		stack = stack->next;
 	}
 }
@@ -92,14 +98,14 @@ void						ft_print_movements(t_map *map, t_stack *list)
 	uint32_t				length;
 	t_stack					*stacks;
 
-	length = list->ant + list->size - 1;
+	length = list->ant + list->size;
 	while (length-- > 0)
 	{
 		stacks = list;
 		ft_init_movements(stacks);
 		while (stacks != NULL)
 		{
-			ft_print_stack(map, stacks->path);
+			ft_print_stack(map, list_last_node(stacks->path));
 			ft_update_stack(stacks->path, stacks->size);
 			stacks = stacks->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 22:41:26 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 18:30:02 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <lem_in.h>
 # include <lem_in_queue.h>
 
-
 typedef struct				s_stack
 {
 	uint64_t				ant;
@@ -25,10 +24,11 @@ typedef struct				s_stack
 	struct s_stack			*next;
 }							t_stack;
 
-void						ft_free_stacks(t_stack **head);
 void						ft_print_movements(t_map *map, t_stack *list);
-uint8_t						write_paths_to_file(t_map *map,	t_stack *list);
-uint64_t					ft_push_path_to_stack(t_map *map, t_stack **stack);
+uint8_t						ft_free_stacks(t_stack **head);
+uint8_t						ft_path_checker(t_map *map, t_queue *node);
+uint8_t						write_paths_to_file(t_map *map, t_stack *list);
+uint32_t					ft_push_path_to_stack(t_map *map, t_stack **stack);
 uint64_t					ft_last_path_length(t_stack *list);
 uint64_t					ft_list_size(t_stack *list);
 t_stack						*ft_stack_pop(t_stack **head);

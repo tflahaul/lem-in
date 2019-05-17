@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 19:59:46 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:08:19 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 		node = node->next;
 	}
 }
-#include <stdio.h>
+
 static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 {
 	t_edges				*ptr;
@@ -49,16 +49,11 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 	{
 		if (node->key == key && node->way == CLOSED)
 		{
-			//		printf("here\n");
 			ptr = map->hashtab[key]->adjc;
 			while (ptr != NULL)
 			{
 				if (ptr->key == prevkey && ptr->way == CLOSED)
-				{
-//					printf("overlap %s && %s\n",map->hashtab[prevkey]->name, map->hashtab[key]->name);
-
 					return (EXIT_SUCCESS);
-				}
 				ptr = ptr->next;
 			}
 		}
@@ -100,7 +95,7 @@ inline void				ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 	{
 		node = stacks->path;
 		while ((node = node->next) != NULL)
-			vstd[node->key] = SELECTED;
+			vstd[node->key] = visited_node;
 		stacks = stacks->next;
 	}
 }

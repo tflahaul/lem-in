@@ -6,10 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 19:59:01 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:10:50 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <lem_in_bug.h>
+#include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 
 /*
@@ -26,7 +28,7 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 	{
 		ptr = node->path;
 		while ((ptr = ptr->next)->next != NULL)
-			visited[ptr->key] = VISITED;
+			visited[ptr->key] = visited_node;
 	}
 }
 
@@ -35,25 +37,26 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 **	utilisés pour la solution finale.
 */
 
-static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map)
+static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
+												t_map *map)
 {
 	t_stack				*node;
 	t_stack				*tmp;
 	t_queue				*ptr;
 
-	 if (!!(map->visual & VISUAL))
-	 {
-	 	ptr = (*stacks)->path;
-	 	while (ptr != NULL)
-	 	{
-	 		append_to_file(PATHS, map->hashtab[ptr->key]->name);
-	 		ptr = ptr->next;
-	 	}
-	 	append_to_file(PATHS, "");
-	 }
+	if (!!(map->visual & VISUAL))
+	{
+		ptr = (*stacks)->path;
+		while (ptr != NULL)
+		{
+			append_to_file(PATHS, map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		append_to_file(PATHS, "");
+	}
 	if (nb == 1)
-		return (ft_free_stacks(&(*stacks)->next));
-	*stacks = ft_stack_pop(stacks); 
+		return ((void)ft_free_stacks(&(*stacks)->next));
+	*stacks = ft_stack_pop(stacks);
 	node = (*stacks)->next;
 	while (nb-- > 0 && node != NULL)
 	{
@@ -64,23 +67,7 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map
 	ft_free_stacks(&node);
 }
 
-#include <stdio.h>
-void					print_paths(t_map *map, t_stack *list)
-{
-	while (list != NULL) {
-		t_queue	*ptr = list->path;
-		printf("========\n");
-		while (ptr != NULL) {
-			printf("[%s]\n", map->hashtab[ptr->key]->name);
-			ptr = ptr->next;
-		}
-		list = list->next;
-	}
-}
-
-/*path = 1, pour optimum_path, mettre ailleurs de preferance*/
-
-void					ft_algorithm(t_map *map)
+uint8_t					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
 	int					path;
@@ -95,19 +82,22 @@ void					ft_algorithm(t_map *map)
 		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
+	if (UNLIKELY(list == NULL))
+		return (ft_printf("lem-in: %s\n", DEADEND));
 	ft_update_graph(map, list);
 	ft_free_stacks(&list->next);
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_simple_bfs(map, visited) == EXIT_SUCCESS)
 	{
-		ft_push_path_to_stack(map, &list);
+		if (UNLIKELY(ft_push_path_to_stack(map, &list)) == EXIT_FAILURE)
+			ft_make_directed(map);
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list, &path), map);
 	ft_population_distribution(map, list);
 	ft_print_movements(map, list);
-	ft_free_stacks(&list);
+	return (ft_free_stacks(&list));
 }
 
 inline uint64_t			ft_last_path_length(t_stack *list)

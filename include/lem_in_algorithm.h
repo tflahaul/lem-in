@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 06:34:58 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 19:45:40 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,24 @@
 # include <lem_in.h>
 # include <lem_in_stacks.h>
 
-enum
+enum					e_visitedarray
 {
-	UNVISITED,
-	VISITED,
-	SELECTED
+	unvisited_node,
+	visited_node
 };
 
-typedef struct				s_graph
+typedef struct			s_graph
 {
-	struct s_map			*map;
-	struct s_queue			**queue;
-	uint8_t					*visited;
-}							t_graph;
+	struct s_map		*map;
+	struct s_queue		**queue;
+	uint8_t				*visited;
+}						t_graph;
 
-void						ft_make_directed(t_map *map);
-void						ft_update_graph(t_map *map, t_stack *lst);
-void						ft_update_visited_array(t_stack *s, uint8_t *v);
-uint32_t					ft_population_distribution(t_map *map, t_stack *s);
-int							nbr_optimum_paths(t_map *map, t_stack *stacks, int *path);
-uint64_t					ft_abs(int64_t nb);
+void					ft_make_directed(t_map *map);
+void					ft_update_graph(t_map *map, t_stack *lst);
+void					ft_update_visited_array(t_stack *s, uint8_t *v);
+void					ft_population_distribution(t_map *map, t_stack *s);
+int						nbr_optimum_paths(t_map *map, t_stack *stacks, int *p);
+uint64_t				ft_abs(int64_t nb);
 
 #endif

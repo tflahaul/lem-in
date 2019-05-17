@@ -6,16 +6,19 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:19:26 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 00:30:45 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 18:22:14 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdint.h>
 #include <lem_in_stacks.h>
 
-inline uint64_t				ft_abs(int64_t nb)
+inline t_queue				*list_last_node(t_queue *head)
 {
-	return ((nb < 0) ? -nb : nb);
+	if (head != NULL)
+		while (head->next != NULL)
+			head = head->next;
+	return (head);
 }
 
 uint64_t					ft_list_size(t_stack *list)
@@ -26,6 +29,13 @@ uint64_t					ft_list_size(t_stack *list)
 	while (list != NULL && ++length)
 		list = list->next;
 	return (length);
+}
+
+inline uint8_t				ft_path_checker(t_map *map, t_queue *node)
+{
+	if (node->key == map->start_index && node->next->key == map->end_index)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 inline void					ft_print_colored_ant(uint32_t nb, char const *name)

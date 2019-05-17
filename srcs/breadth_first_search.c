@@ -6,51 +6,20 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 19:59:19 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:10:18 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-#include <string.h>
-#include <stdio.h>
-/*
-static uint8_t		ft_depth_first_search(t_map *map, uint8_t *visited,
-										uint32_t key)
-{
-	t_edges			*node;
-
-	node = map->hashtab[key]->adjc;
-	if (key == map->end_index)
-		return (EXIT_SUCCESS);
-	while (node != NULL)
-	{
-		if (visited[node->key] == UNVISITED && node->way == OPEN)
-		{
-			visited[node->key] = VISITED;
-			ft_depth_first_search(map, visited, node->key);
-		}
-		node = node->next;
-	}
-	return (EXIT_FAILURE);
-}
-
-static uint8_t		ft_indepth_exploration(t_graph *graph, uint32_t key)
-{
-	uint8_t			visited[MAX_VERTICES];
-	
-	printf("here\n");
-	memcpy(visited, graph->visited, MAX_VERTICES); // !!
-	return (ft_depth_first_search(graph->map, visited, key));
-}*/
 
 static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 {
 	while (node != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] != VISITED)
+		if (node->way == OPEN && g->visited[node->key] == unvisited_node)
 		{
-			g->visited[node->key] = VISITED;
+			g->visited[node->key] = visited_node;
 			g->map->hashtab[node->key]->prev = g->map->hashtab[key];
 			ft_queue_append(g->queue, node->key);
 		}
@@ -64,39 +33,34 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 **	si certaines des connexions sont dirigées. Les connexions dirigées
 **	sont ajoutées à la file.
 **	Si aucune n'est dirigée (head == g->queue) -> EXIT_FAILURE
-
+*/
 
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 {
-	t_edges*lst;
-	t_queue*head;
+	t_edges			*list;
+	t_queue			*head;
 
 	head = *(g->queue);
 	while (node != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] == UNVISITED)
+		if (node->way == OPEN && g->visited[node->key] == unvisited_node)
 		{
-			lst = g->map->hashtab[node->key]->adjc;
-			while (lst != NULL)
+			list = g->map->hashtab[node->key]->adjc;
+			while (list != NULL)
 			{
-				if (lst->key == key && lst->way == CLOSED)
+				if (list->key == key && list->way == CLOSED)
 				{
-					if (ft_indepth_exploration(g, node->key) == EXIT_SUCCESS)
-					{
-						g->visited[node->key] = VISITED;
-						g->map->hashtab[node->key]->prev = g->map->hashtab[key];
-						ft_queue_append(g->queue, node->key);
-					}
-					else
-						return (EXIT_FAILURE);
+					g->visited[node->key] = visited_node;
+					g->map->hashtab[node->key]->prev = g->map->hashtab[key];
+					ft_queue_append(g->queue, node->key);
 				}
-				lst = lst->next;
+				list = list->next;
 			}
 		}
 		node = node->next;
 	}
 	return (head != *(g->queue) ? EXIT_SUCCESS : EXIT_FAILURE);
-}*/
+}
 
 /*
 **	Trouve le chemin le plus court en priorisant totalement les connexions
@@ -116,7 +80,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 	queue = NULL;
 	graph.map = map;
 	graph.queue = &queue;
-	vstd[map->start_index] = VISITED;
+	vstd[map->start_index] = visited_node;
 	graph.visited = vstd;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)
@@ -126,7 +90,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 			return (ft_drain_queue(&queue));
 		queue = ft_queue_pop(&queue);
 		node = map->hashtab[key]->adjc;
-	//	if (ft_directed_edges(&graph, node, key) == EXIT_FAILURE)
+		if (ft_directed_edges(&graph, node, key) == EXIT_FAILURE)
 			ft_regular_edges(&graph, node, key);
 	}
 	return (EXIT_FAILURE);
@@ -144,7 +108,7 @@ uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
 	t_queue			*queue;
 
 	queue = NULL;
-	visited[map->start_index] = VISITED;
+	visited[map->start_index] = visited_node;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)
 	{

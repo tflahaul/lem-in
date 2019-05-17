@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 22:25:43 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 17:55:38 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include <lem_in_visual.h>
 
 # define MAX_VERTICES	6000
-
-# define MIN(x, y)		(x < y ? x : y)
 
 # define VISUAL			0x00000001u
 # define COLORS			0x00010000u
@@ -79,7 +77,7 @@ uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 /*
 **	Algorithm
 */
-void					ft_algorithm(t_map *map);
+uint8_t					ft_algorithm(t_map *map);
 uint8_t					ft_simple_bfs(t_map *map, uint8_t *v);
 uint8_t					ft_breadth_first_search(t_map *map, uint8_t *v);
 uint64_t				ft_abs(int64_t nb);
