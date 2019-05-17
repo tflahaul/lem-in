@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:04:19 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:35:55 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ uint8_t					ft_initialize_hashtable(t_map *map)
 
 	idx = 0;
 	if (UNLIKELY(MAX_VERTICES > UINT16_MAX))
-		return (ft_printf("lem-in: %s\n", EMAXVERT));
+		return (ft_printf(C_RED"lem-in: %s\n"C_NONE, EMAXVERT));
 	while (idx < MAX_VERTICES)
 	{
 		if (!(map->hashtab[idx] = (t_vertices *)malloc(sizeof(t_vertices))))

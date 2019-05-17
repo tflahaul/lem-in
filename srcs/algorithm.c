@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 20:51:48 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:38:16 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,43 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
 	ft_free_stacks(&node);
 }
 
+#include <stdio.h>
+void					print_paths(t_map *map, t_stack *list)
+{
+	printf("\n============\n");
+	while (list != NULL)
+	{
+		t_queue *ptr = list->path;
+		while (ptr != NULL)
+		{
+			printf("%s\n", map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		list = list->next;
+	}
+}
+
+void					print_graph(t_map *map)
+{
+	register uint16_t	index = 0;
+
+	while (index < MAX_VERTICES)
+	{
+		if (map->hashtab[index]->name != NULL)
+		{
+			printf("%s\t", map->hashtab[index]->name);
+			t_edges *ptr = map->hashtab[index]->adjc;
+			while (ptr != NULL)
+			{
+				printf("  -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
+				ptr = ptr->next;
+			}
+			printf("\n");
+		}
+		index++;
+	}
+}
+
 uint8_t					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
@@ -74,14 +111,15 @@ uint8_t					ft_algorithm(t_map *map)
 	list = NULL;
 	path = 1;
 	ft_fast_bzero(visited, MAX_VERTICES);
-	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
+	while (ft_breadth_first_search(map, visited, list) == EXIT_SUCCESS)
 	{
 		ft_push_path_to_stack(map, &list);
 		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
+//	print_graph(map);
 	if (UNLIKELY(list == NULL))
-		return (ft_printf("lem-in: %s\n", DEADEND));
+		return (ft_printf(C_RED"lem-in: %s\n"C_NONE, DEADEND));
 	ft_update_graph(map, list);
 	ft_free_stacks(&list->next);
 	ft_fast_bzero(visited, MAX_VERTICES);
@@ -92,6 +130,8 @@ uint8_t					ft_algorithm(t_map *map)
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
+//	print_paths(map, list);
+//	return (ft_free_stacks(&list));
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list, &path), map);
 	ft_population_distribution(map, list);
 	ft_print_movements(map, list);

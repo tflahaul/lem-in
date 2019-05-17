@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:03:59 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:36:18 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 	{
 		if (node->key == key)
 		{
-			node->way = OPEN;
+			node->way = open_way;
 			break ;
 		}
 		node = node->next;
@@ -32,7 +32,7 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 	{
 		if (node->key == prevkey)
 		{
-			node->way = OPEN;
+			node->way = open_way;
 			break ;
 		}
 		node = node->next;
@@ -47,12 +47,12 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 	node = map->hashtab[prevkey]->adjc;
 	while (node != NULL)
 	{
-		if (node->key == key && node->way == CLOSED)
+		if (node->key == key && node->way == closed_way)
 		{
 			ptr = map->hashtab[key]->adjc;
 			while (ptr != NULL)
 			{
-				if (ptr->key == prevkey && ptr->way == CLOSED)
+				if (ptr->key == prevkey && ptr->way == closed_way)
 					return (EXIT_SUCCESS);
 				ptr = ptr->next;
 			}
@@ -66,14 +66,14 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 ** Makes all directed edges undirected, unless an overlap is found.
 */
 
-inline void				ft_update_graph(t_map *map, t_stack *lst)
+inline void				ft_update_graph(t_map *map, t_stack *list)
 {
 	t_queue				*node;
 	uint32_t			hashkey;
 
-	while (lst != NULL)
+	while (list != NULL)
 	{
-		node = lst->path;
+		node = list->path;
 		hashkey = node->key;
 		while ((node = node->next) != NULL)
 		{
@@ -81,7 +81,7 @@ inline void				ft_update_graph(t_map *map, t_stack *lst)
 				ft_open_path(map, hashkey, node->key);
 			hashkey = node->key;
 		}
-		lst = lst->next;
+		list = list->next;
 	}
 }
 
@@ -94,11 +94,11 @@ inline void				ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 	{
 		node = stacks->path;
 		while ((node = node->next) != NULL)
-			vstd[node->key] = visited_node;
+			vstd[node->key] = selected_way;
 		stacks = stacks->next;
 	}
 }
-
+#include <stdio.h>
 void					ft_make_directed(t_map *map)
 {
 	uint32_t			key;
@@ -109,14 +109,13 @@ void					ft_make_directed(t_map *map)
 	node = map->hashtab[map->end_index];
 	while (node != NULL)
 	{
+		printf("000\n");
 		ptr = node->adjc;
 		while (ptr != NULL)
 		{
+			printf("111\n");
 			if (ptr->key == key)
-			{
-				ptr->way = CLOSED;
-				break ;
-			}
+				ptr->way = closed_way;
 			ptr = ptr->next;
 		}
 		key = node->key;

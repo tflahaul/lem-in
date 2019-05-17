@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:15:40 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 22:35:37 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ uint8_t					ft_read_std_input(t_map *map)
 		return (EXIT_FAILURE);
 	else if (!S_ISREG(informations.st_mode) && !S_ISFIFO(informations.st_mode))
 		if (isatty(STDIN_FILENO) == 0)
-			return (ft_printf("lem-in: %s\n", INVALIDFMT));
+			return (ft_printf(C_RED"lem-in: %s\n"C_NONE, INVALIDFMT));
 	while (get_next_line_stdin(&string, &buffer) > 0)
 	{
 		if (ft_parse_buffer(map, buffer) == EXIT_FAILURE)
@@ -115,7 +115,7 @@ uint8_t					ft_read_std_input(t_map *map)
 	}
 	ft_variadic_freeing(2, (void *)buffer, (void *)string);
 	if (UNLIKELY(map->vertices < 2))
-		return (ft_printf("lem-in: %s\n", TOOSMALLFARM));
+		return (ft_printf(C_RED"lem-in: %s\n"C_NONE, TOOSMALLFARM));
 	map->start_edges = (uint32_t)ft_min(map->start_edges, map->end_edges);
 	return (EXIT_SUCCESS);
 }
