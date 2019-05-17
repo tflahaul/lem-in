@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 16:43:31 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 06:52:02 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ void						ft_print_movements(t_map *map, t_stack *list)
 	uint32_t				length;
 	t_stack					*stacks;
 
-	length = (map->population / ft_list_size(list)) + ft_last_path_length(list);
-	length = (map->population % 2) ? length + 1 : length;
+	length = list->ant + list->size - 1;
 	while (length-- > 0)
 	{
 		stacks = list;

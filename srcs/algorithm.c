@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 05:12:16 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 06:51:58 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void					print_paths(t_map *map, t_stack *list)
 	}
 }
 
+/*path = 1, pour optimum_path, mettre ailleurs de preferance*/
+
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
@@ -106,6 +108,7 @@ void					ft_algorithm(t_map *map)
 	if (map->visual & VISUAL && write_paths_to_file(map, list) == EXIT_FAILURE)
 		return (ft_free_stacks(&list));
 	ft_population_distribution(map, list);
+	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }
 
