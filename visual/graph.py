@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    graph.py                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
+#    Updated: 2019/05/17 20:17:15 by abrunet          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation

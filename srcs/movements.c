@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 16:07:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 21:10:09 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static inline void			ft_print_stack(t_map *map, t_queue *queue)
 }
 
 /*
-**	Effectue une rotation vers le bas des valeurs (uniquement) de la stack
-**	`queue` pour simuler le mouvement des fourmis à travers les salles.
+**	Sends values of each 'queue' element one rung lower to mime movements of ants 
+**	through each room.
 */
 
 static void					ft_update_stack(t_queue *queue, uint64_t size)
@@ -67,9 +67,8 @@ static void					ft_update_stack(t_queue *queue, uint64_t size)
 }
 
 /*
-**	Affecte une fourmie en haut de chaque stack/chemin. On utilise une
-**	variable statique pour ne pas perdre le numéro de la dernière fourmie
-**	envoyée.
+** Attributes one ant on top of each stack/path. A Static variable is used to keep track
+** of the last ant sent.
 */
 
 static inline void			ft_init_movements(t_stack *stack)
@@ -90,7 +89,7 @@ static inline void			ft_init_movements(t_stack *stack)
 }
 
 /*
-**	Fonction principale pour l'affichage du déplacement des fourmis.
+** Function used to display ants' movements
 */
 
 void						ft_print_movements(t_map *map, t_stack *list)

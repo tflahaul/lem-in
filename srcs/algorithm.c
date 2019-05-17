@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 20:10:50 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:51:48 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 #include <lem_in_algorithm.h>
 
 /*
-**	Modifie le tableau `visited` pour bloquer les salles par lesquelles
-**	le BFS est déjà passé. Fonction utilisée uniquement après avoir géré
-**	les superpositions, au moment où l'on cherche des chemins distincts.
+** Update 'visited' tab to indicate nodes through which the BFS algorithm have gone
+** Function only used after overlaps have been handled, when looking for distinct paths
 */
 
 static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
@@ -33,8 +32,7 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 }
 
 /*
-**	Supprime les stacks qui correspondent aux chemins qui ne seront pas
-**	utilisés pour la solution finale.
+** Delete stacks that are not needed for ants distribution
 */
 
 static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
