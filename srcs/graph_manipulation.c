@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:33:14 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 22:52:22 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ inline void				ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 		stacks = stacks->next;
 	}
 }
-#include <stdio.h>
+
 void					ft_make_directed(t_map *map)
 {
 	uint32_t			key;
@@ -110,11 +110,9 @@ void					ft_make_directed(t_map *map)
 	node = map->hashtab[map->end_index];
 	while (node != NULL)
 	{
-		printf("000\n");
 		ptr = node->adjc;
 		while (ptr != NULL)
 		{
-			printf("111\n");
 			if (ptr->key == key)
 				ptr->way = closed_way;
 			ptr = ptr->next;

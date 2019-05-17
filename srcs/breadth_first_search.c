@@ -6,11 +6,27 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:32:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 23:50:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_algorithm.h>
+#include <stdio.h>
+
+void					print_paths(t_map *map, t_stack *list)
+{
+	printf("\n============\n");
+	while (list != NULL)
+	{
+		t_queue *ptr = list->path;
+		while (ptr != NULL)
+		{
+			printf("%s\n", map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
+		}
+		list = list->next;
+	}
+}
 
 static uint8_t		ft_explore_child(t_map *map, uint8_t visited[MAX_VERTICES], uint32_t key, t_stack *list)
 {
@@ -19,12 +35,13 @@ static uint8_t		ft_explore_child(t_map *map, uint8_t visited[MAX_VERTICES], uint
 
 	if (key == map->end_index)
 	{
-		ft_make_directed(map);
 		ft_push_path_to_stack(map, &list);
+//		print_paths(map, list);
+		ft_make_directed(map);
 		return (EXIT_SUCCESS);
 	}
-	visited[key] = visited_node;
 	node = map->hashtab[key]->adjc;
+	visited[key] = visited_node;
 	while (node != NULL)
 	{
 		ptr = map->hashtab[node->key]->adjc;
@@ -43,13 +60,14 @@ static uint8_t		ft_explore_child(t_map *map, uint8_t visited[MAX_VERTICES], uint
 	return (EXIT_FAILURE);
 }
 
-static uint8_t		ft_depth_first_search(t_graph **g, uint32_t key, uint32_t dest, t_stack *list)
+static uint8_t		ft_depth_first_search(t_graph *g, uint32_t key, uint32_t dest, t_stack *list)
 {
 	uint8_t			visited[MAX_VERTICES];
 
-	ft_memcpy(visited, (*g)->visited, MAX_VERTICES);
+	ft_memcpy(visited, g->visited, MAX_VERTICES);
 	visited[key] = unvisited_node;
-	if (ft_explore_child(*(*g)->map, visited, dest, list) == EXIT_SUCCESS)
+//	(*g->map)->hashtab[dest]->prev = (*g->map)->hashtab[key];
+	if (ft_explore_child(*g->map, visited, dest, list) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }
@@ -91,12 +109,9 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_sta
 			{
 				if (list->key == key && list->way == closed_way)
 				{
-					if (ft_depth_first_search(&g, key, node->key, ptr) == EXIT_SUCCESS)
-					{
-						g->visited[node->key] = visited_node;
-						(*g->map)->hashtab[node->key]->prev = (*g->map)->hashtab[key];
-						ft_queue_append(g->queue, node->key);
-					}
+	//				(*g->map)->hashtab[node->key]->prev = (*g->map)->hashtab[key];
+					if (ft_depth_first_search(g, key, node->key, ptr) == EXIT_SUCCESS)
+						return (EXIT_SUCCESS);
 				}
 				list = list->next;
 			}
