@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 05:12:27 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 05:41:45 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int					nbr_optimum_paths(t_map *map, t_stack *stacks, int *path)
 		var = sum;
 	}
 	stacks->next->ant = var;
+	if (*path == 2 && var == sum)
+		stacks->next->ant -= 1;
 	return (*path);	
 }
 
@@ -85,7 +87,7 @@ void					ants_to_path(uint32_t ants, int *sum, int pop, t_stack *stacks)
 	{
 		if ((tmp = ants - (lst->size - stacks->size)) > 0)
 		{
-			if (stacks->next == lst && lst->size == stacks->size)
+			if (stacks->next == lst && lst->size == stacks->size && pop % 2)
 				tmp -= 1;
 			lst->ant = tmp;
 			*sum += tmp;
@@ -101,6 +103,7 @@ uint32_t				ft_population_distribution(t_map *map, t_stack *stacks)
 
 	printf("%u = pop\n", map->population);
 	ants = stacks->ant;
+	printf("%u = ants\n", ants);
 	sum = ants;
 	if (stacks->next)
 	{
