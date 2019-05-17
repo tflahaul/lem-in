@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 19:06:26 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 05:12:16 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,11 @@ void					print_paths(t_map *map, t_stack *list)
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
+	int					path;
 	uint8_t				visited[MAX_VERTICES];
 
 	list = NULL;
+	path = 1;
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
@@ -91,7 +93,6 @@ void					ft_algorithm(t_map *map)
 		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
-	print_paths(map, list);
 	ft_update_graph(map, list);
 	ft_free_stacks(&list->next);
 	ft_fast_bzero(visited, MAX_VERTICES);
@@ -101,11 +102,10 @@ void					ft_algorithm(t_map *map)
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
-	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list), map);
+	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list, &path), map);
 	if (map->visual & VISUAL && write_paths_to_file(map, list) == EXIT_FAILURE)
 		return (ft_free_stacks(&list));
 	ft_population_distribution(map, list);
-//	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }
 

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 19:05:17 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 05:12:27 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,113 +14,100 @@
 #include <lem_in_algorithm.h>
 #include <stdio.h>
 
-double					func(int ants, int paths, int path_len)
+
+int						func2(int pop, int diff, int paths)
 {
-	return ((double)ants / (double)paths + (path_len - 1));
+	return ((pop + diff) / paths + 1);
 }
 
-uint32_t				nbr_optimum_paths(t_map *map, t_stack *stacks)
+int					nbr_optimum_paths(t_map *map, t_stack *stacks, int *path)
 {
-	double				a;
-	double				b;
-	uint32_t			cnt;
-	uint32_t			paths;
-	uint64_t			prev;
+	int					size;
+	int					sum;
+	int					var;
+	int					diff;
 	t_stack				*tmp;
 
-	if (UNLIKELY(map->population < stacks->size - 1))
-		return (1);
+	var = map->population;
+	size = stacks->size;
 	tmp = stacks->next;
-	paths = 1;
-	cnt = 0;
-	a = func(map->population, paths, stacks->size);
-	prev = stacks->size;
-	while ((tmp = tmp->next) != NULL)
+	diff = 0;
+	while ((tmp = tmp->next))
 	{
-		if (prev != tmp->size)
+		diff += tmp->size - size;
+		sum = func2(map->population, diff, ++(*path));
+		if (sum > var)
 		{
-			b = func(map->population, ++paths, tmp->size);
-			if (a < b)
-				return (paths + cnt);
-			a = b;
+			stacks->next->ant = var;
+			return ((*path -= 1));
+		}
+		var = sum;
+	}
+	stacks->next->ant = var;
+	return (*path);	
+}
+
+void					ants_sup(int population, int sum, t_stack *stacks)
+{
+	int					diff;
+	t_stack				*tmp;
+
+	while (sum > population)
+	{
+		tmp = stacks;
+		while (tmp->next && tmp->next->ant > 0)
+			tmp = tmp->next;
+		diff = sum - population;
+		if (((int)tmp->ant - diff) < 0)
+		{
+			sum -= tmp->ant;
+			diff = ft_abs(tmp->ant - diff);
+			tmp->ant = 0;
 		}
 		else
-			cnt++;
-		prev = tmp->size;
+		{
+			tmp->ant -= diff;
+			sum -= diff;
+		}
 	}
-	return (paths + cnt);
+	return ;
 }
 
-int						get_init_ants(t_map *map, t_stack *stacks)
+void					ants_to_path(uint32_t ants, int *sum, int pop, t_stack *stacks)
 {
-	t_stack				*tmp;
-	int					total;
-	int					size;
-	int					ants;
-	int					idx;
+	int 	tmp;
+	t_stack	*lst;
 
-	total = 0;
-	tmp = stacks;
-	idx = 1;
-	size = stacks->size;
-	while ((tmp = tmp->next) != NULL)
+	tmp = ants;
+	lst = stacks;
+	lst->ant = ants;
+	while ((lst = lst->next) != NULL && tmp > 0 && *sum <= pop)
 	{
-		total += tmp->size - size;
-		idx++;
+		if ((tmp = ants - (lst->size - stacks->size)) > 0)
+		{
+			if (stacks->next == lst && lst->size == stacks->size)
+				tmp -= 1;
+			lst->ant = tmp;
+			*sum += tmp;
+		}
 	}
-	ants = (map->population + total) / idx;
-	if (map->population % 2)
-		ants += 1;
-	if (map->visual != 0)
-		append_to_file(DATA, ft_itoa(ants));
-	return (ants);
+	return ;
 }
 
 uint32_t				ft_population_distribution(t_map *map, t_stack *stacks)
 {
-	uint32_t			ants;
 	int					sum;
-	uint32_t			tmpant;
-	uint32_t			steps;
-	t_stack				*tmp;
+	uint32_t			ants;
 
-	sum = 0;
 	printf("%u = pop\n", map->population);
-//got to next path = path->ant = ants - diff size and init size
-	tmp = stacks;
-	ants = get_init_ants(map, stacks);
-	tmpant = map->population - ants;
-	steps = ants + tmp->size - 1;
-	printf("%d = ant\n", ants);
-	printf("%u = steps\n", steps);
-	printf("%llu = tmp->size\n", tmp->size);
-	tmp->ant = ants;
-	while ((tmp = tmp->next) != NULL && tmpant > 0)
+	ants = stacks->ant;
+	sum = ants;
+	if (stacks->next)
 	{
-		tmp->ant = ants - (tmp->size - stacks->size);
-//		if (tmp->size == stacks->size && tmp == stacks->next && map->population % 2)
-//			tmp->ant -= 1;
-		printf("%d = tmpant\n", tmpant);
-//		if (tmpant - tmp->ant <= 0)
-//		{
-//			printf("%d = tmpant\n", tmpant);
-//			tmp->ant = tmpant;
-//		}
-		printf("%d = ant\n", tmp->ant);
-		printf("%llu = tmp->size\n", tmp->size);
-//		tmpant -= tmp->ant;			
+		ants_to_path(ants, &sum, map->population, stacks);
+		ants_sup(map->population, sum, stacks);
 	}
-	if (tmp)
-		printf("%llu = tmp->size\n", tmp->size);
-	tmp = stacks;
-	while (tmp && tmp->size > 0)
-	{
-//		printf("%d = ant\n", tmp->ant);
-		sum += tmp->ant;
-		tmp = tmp->next;
-	}
-	printf("%d = sum\n", sum);
-	steps = ants + stacks->size - 1;
-	printf("%u = steps\n", steps);
+	//add visual
+	printf("%llu = ants && steps = %llu\n", stacks->ant, stacks->ant + stacks->size - 1);
 	return (1);
 }

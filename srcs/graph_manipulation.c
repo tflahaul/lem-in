@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 21:05:23 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 22:25:21 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 		node = node->next;
 	}
 }
-
+#include <stdio.h>
 static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 {
 	t_edges				*ptr;
@@ -49,11 +49,16 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 	{
 		if (node->key == key && node->way == CLOSED)
 		{
+			//		printf("here\n");
 			ptr = map->hashtab[key]->adjc;
 			while (ptr != NULL)
 			{
 				if (ptr->key == prevkey && ptr->way == CLOSED)
+				{
+					printf("overlap %s && %s\n",map->hashtab[prevkey]->name, map->hashtab[key]->name);
+
 					return (EXIT_SUCCESS);
+				}
 				ptr = ptr->next;
 			}
 		}
