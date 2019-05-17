@@ -6,7 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/05/17 22:52:22 by thflahau         ###   ########.fr       */
+=======
+/*   Updated: 2019/05/17 22:47:10 by abrunet          ###   ########.fr       */
+>>>>>>> hash
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +67,7 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 }
 
 /*
-**	Nettoie toutes les connexions du graph, sauf celles pour lesquelles deux
-**	chemins se superposent.
+** Makes all directed edges undirected, unless an overlap is found.
 */
 
 inline void				ft_update_graph(t_map *map, t_stack *list)

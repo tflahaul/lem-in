@@ -6,7 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/05/17 23:50:13 by thflahau         ###   ########.fr       */
+=======
+/*   Updated: 2019/05/17 22:50:02 by abrunet          ###   ########.fr       */
+>>>>>>> hash
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +91,10 @@ static void			ft_regular_edges(t_graph *graph, t_edges *ptr, uint32_t key)
 }
 
 /*
-**	Regarde la liste d'adjacence du maillon `node` et parcours toutes
-**	les listes d'adjacence des salles adjacentes à celui-ci pour savoir
-**	si certaines des connexions sont dirigées. Les connexions dirigées
-**	sont ajoutées à la file.
-**	Si aucune n'est dirigée (head == g->queue) -> EXIT_FAILURE
+** 	Looks at the adjacency list of the 'node' item then goes through
+** 	all respective adjacency lists of each element within that list.
+**	This is done to find directed edges. If found, those are added to the queue.
+** 	Else, (head == g->queue) -> EXIT_FAILURE
 */
 
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_stack *ptr)
@@ -122,11 +125,9 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_sta
 }
 
 /*
-**	Trouve le chemin le plus court en priorisant totalement les connexions
-**	dirigées: si une connexion dirigée est trouvée lors de la recherche, on
-**	prend cette direction quoi qu'il arrive (sauf si le vertice a déjà été
-**	visité). Puis plus de retour en arrière même si le chemin final est
-**	bloquant.
+**	Finds the shortest path while prioritizing fully directed edges.
+**	If a directed edge is found we go through that path no matter what
+**	(unless vertex has already been 'visited')
 */
 
 uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd, void *ptr)
@@ -156,8 +157,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd, void *ptr)
 }
 
 /*
-**	BFS de base, pas de hiérarchisation de l'importance des salles à
-**	visiter.
+** Basic BFS algorithm, no prioritizing of vertices to visit.
 */
 
 uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)

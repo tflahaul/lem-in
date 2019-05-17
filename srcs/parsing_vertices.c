@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 16:23:39 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 22:42:12 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static uint8_t		ft_coordinate(char const *buffer)
 }
 
 /*
-**	Récupère l'index de la table où placer le nom de la salle et itère
-**	jusqu'à trouver un emplacement vide (si besoin).
+**  Retrieves array index where to put the room's name then
+**  iterates until an empty spot is found (if needed).
 */
 
 static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
@@ -67,7 +67,7 @@ static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 }
 
 /*
-**	Vérification assez générale du bon formattage de la définition des salles.
+** Initial check of room definition.
 */
 
 uint8_t				ft_parse_vertices(t_map *map, char const *buffer)

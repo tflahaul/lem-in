@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 20:12:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 22:47:56 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ static inline uint8_t	ft_get_funptr_index(char const *buffer)
 }
 
 /*
-**	Analize la chaine 'buffer' retournée par get_next_line afin de savoir si
-**	on a affaire à une définition de salle, de tube ou du nombre de fourmis
-**	avant de dispatcher à la fonction correspondante.
+** 	Analyzes returned 'buffer' string by get_next_line to find
+**	out if we're dealing with a room definition, a tube one
+**	or the total amount of ants. It then proceeds to the
+** 	corresponding function.
 */
 
 static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
@@ -92,9 +93,9 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 }
 
 /*
-**	Lecture de l'entrée std. Si le file descriptor 0 correspond à une
-**	redirection (isatty == 0) -> vérifie que le fichier redirigé soit bien
-**	de type régulier (S_ISREG) ou pipe (S_ISFIFO).
+** 	Reads Standard Input. If file descriptor 0 is redirection (isatty == 0),
+**	checks if redirection is towards a regular file (S_ISREG)
+**	or of the pipe kind (S_ISFIFO).
 */
 
 uint8_t					ft_read_std_input(t_map *map)
