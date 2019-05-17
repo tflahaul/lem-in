@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 15:01:49 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 15:07:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <lem_in_algorithm.h>
 #include <string.h>
 #include <stdio.h>
-/*
+
 static uint8_t		ft_depth_first_search(t_map *map, uint8_t *visited,
 										uint32_t key)
 {
@@ -41,7 +41,7 @@ static uint8_t		ft_indepth_exploration(t_graph *graph, uint32_t key)
 
 	ft_memcpy(visited, graph->visited, MAX_VERTICES);
 	return (ft_depth_first_search(graph->map, visited, key));
-}*/
+}
 
 static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 {
@@ -93,7 +93,7 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 		node = node->next;
 	}
 	return (head != *(g->queue) ? EXIT_SUCCESS : EXIT_FAILURE);
-}*/
+}
 
 /*
 **	Trouve le chemin le plus court en priorisant totalement les connexions
@@ -123,7 +123,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 			return (ft_drain_queue(&queue));
 		queue = ft_queue_pop(&queue);
 		node = map->hashtab[key]->adjc;
-	//	if (ft_directed_edges(&graph, node, key) == EXIT_FAILURE)
+		if (ft_directed_edges(&graph, node, key) == EXIT_FAILURE)
 			ft_regular_edges(&graph, node, key);
 	}
 	return (EXIT_FAILURE);

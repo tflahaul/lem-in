@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 15:00:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 15:06:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void					ft_algorithm(t_map *map)
 //				printf("visited [%s]\n", map->hashtab[i]->name);
 	}
 //	print_paths(map, list);
-	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list), map);
+	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list, &path), map);
 	if (map->visual & VISUAL && write_paths_to_file(map, list) == EXIT_FAILURE)
 		return (ft_free_stacks(&list));
 	ft_population_distribution(map, list);

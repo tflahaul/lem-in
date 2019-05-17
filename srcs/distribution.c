@@ -6,21 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 15:01:26 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 15:08:10 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-
-/*
-static uint32_t			ft_compute_steps(t_map *map, t_stack *ptr, uint32_t nb)
-{
-	uint32_t			ants;
-	uint32_t			step;
-	uint32_t			ratio;
-	register uint16_t	index;
-
 
 int						func2(int pop, int diff, int paths)
 {
@@ -103,6 +94,7 @@ void					ants_to_path(uint32_t ants, int *sum, int pop, t_stack *stacks)
 	return ;
 }
 
+#include <stdio.h>
 uint32_t				ft_population_distribution(t_map *map, t_stack *stacks)
 {
 	int					sum;
