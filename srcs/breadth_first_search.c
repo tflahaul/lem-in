@@ -6,14 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 15:07:27 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 16:37:20 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 #include <string.h>
-#include <stdio.h>
 
 static uint8_t		ft_depth_first_search(t_map *map, uint8_t *visited,
 										uint32_t key)
@@ -64,7 +63,7 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 **	sont ajoutées à la file.
 **	Si aucune n'est dirigée (head == g->queue) -> EXIT_FAILURE
 */
-#include <stdio.h>
+
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 {
 	t_edges			*list;
@@ -152,7 +151,7 @@ uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
 		v = map->hashtab[key]->adjc;
 		while (v != NULL)
 		{
-			if (v->way == OPEN && !visited[v->key] && (visited[v->key] = 1))
+			if (v->way == OPEN && visited[v->key] == UNVISITED && (visited[v->key] = VISITED))
 			{
 				map->hashtab[v->key]->prev = map->hashtab[key];
 				ft_queue_append(&queue, v->key);

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 19:04:53 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 16:27:15 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static inline uint8_t	ft_get_funptr_index(char const *buffer)
 {
 	uint32_t			index;
 
-	if (LIKELY((index = ft_word_count(buffer)) > 0))
+	if (LIKELY((index = ft_word_count(buffer)) > 0 && index < 4))
 		return (index - 1);
 	return (0);
 }
@@ -71,7 +71,7 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	funptr[0] = &ft_parse_ants;
 	funptr[1] = &ft_parse_edges;
 	funptr[2] = &ft_parse_vertices;
-	if (UNLIKELY(!buffer || !buffer[0]))
+	if (UNLIKELY(buffer == NULL || !buffer[0]))
 		return (ft_puterror(NULL, EMPTYLINE));
 	if (buffer[0] == '#')
 	{

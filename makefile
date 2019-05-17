@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/16 16:33:00 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/17 17:23:15 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ CFLAGS 		= 	-Wall						\
 				-Wextra						\
 				-Werror						\
 				-Wpadded					\
-				-std=c99
+				-std=c99					\
+				-g
 
 INC 		= 	-I $(HDR)
 CLIBFT		=	-L $(LIBDIR) -lft

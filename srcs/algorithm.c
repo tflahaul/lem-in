@@ -6,10 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 15:06:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 17:30:03 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <lem_in_bug.h>
+#include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 
 /*
@@ -52,7 +54,7 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map
 	 	append_to_file(PATHS, "");
 	 }
 	if (nb == 1)
-		return (ft_free_stacks(&(*stacks)->next));
+		return ((void)ft_free_stacks(&(*stacks)->next));
 	*stacks = ft_stack_pop(stacks); 
 	node = (*stacks)->next;
 	while (nb-- > 0 && node != NULL)
@@ -100,7 +102,8 @@ void					print_graph(t_map *map)
 	}
 }
 */
-void					ft_algorithm(t_map *map)
+
+uint8_t					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
 	int					path;
@@ -115,6 +118,8 @@ void					ft_algorithm(t_map *map)
 		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
+	if (UNLIKELY(list == NULL))
+		return (ft_printf("lem-in: %s\n", DEADEND));
 	ft_update_graph(map, list);
 	ft_free_stacks(&list->next);
 	ft_fast_bzero(visited, MAX_VERTICES);
@@ -123,17 +128,13 @@ void					ft_algorithm(t_map *map)
 		ft_push_path_to_stack(map, &list);
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
-//		for (int i = 0; i < MAX_VERTICES; ++i)
-//			if (visited[i] == VISITED)
-//				printf("visited [%s]\n", map->hashtab[i]->name);
 	}
-//	print_paths(map, list);
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list, &path), map);
 	if (map->visual & VISUAL && write_paths_to_file(map, list) == EXIT_FAILURE)
 		return (ft_free_stacks(&list));
 	ft_population_distribution(map, list);
 	ft_print_movements(map, list);
-	ft_free_stacks(&list);
+	return (ft_free_stacks(&list));
 }
 
 inline uint64_t			ft_last_path_length(t_stack *list)

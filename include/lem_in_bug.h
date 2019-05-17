@@ -6,12 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/04/28 09:18:30 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 17:29:37 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_BUG_H
 # define LEM_IN_BUG_H
+
+# include <stdint.h>
 
 /*
 **	Codes couleur pour l'affichage des erreurs
