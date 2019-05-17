@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 18:28:30 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 19:45:40 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <lem_in.h>
 # include <lem_in_stacks.h>
 
-enum
+enum					e_visitedarray
 {
-	UNVISITED,
-	VISITED
+	unvisited_node,
+	visited_node
 };
 
 typedef struct			s_graph

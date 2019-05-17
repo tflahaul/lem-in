@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 18:27:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 19:45:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 	{
 		ptr = node->path;
 		while ((ptr = ptr->next)->next != NULL)
-			visited[ptr->key] = VISITED;
+			visited[ptr->key] = visited_node;
 	}
 }
 

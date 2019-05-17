@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 18:02:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 19:50:37 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ inline void				ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 	{
 		node = stacks->path;
 		while ((node = node->next) != NULL)
-			vstd[node->key] = VISITED;
+			vstd[node->key] = visited_node;
 		stacks = stacks->next;
 	}
 }

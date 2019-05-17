@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 18:23:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 19:47:06 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 {
 	while (node != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] != VISITED)
+		if (node->way == OPEN && g->visited[node->key] == unvisited_node)
 		{
-			g->visited[node->key] = VISITED;
+			g->visited[node->key] = visited_node;
 			g->map->hashtab[node->key]->prev = g->map->hashtab[key];
 			ft_queue_append(g->queue, node->key);
 		}
@@ -43,14 +43,14 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 	head = *(g->queue);
 	while (node != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] != VISITED)
+		if (node->way == OPEN && g->visited[node->key] == unvisited_node)
 		{
 			list = g->map->hashtab[node->key]->adjc;
 			while (list != NULL)
 			{
 				if (list->key == key && list->way == CLOSED)
 				{
-					g->visited[node->key] = VISITED;
+					g->visited[node->key] = visited_node;
 					g->map->hashtab[node->key]->prev = g->map->hashtab[key];
 					ft_queue_append(g->queue, node->key);
 				}
@@ -80,7 +80,7 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd)
 	queue = NULL;
 	graph.map = map;
 	graph.queue = &queue;
-	vstd[map->start_index] = VISITED;
+	vstd[map->start_index] = visited_node;
 	graph.visited = vstd;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)
@@ -108,7 +108,7 @@ uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
 	t_queue			*queue;
 
 	queue = NULL;
-	visited[map->start_index] = VISITED;
+	visited[map->start_index] = visited_node;
 	ft_queue_push(&queue, map->start_index);
 	while (queue != NULL)
 	{
