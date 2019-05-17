@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 14:54:17 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 15:00:56 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,25 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 **	utilisés pour la solution finale.
 */
 
-static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
-												t_map *map)
+static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb, t_map *map)
 {
 	t_stack				*node;
 	t_stack				*tmp;
 	t_queue				*ptr;
 
-	if (!!(map->visual & VISUAL))
-	{
-		ptr = (*stacks)->path;
-		while (ptr != NULL)
-		{
-			append_to_file(PATHS, map->hashtab[ptr->key]->name);
-			ptr = ptr->next;
-		}
-		append_to_file(PATHS, "");
-	}
+	 if (!!(map->visual & VISUAL))
+	 {
+	 	ptr = (*stacks)->path;
+	 	while (ptr != NULL)
+	 	{
+	 		append_to_file(PATHS, map->hashtab[ptr->key]->name);
+	 		ptr = ptr->next;
+	 	}
+	 	append_to_file(PATHS, "");
+	 }
 	if (nb == 1)
 		return (ft_free_stacks(&(*stacks)->next));
-	*stacks = ft_stack_pop(stacks);
+	*stacks = ft_stack_pop(stacks); 
 	node = (*stacks)->next;
 	while (nb-- > 0 && node != NULL)
 	{
@@ -104,9 +103,11 @@ void					print_graph(t_map *map)
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
+	int					path;
 	uint8_t				visited[MAX_VERTICES];
 
 	list = NULL;
+	path = 1;
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
@@ -130,7 +131,7 @@ void					ft_algorithm(t_map *map)
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list), map);
 	if (map->visual & VISUAL && write_paths_to_file(map, list) == EXIT_FAILURE)
 		return (ft_free_stacks(&list));
-//	ft_population_distribution(map, list);
+	ft_population_distribution(map, list);
 	ft_print_movements(map, list);
 	ft_free_stacks(&list);
 }

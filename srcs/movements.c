@@ -6,13 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 14:57:07 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 15:01:00 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
+#include <stdio.h>
 
 static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 {
@@ -92,7 +93,7 @@ void						ft_print_movements(t_map *map, t_stack *list)
 	uint32_t				length;
 	t_stack					*stacks;
 
-	length = (map->population / ft_list_size(list)) + ft_last_path_length(list);
+	length = list->ant + list->size - 1;
 	while (length-- > 0)
 	{
 		stacks = list;

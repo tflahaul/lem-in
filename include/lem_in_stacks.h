@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 17:27:41 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/16 22:41:26 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include <lem_in.h>
 # include <lem_in_queue.h>
 
+
 typedef struct				s_stack
 {
+	uint64_t				ant;
 	uint64_t				size;
 	struct s_queue			*path;
 	struct s_stack			*next;
