@@ -27,42 +27,23 @@ def get_options(G, vertices, ax):
     }
     return (options)
 
-def get_ants_per_path(paths, init):
+def get_ants_per_path():
     dic = {}
-    _del_ = []
-    for i in range(len(paths)):
-        if (i > 0):
-            if (i == 1):
-                dic[i] = init - 1
-                length = len(paths[i])
-                prev_size = length
-            else:
-                size = len(paths[i])
-
-                if (prev_size != size):
-                    dic[i] = init - (size - prev_size) - 1
-                else:
-                    if (prev_ant == init - 1 and prev_ant % 2 != 0):
-                        dic[i] = prev_ant - 1
-                    else:
-                        dic[i] = prev_ant
-                size = prev_size
-            prev_ant = dic[i]
-            if (dic[i] <= 0):
-                _del_.append(i)
-    for i in range(len(_del_)):
-        del dic[_del_[i]]
-        paths.pop(_del_[i]) 
-    return (dic, paths)
-
+    i = 1
+    with open('ants.txt', 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            dic[i] = int(line)
+            i += 1
+    return (dic)
 
 def graph(G, paths, data):
 
     #reset paths accounting for data['init'], set animation data
-    ants, paths = get_ants_per_path(paths, data['init'])
+    ants = get_ants_per_path()
     shrtlen = len(paths[0])
     frames = shrtlen + len(paths[len(paths) - 1])
-    steps = data['init'] + len(paths[1])
+    steps = ants[1] + len(paths[1])
     interval = 10 if (data['vertices'] >= 1000) else 500
 
     # set subplots

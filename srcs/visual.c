@@ -32,7 +32,7 @@ uint8_t		write_paths_to_file(t_map *map, t_stack *list)
 
 	tmp = list;
 	write_data(map);
-	while (tmp)
+	while (tmp && tmp->ant > 0)
 	{
 		ptr = tmp->path;
 		while (ptr)
@@ -42,6 +42,7 @@ uint8_t		write_paths_to_file(t_map *map, t_stack *list)
 			ptr = ptr->next;
 		}
 		append_to_file(PATHS, "");
+		append_to_file(ANTS, ft_itoa(tmp->ant));
 		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);

@@ -11,7 +11,6 @@ def read_data():
         data['vertices'] = int(lines[1].strip('\n'))
         data['start'] = lines[2].strip('\n')
         data['end'] = lines[3].strip('\n')
-        data['init'] = int(lines[4].strip('\n'))
     return (data)
 
 def read_paths():
@@ -51,6 +50,8 @@ def clear_files():
         os.remove('paths.txt')
     if os.path.exists('data.txt'):
         os.remove('data.txt')
+    if os.path.exists('ants.txt'):
+        os.remove('ants.txt')
 
 if __name__ == '__main__':
     clear_files()

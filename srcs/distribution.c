@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 06:52:03 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 20:03:31 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,14 @@ uint32_t				ft_population_distribution(t_map *map, t_stack *stacks)
 	int					sum;
 	uint32_t			ants;
 
-	printf("%u = pop\n", map->population);
 	ants = stacks->ant;
-	printf("%u = ants\n", ants);
 	sum = ants;
 	if (stacks->next)
 	{
 		ants_to_path(ants, &sum, map->population, stacks);
 		ants_sup(map->population, sum, stacks);
 	}
-	//add visual
-	printf("%llu = ants && steps = %llu\n", stacks->ant, stacks->ant + stacks->size - 1);
+	if (!!(map->visual & VISUAL))
+		write_paths_to_file(map, stacks);
 	return (1);
 }

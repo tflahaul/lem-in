@@ -10,10 +10,7 @@
 # undef PATHS
 # define PATHS		PATH "paths.txt"
 
-# undef EDGES
-# define EDGES		PATH "edges.txt"
-
-# undef VERTICES
-# define VERTICES	PATH "vertices.txt"
+# undef ANTS
+# define ANTS		PATH "ants.txt"
 
 #endif

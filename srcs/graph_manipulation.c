@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 22:25:21 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 19:59:46 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 			{
 				if (ptr->key == prevkey && ptr->way == CLOSED)
 				{
-					printf("overlap %s && %s\n",map->hashtab[prevkey]->name, map->hashtab[key]->name);
+//					printf("overlap %s && %s\n",map->hashtab[prevkey]->name, map->hashtab[key]->name);
 
 					return (EXIT_SUCCESS);
 				}
