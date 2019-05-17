@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 18:42:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 14:54:17 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
 	tmp->next = NULL;
 	ft_free_stacks(&node);
 }
-
+/*
 #include <stdio.h>
 void					print_paths(t_map *map, t_stack *list)
 {
@@ -79,6 +79,28 @@ void					print_paths(t_map *map, t_stack *list)
 	}
 }
 
+void					print_graph(t_map *map)
+{
+	register uint16_t	index = 0;
+
+	printf("\n==============\n");
+	while (index < MAX_VERTICES)
+	{
+		if (map->hashtab[index]->name != NULL)
+		{
+			printf("%s -> ", map->hashtab[index]->name);
+			t_edges *ptr = map->hashtab[index]->adjc;
+			while (ptr != NULL)
+			{
+				printf("%s[%d] ", map->hashtab[ptr->key]->name, ptr->way);
+				ptr = ptr->next;
+			}
+			printf("\n");
+		}
+		index++;
+	}
+}
+*/
 void					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
@@ -92,7 +114,6 @@ void					ft_algorithm(t_map *map)
 		ft_update_visited_array(list, visited);
 		ft_make_directed(map);
 	}
-	print_paths(map, list);
 	ft_update_graph(map, list);
 	ft_free_stacks(&list->next);
 	ft_fast_bzero(visited, MAX_VERTICES);
@@ -101,7 +122,11 @@ void					ft_algorithm(t_map *map)
 		ft_push_path_to_stack(map, &list);
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
+//		for (int i = 0; i < MAX_VERTICES; ++i)
+//			if (visited[i] == VISITED)
+//				printf("visited [%s]\n", map->hashtab[i]->name);
 	}
+//	print_paths(map, list);
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list), map);
 	if (map->visual & VISUAL && write_paths_to_file(map, list) == EXIT_FAILURE)
 		return (ft_free_stacks(&list));

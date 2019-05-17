@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 01:02:41 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/17 12:38:41 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int					ft_strcmp(char const *s1, char const *s2);
 int					ft_strncmp(char const *s1, char const *s2, size_t n);
 void				ft_memset(void *s, int c, size_t n);
 void				ft_putchar(int c);
+void				ft_memcpy(void *dst, void const *src, size_t n);
 void				ft_putnbr_light(uint16_t nb);
 void				ft_fast_bzero(void *ptr, size_t size);
 void				ft_putnstr(char const *s, uint8_t n);

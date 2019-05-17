@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 15:26:27 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 14:56:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 enum
 {
 	UNVISITED,
-	VISITED,
-	SELECTED
+	VISITED
 };
 
 typedef struct				s_graph

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 21:19:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 14:57:07 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static inline void			ft_print_stack(t_map *map, t_queue *queue)
 {
 	uint32_t				tmp;
 
-	while ((queue = queue->next) != NULL)
+	while (queue != NULL && queue->key != map->start_index)
 	{
 		if (queue->ant && queue->ant <= map->population)
 		{
@@ -39,6 +39,7 @@ static inline void			ft_print_stack(t_map *map, t_queue *queue)
 			else
 				ft_print_single_ant(queue->ant, map->hashtab[queue->key]->name);
 		}
+		queue = queue->prev;
 	}
 }
 
@@ -98,7 +99,7 @@ void						ft_print_movements(t_map *map, t_stack *list)
 		ft_init_movements(stacks);
 		while (stacks != NULL)
 		{
-			ft_print_stack(map, stacks->path);
+			ft_print_stack(map, list_last_node(stacks->path));
 			ft_update_stack(stacks->path, stacks->size);
 			stacks = stacks->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/16 18:43:24 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 14:57:00 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static uint8_t		ft_indepth_exploration(t_graph *graph, uint32_t key)
 {
 	uint8_t			visited[MAX_VERTICES];
 
-	memcpy(visited, graph->visited, MAX_VERTICES); // !!
+	ft_memcpy(visited, graph->visited, MAX_VERTICES);
 	return (ft_depth_first_search(graph->map, visited, key));
 }
 
@@ -63,21 +63,21 @@ static void			ft_regular_edges(t_graph *g, t_edges *node, uint32_t key)
 **	sont ajoutées à la file.
 **	Si aucune n'est dirigée (head == g->queue) -> EXIT_FAILURE
 */
-
+#include <stdio.h>
 static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 {
-	t_edges*lst;
-	t_queue*head;
+	t_edges			*list;
+	t_queue			*head;
 
 	head = *(g->queue);
 	while (node != NULL)
 	{
-		if (node->way == OPEN && g->visited[node->key] == UNVISITED)
+		if (node->way == OPEN && g->visited[node->key] != VISITED)
 		{
-			lst = g->map->hashtab[node->key]->adjc;
-			while (lst != NULL)
+			list = g->map->hashtab[node->key]->adjc;
+			while (list != NULL)
 			{
-				if (lst->key == key && lst->way == CLOSED)
+				if (list->key == key && list->way == CLOSED)
 				{
 					if (ft_indepth_exploration(g, node->key) == EXIT_SUCCESS)
 					{
@@ -85,10 +85,8 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key)
 						g->map->hashtab[node->key]->prev = g->map->hashtab[key];
 						ft_queue_append(g->queue, node->key);
 					}
-					else
-						return (EXIT_FAILURE);
 				}
-				lst = lst->next;
+				list = list->next;
 			}
 		}
 		node = node->next;

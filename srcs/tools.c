@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:19:26 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/15 19:44:50 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/17 12:43:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 inline uint64_t				ft_abs(int64_t nb)
 {
 	return ((nb < 0) ? -nb : nb);
+}
+
+inline t_queue				*list_last_node(t_queue *head)
+{
+	if (head != NULL)
+		while (head->next != NULL)
+			head = head->next;
+	return (head);
 }
 
 uint64_t					ft_list_size(t_stack *list)
