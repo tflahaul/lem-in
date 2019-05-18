@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/18 16:27:06 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/18 16:59:41 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRC 		= 	main						parsing						\
 				stacks						algorithm					\
 				movements					breadth_first_search		\
 				graph_manipulation			distribution				\
-				visual
+				visual						depth_first_search
 
 LIBFT		=	$(LIBDIR)/libft.a
 
