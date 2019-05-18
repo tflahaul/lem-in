@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 23:57:58 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/18 16:23:51 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,24 +99,23 @@ inline void				ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 	}
 }
 
-void					ft_make_directed(t_map *map)
+void					ft_make_directed(t_map *map, t_stack *stack)
 {
 	uint32_t			key;
-	t_edges				*ptr;
-	t_vertices			*node;
+	t_queue				*node;
+	t_edges				*list;
 
-	key = map->end_index;
-	node = map->hashtab[map->end_index];
-	while (node != NULL)
+	while (stack->next != NULL)
+		stack = stack->next;
+	node = stack->path;
+	while (node->next != NULL)
 	{
-		ptr = node->adjc;
-		while (ptr != NULL)
-		{
-			if (ptr->key == key)
-				ptr->way = closed_way;
-			ptr = ptr->next;
-		}
-		key = node->key;
-		node = node->prev;
+		key = node->next->key;
+		list = map->hashtab[node->key]->adjc;
+		while (LIKELY(list != NULL) && list->key != key)
+			list = list->next;
+		if (LIKELY(list != NULL))
+			list->way = closed_way;
+		node = node->next;
 	}
 }

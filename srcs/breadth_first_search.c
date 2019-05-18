@@ -6,56 +6,95 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 23:57:33 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/18 16:23:29 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-#include <stdio.h>
+#include <lem_in_stacks.h>
 
 void					print_paths(t_map *map, t_stack *list)
 {
-	printf("\n============\n");
 	while (list != NULL)
 	{
 		t_queue *ptr = list->path;
+		ft_printf("\n============\n");
 		while (ptr != NULL)
 		{
-			printf("%s\n", map->hashtab[ptr->key]->name);
+			ft_printf("%s\n", map->hashtab[ptr->key]->name);
 			ptr = ptr->next;
 		}
 		list = list->next;
 	}
 }
 
-static uint8_t		ft_explore_child(t_map *map, uint8_t visited[MAX_VERTICES], uint32_t key, t_stack *list)
+void				print_stack(t_queue *node, t_map *map)
 {
-	t_edges			*ptr;
-	t_edges			*node;
-
-	if (key == map->end_index)
-	{
-		ft_push_path_to_stack(map, &list);
-//		print_paths(map, list);
-		ft_make_directed(map);
-		return (EXIT_SUCCESS);
-	}
-	node = map->hashtab[key]->adjc;
-	visited[key] = visited_node;
+	ft_printf("\n============\n");
 	while (node != NULL)
 	{
-		ptr = map->hashtab[node->key]->adjc;
-		while (ptr != NULL)
-		{
-			if (visited[ptr->key] != visited_node && ptr->way == open_way)
-			{
-				visited[ptr->key] = visited_node;
-				map->hashtab[ptr->key]->prev = map->hashtab[node->key];
-				ft_explore_child(map, visited, ptr->key, list);
-			}
-			ptr = ptr->next;
-		}
+		ft_printf("%s\n", map->hashtab[node->key]->name);
 		node = node->next;
+	}
+}
+
+static void			ft_append_path(t_map *map, t_queue *path, t_stack **list)
+{
+	t_stack			*new;
+	t_stack			*node;
+	t_vertices		*prev;
+
+	node = *list;
+	if (LIKELY((new = ft_allocate_stack_memory()) != NULL))
+	{
+		while (node->next != NULL)
+			node = node->next;
+		node->next = new;
+		while (path != NULL)
+		{
+			ft_queue_append(&(new->path), path->key);
+			if (path->key != map->start_index)
+				++new->size;
+			path = ft_queue_pop(&path);
+		}
+		prev = map->hashtab[new->path->key];
+		while ((prev = prev->prev) != NULL)
+			ft_queue_push(&(new->path), prev->key);
+	}
+}
+
+static uint8_t		ft_explore(t_map *map, uint8_t visited[MAX_VERTICES], uint32_t key, t_stack *list)
+{
+	t_edges			*node;
+	t_queue			*stack;
+	t_queue			*parents;
+
+	ft_queue_push(&stack, key);
+	ft_queue_push(&parents, key);
+	while (stack != NULL)
+	{
+		node = map->hashtab[stack->key]->adjc;
+		stack = ft_queue_pop(&stack);
+		visited[key] = visited_node;
+		while (node != NULL)
+		{
+			if (node->way == open_way && visited[node->key] != visited_node)
+			{
+				if (node->key == map->end_index)
+				{
+					ft_queue_append(&parents, node->key);
+					ft_append_path(map, parents, &list);
+					ft_make_directed(map, list);
+	//				print_paths(map, list);
+					return (EXIT_SUCCESS);
+				}
+				visited[node->key] = visited_node;
+				ft_queue_append(&parents, node->key);
+				ft_queue_push(&stack, node->key);
+			}
+			node = node->next;
+		}
 	}
 	return (EXIT_FAILURE);
 }
@@ -66,8 +105,7 @@ static uint8_t		ft_depth_first_search(t_graph *g, uint32_t key, uint32_t dest, t
 
 	ft_memcpy(visited, g->visited, MAX_VERTICES);
 	visited[key] = unvisited_node;
-//	(*g->map)->hashtab[dest]->prev = (*g->map)->hashtab[key];
-	if (ft_explore_child(*g->map, visited, dest, list) == EXIT_SUCCESS)
+	if (ft_explore(*g->map, visited, dest, list) == EXIT_SUCCESS)
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
 }
@@ -87,13 +125,14 @@ static void			ft_regular_edges(t_graph *graph, t_edges *ptr, uint32_t key)
 }
 
 /*
-** 	Looks at the adjacency list of the 'node' item then goes through
-** 	all respective adjacency lists of each element within that list.
+**	Looks at the adjacency list of the 'node' item then goes through
+**	all respective adjacency lists of each element within that list.
 **	This is done to find directed edges. If found, those are added to the queue.
-** 	Else, (head == g->queue) -> EXIT_FAILURE
+**	Else, (head == g->queue) -> EXIT_FAILURE
 */
 
-static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_stack *ptr)
+static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key,
+									t_stack *ptr)
 {
 	t_edges			*list;
 	t_queue			*head;
@@ -108,7 +147,7 @@ static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_sta
 			{
 				if (list->key == key && list->way == closed_way)
 				{
-	//				(*g->map)->hashtab[node->key]->prev = (*g->map)->hashtab[key];
+					(*g->map)->hashtab[node->key]->prev = (*g->map)->hashtab[key];
 					if (ft_depth_first_search(g, key, node->key, ptr) == EXIT_SUCCESS)
 						return (EXIT_SUCCESS);
 				}
@@ -146,14 +185,15 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd, void *ptr)
 			return (ft_drain_queue(&queue));
 		queue = ft_queue_pop(&queue);
 		node = (*graph.map)->hashtab[key]->adjc;
-		if (ft_directed_edges(&graph, node, key, (t_stack *)ptr) == EXIT_FAILURE)
-			ft_regular_edges(&graph, node, key);
+		if (ft_directed_edges(&graph, node, key, (t_stack *)ptr) == EXIT_SUCCESS)
+			return (ft_drain_queue(&queue));
+		ft_regular_edges(&graph, node, key);
 	}
 	return (EXIT_FAILURE);
 }
 
 /*
-** Basic BFS algorithm, no prioritizing of vertices to visit.
+**	Basic BFS algorithm, no prioritizing of vertices to visit.
 */
 
 uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)

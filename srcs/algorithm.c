@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 23:57:15 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/18 16:18:07 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 #include <lem_in_algorithm.h>
 
 /*
-** Update 'visited' tab to indicate nodes through which the BFS algorithm have gone
-** Function only used after overlaps have been handled, when looking for distinct paths
+**	Update 'visited' tab to indicate nodes through which the BFS algorithm
+**	have gone.
+**	Function only used after overlaps have been handled, when looking for
+**	distinct paths
 */
 
 static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
@@ -32,7 +34,7 @@ static inline void		ft_update_tab(t_stack *node, uint8_t *visited)
 }
 
 /*
-** Delete stacks that are not needed for ants distribution
+**	Delete stacks that are not needed for ants distribution
 */
 
 static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
@@ -65,11 +67,12 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
 	ft_free_stacks(&node);
 }
 
-/*
+#include <stdio.h>
 void					print_graph(t_map *map)
 {
 	register uint16_t	index = 0;
 
+	ft_putchar(10);
 	while (index < MAX_VERTICES)
 	{
 		if (map->hashtab[index]->name != NULL)
@@ -86,24 +89,22 @@ void					print_graph(t_map *map)
 		index++;
 	}
 }
-*/
 
 uint8_t					ft_algorithm(t_map *map)
 {
 	t_stack				*list;
-	int					path;
+	int32_t				path;
 	uint8_t				visited[MAX_VERTICES];
 
-	list = NULL;
 	path = 1;
+	list = NULL;
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited, list) == EXIT_SUCCESS)
 	{
 		ft_push_path_to_stack(map, &list);
 		ft_update_visited_array(list, visited);
-		ft_make_directed(map);
+		ft_make_directed(map, list);
 	}
-//	print_paths(map, list);
 //	print_graph(map);
 	if (UNLIKELY(list == NULL))
 		return (ft_printf(C_RED"lem-in: %s\n"C_NONE, DEADEND));
@@ -113,12 +114,10 @@ uint8_t					ft_algorithm(t_map *map)
 	while (ft_simple_bfs(map, visited) == EXIT_SUCCESS)
 	{
 		if (UNLIKELY(ft_push_path_to_stack(map, &list)) == EXIT_FAILURE)
-			ft_make_directed(map);
+			ft_make_directed(map, list);
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
-//	print_paths(map, list);
-//	return (ft_free_stacks(&list));
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list, &path), map);
 	ft_population_distribution(map, list);
 	ft_print_movements(map, list);
