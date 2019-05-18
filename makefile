@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/17 21:45:31 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/18 16:27:06 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ CFLAGS 		= 	-Wall						\
 				-Werror						\
 				-Wpadded					\
 				-std=c99					\
-				-fsanitize=address -g
+				-g
 
 INC 		= 	-I $(HDR)
 CLIBFT		=	-L $(LIBDIR) -lft
