@@ -6,13 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/18 16:57:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/19 14:58:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-//#include <lem_in_stacks.h>
 
 static void			ft_regular_edges(t_graph *graph, t_edges *ptr, uint32_t key)
 {
@@ -71,7 +70,7 @@ static uint8_t		ft_directed_edges(t_graph *g,
 **	(unless vertex has already been 'visited')
 */
 
-uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd, void *ptr)
+uint8_t				ft_breadth_first_search(t_map **map, uint8_t *vstd, void *ptr)
 {
 	uint32_t		key;
 	t_graph			graph;
@@ -79,8 +78,8 @@ uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd, void *ptr)
 	t_queue			*queue;
 
 	queue = NULL;
-	vstd[map->start_index] = visited_node;
-	graph.map = &map;
+	vstd[(*map)->start_index] = visited_node;
+	graph.map = map;
 	graph.queue = &queue;
 	graph.visited = vstd;
 	ft_queue_push(&queue, (*graph.map)->start_index);
@@ -120,8 +119,9 @@ uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
 		v = map->hashtab[key]->adjc;
 		while (v != NULL)
 		{
-			if (v->way == open_way && !visited[v->key] && (visited[v->key] = 1))
+			if (v->way != closed_way && visited[v->key] == unvisited_node)
 			{
+				visited[v->key] = visited_node;
 				map->hashtab[v->key]->prev = map->hashtab[key];
 				ft_queue_append(&queue, v->key);
 			}

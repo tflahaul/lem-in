@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/18 13:56:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/19 13:14:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ uint32_t					ft_push_path_to_stack(t_map *map, t_stack **stack)
 			node = node->next;
 		node->next = tmp;
 		ft_fill_stack(map, &node->next);
-		if (UNLIKELY(ft_path_checker(map, tmp->path) == EXIT_FAILURE))
+		if (UNLIKELY(tmp->size == 1))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

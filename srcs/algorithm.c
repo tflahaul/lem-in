@@ -6,13 +6,36 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/18 16:18:07 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/19 19:02:57 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_bug.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
+
+#include <stdio.h>
+void					print_graph(t_map *map)
+{
+	register uint16_t	index = 0;
+
+	ft_putchar(10);
+	while (index < MAX_VERTICES)
+	{
+		if (map->hashtab[index]->name != NULL)
+		{
+			printf("%s\t", map->hashtab[index]->name);
+			t_edges *ptr = map->hashtab[index]->adjc;
+			while (ptr != NULL)
+			{
+				printf("  -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
+				ptr = ptr->next;
+			}
+			printf("\n");
+		}
+		index++;
+	}
+}
 
 /*
 **	Update 'visited' tab to indicate nodes through which the BFS algorithm
@@ -41,7 +64,7 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
 												t_map *map)
 {
 	t_stack				*node;
-	t_stack				*tmp;
+	t_stack				*tmp = NULL;
 	t_queue				*ptr;
 
 	if (!!(map->visual & VISUAL))
@@ -67,26 +90,18 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
 	ft_free_stacks(&node);
 }
 
-#include <stdio.h>
-void					print_graph(t_map *map)
+void					print_paths(t_map *map, t_stack *list)
 {
-	register uint16_t	index = 0;
-
-	ft_putchar(10);
-	while (index < MAX_VERTICES)
+	while (list != NULL)
 	{
-		if (map->hashtab[index]->name != NULL)
+		t_queue *ptr = list->path;
+		ft_printf("\n============\n");
+		while (ptr != NULL)
 		{
-			printf("%s\t", map->hashtab[index]->name);
-			t_edges *ptr = map->hashtab[index]->adjc;
-			while (ptr != NULL)
-			{
-				printf("  -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
-				ptr = ptr->next;
-			}
-			printf("\n");
+			ft_printf("%s\n", map->hashtab[ptr->key]->name);
+			ptr = ptr->next;
 		}
-		index++;
+		list = list->next;
 	}
 }
 
@@ -99,13 +114,12 @@ uint8_t					ft_algorithm(t_map *map)
 	path = 1;
 	list = NULL;
 	ft_fast_bzero(visited, MAX_VERTICES);
-	while (ft_breadth_first_search(map, visited, list) == EXIT_SUCCESS)
+	while (ft_breadth_first_search(&map, visited, list) == EXIT_SUCCESS)
 	{
 		ft_push_path_to_stack(map, &list);
-		ft_update_visited_array(list, visited);
+		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_make_directed(map, list);
 	}
-//	print_graph(map);
 	if (UNLIKELY(list == NULL))
 		return (ft_printf(C_RED"lem-in: %s\n"C_NONE, DEADEND));
 	ft_update_graph(map, list);

@@ -6,13 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:44:35 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/19 19:25:03 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
+#include <string.h>
 
 static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 {
@@ -21,6 +22,22 @@ static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 	ft_putchar('-');
 	ft_putstr(name);
 	ft_putchar(' ');
+}
+
+/*
+**	Go créer un buffer, le trim et l'afficher.
+*/
+
+char						*ft_make_buffer(char *buffer, char const *ant)
+{
+	char					*ptr;
+
+	ptr = buffer;
+	while (*buffer)
+		buffer++;
+	*buffer = ' ';
+	strcpy(buffer, ant);
+	return (ptr);
 }
 
 static inline void			ft_print_stack(t_map *map, t_queue *queue)

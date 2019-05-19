@@ -6,37 +6,12 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 16:56:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/18 16:59:58 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/19 19:22:53 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_algorithm.h>
 #include <lem_in_compiler.h>
-
-// void					print_paths(t_map *map, t_stack *list)
-// {
-// 	while (list != NULL)
-// 	{
-// 		t_queue *ptr = list->path;
-// 		ft_printf("\n============\n");
-// 		while (ptr != NULL)
-// 		{
-// 			ft_printf("%s\n", map->hashtab[ptr->key]->name);
-// 			ptr = ptr->next;
-// 		}
-// 		list = list->next;
-// 	}
-// }
-
-// void				print_stack(t_queue *node, t_map *map)
-// {
-// 	ft_printf("\n============\n");
-// 	while (node != NULL)
-// 	{
-// 		ft_printf("%s\n", map->hashtab[node->key]->name);
-// 		node = node->next;
-// 	}
-// }
 
 static void			ft_append_path(t_map *map, t_queue *path, t_stack **list)
 {
@@ -63,10 +38,8 @@ static void			ft_append_path(t_map *map, t_queue *path, t_stack **list)
 	}
 }
 
-static uint8_t		ft_explore(t_map *map,
-					uint8_t visited[MAX_VERTICES],
-					uint32_t key,
-					t_stack *list)
+static uint8_t		ft_explore(t_map *map, uint8_t visited[MAX_VERTICES],
+							uint32_t key, t_stack *list, int nb)
 {
 	t_edges			*node;
 	t_queue			*stack = NULL;
@@ -79,7 +52,7 @@ static uint8_t		ft_explore(t_map *map,
 		node = map->hashtab[stack->key]->adjc;
 		stack = ft_queue_pop(&stack);
 		visited[key] = visited_node;
-		while (node != NULL)
+		while (node != NULL && nb > 0)
 		{
 			if (node->way == open_way && visited[node->key] != visited_node)
 			{
@@ -88,16 +61,17 @@ static uint8_t		ft_explore(t_map *map,
 					ft_queue_append(&parents, node->key);
 					ft_append_path(map, parents, &list);
 					ft_make_directed(map, list);
-	//				print_paths(map, list);
 					return (EXIT_SUCCESS);
 				}
 				visited[node->key] = visited_node;
 				ft_queue_append(&parents, node->key);
 				ft_queue_push(&stack, node->key);
+				--nb;
 			}
 			node = node->next;
 		}
 	}
+	ft_drain_queue(&parents);
 	return (EXIT_FAILURE);
 }
 
@@ -106,11 +80,13 @@ uint8_t				ft_depth_first_search(t_graph *g,
 					uint32_t dest,
 					t_stack *list)
 {
+	uint16_t		nb = list->size;
 	uint8_t			visited[MAX_VERTICES];
 
 	ft_memcpy(visited, g->visited, MAX_VERTICES);
 	visited[key] = unvisited_node;
-	if (ft_explore(*g->map, visited, dest, list) == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	return (EXIT_FAILURE);
+	while (ft_explore(*g->map, visited, dest, list, nb) == EXIT_FAILURE)
+		if (nb++ >= 60)
+			return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

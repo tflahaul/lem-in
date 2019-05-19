@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:19:26 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:18:55 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/19 13:15:09 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ inline t_queue				*list_last_node(t_queue *head)
 	return (head);
 }
 
-uint64_t					ft_list_size(t_stack *list)
+inline uint64_t				ft_list_size(t_stack *list)
 {
 	uint64_t				length;
 
@@ -29,13 +29,6 @@ uint64_t					ft_list_size(t_stack *list)
 	while (list != NULL && ++length)
 		list = list->next;
 	return (length);
-}
-
-inline uint8_t				ft_path_checker(t_map *map, t_queue *node)
-{
-	if (node->key == map->start_index && node->next->key == map->end_index)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
 }
 
 inline void					ft_print_colored_ant(uint32_t nb, char const *name)

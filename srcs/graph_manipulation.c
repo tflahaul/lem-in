@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/18 16:23:51 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/19 15:10:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 {
-	register t_edges	*node;
+	t_edges				*node;
 
 	node = map->hashtab[prevkey]->adjc;
 	while (node != NULL)
@@ -47,12 +47,12 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 	node = map->hashtab[prevkey]->adjc;
 	while (node != NULL)
 	{
-		if (node->key == key && node->way == closed_way)
+		if (node->key == key && node->way != open_way)
 		{
 			ptr = map->hashtab[key]->adjc;
 			while (ptr != NULL)
 			{
-				if (ptr->key == prevkey && ptr->way == closed_way)
+				if (ptr->key == prevkey && ptr->way != open_way)
 					return (EXIT_SUCCESS);
 				ptr = ptr->next;
 			}
@@ -69,7 +69,7 @@ static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 inline void				ft_update_graph(t_map *map, t_stack *list)
 {
 	t_queue				*node;
-	uint32_t			hashkey;
+	register uint32_t	hashkey;
 
 	while (list != NULL)
 	{
@@ -85,23 +85,9 @@ inline void				ft_update_graph(t_map *map, t_stack *list)
 	}
 }
 
-inline void				ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
-{
-	t_queue				*node;
-
-	ft_fast_bzero(vstd, MAX_VERTICES);
-	while (stacks != NULL)
-	{
-		node = stacks->path;
-		while ((node = node->next) != NULL)
-			vstd[node->key] = selected_way;
-		stacks = stacks->next;
-	}
-}
-
 void					ft_make_directed(t_map *map, t_stack *stack)
 {
-	uint32_t			key;
+	register uint32_t	key;
 	t_queue				*node;
 	t_edges				*list;
 

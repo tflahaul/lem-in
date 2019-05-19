@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/18 16:59:16 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/19 13:29:26 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct			s_graph
 
 void					ft_update_graph(t_map *map, t_stack *lst);
 void					ft_make_directed(t_map *map, t_stack *list);
-void					ft_update_visited_array(t_stack *s, uint8_t *v);
 void					ft_population_distribution(t_map *map, t_stack *s);
 int						nbr_optimum_paths(t_map *map, t_stack *stacks, int *p);
 uint8_t					ft_depth_first_search(t_graph *g, uint32_t key,
