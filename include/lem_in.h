@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/19 13:11:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:51:16 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 enum					e_ways
 {
 	closed_way = 0,
-	open_way = 1,
+	open_way,
 	selected_way
 };
 

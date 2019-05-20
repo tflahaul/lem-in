@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/19 14:58:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:07:34 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ static uint8_t		ft_directed_edges(t_graph *g,
 									t_stack *ptr)
 {
 	t_edges			*list;
-	t_queue			*head;
 
-	head = *g->queue;
 	while (node != NULL)
 	{
 		if (node->way == open_way && g->visited[node->key] != visited_node)
@@ -61,7 +59,7 @@ static uint8_t		ft_directed_edges(t_graph *g,
 		}
 		node = node->next;
 	}
-	return (head != *g->queue ? EXIT_SUCCESS : EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
 /*
@@ -104,7 +102,7 @@ uint8_t				ft_breadth_first_search(t_map **map, uint8_t *vstd, void *ptr)
 uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
 {
 	uint32_t		key;
-	t_edges			*v;
+	t_edges			*vert;
 	t_queue			*queue;
 
 	queue = NULL;
@@ -116,16 +114,16 @@ uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
 		if (key == map->end_index)
 			return (ft_drain_queue(&queue));
 		queue = ft_queue_pop(&queue);
-		v = map->hashtab[key]->adjc;
-		while (v != NULL)
+		vert = map->hashtab[key]->adjc;
+		while (vert != NULL)
 		{
-			if (v->way != closed_way && visited[v->key] == unvisited_node)
+			if (vert->way != closed_way && visited[vert->key] == unvisited_node)
 			{
-				visited[v->key] = visited_node;
-				map->hashtab[v->key]->prev = map->hashtab[key];
-				ft_queue_append(&queue, v->key);
+				visited[vert->key] = visited_node;
+				map->hashtab[vert->key]->prev = map->hashtab[key];
+				ft_queue_append(&queue, vert->key);
 			}
-			v = v->next;
+			vert = vert->next;
 		}
 	}
 	return (EXIT_FAILURE);

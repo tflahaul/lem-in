@@ -6,36 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/19 19:02:57 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:47:19 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_bug.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-
-#include <stdio.h>
-void					print_graph(t_map *map)
-{
-	register uint16_t	index = 0;
-
-	ft_putchar(10);
-	while (index < MAX_VERTICES)
-	{
-		if (map->hashtab[index]->name != NULL)
-		{
-			printf("%s\t", map->hashtab[index]->name);
-			t_edges *ptr = map->hashtab[index]->adjc;
-			while (ptr != NULL)
-			{
-				printf("  -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
-				ptr = ptr->next;
-			}
-			printf("\n");
-		}
-		index++;
-	}
-}
 
 /*
 **	Update 'visited' tab to indicate nodes through which the BFS algorithm
@@ -88,21 +65,6 @@ static void				ft_delete_unused_stacks(t_stack **stacks, uint16_t nb,
 	}
 	tmp->next = NULL;
 	ft_free_stacks(&node);
-}
-
-void					print_paths(t_map *map, t_stack *list)
-{
-	while (list != NULL)
-	{
-		t_queue *ptr = list->path;
-		ft_printf("\n============\n");
-		while (ptr != NULL)
-		{
-			ft_printf("%s\n", map->hashtab[ptr->key]->name);
-			ptr = ptr->next;
-		}
-		list = list->next;
-	}
 }
 
 uint8_t					ft_algorithm(t_map *map)
