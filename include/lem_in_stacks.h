@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 18:30:02 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/18 23:47:09 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct				s_stack
 	struct s_stack			*next;
 }							t_stack;
 
+uint8_t					ft_bfs(t_map *map, uint8_t *visited, t_stack **list);
 void						ft_print_movements(t_map *map, t_stack *list);
 uint8_t						ft_free_stacks(t_stack **head);
 uint8_t						ft_path_checker(t_map *map, t_queue *node);

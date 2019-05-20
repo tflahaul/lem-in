@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/07 14:37:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:47:10 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/20 04:02:16 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,20 @@ inline void				ft_update_visited_array(t_stack *stacks, uint8_t *vstd)
 	}
 }
 #include <stdio.h>
+void					ft_overlap(uint32_t	key, uint32_t key2, t_map *map)
+{
+	t_edges 			*edge;
+
+	edge = map->hashtab[key]->adjc;
+	while (edge->key != key2)
+		edge = edge->next;
+	edge->way = (edge->way != 0) ? -1 : 0;
+}
+
 void					ft_make_directed(t_map *map)
 {
 	uint32_t			key;
+	uint32_t			key2;
 	t_edges				*ptr;
 	t_vertices			*node;
 
@@ -109,13 +120,15 @@ void					ft_make_directed(t_map *map)
 	node = map->hashtab[map->end_index];
 	while (node != NULL)
 	{
-		printf("000\n");
 		ptr = node->adjc;
+		key2 = node->key;
 		while (ptr != NULL)
 		{
-			printf("111\n");
 			if (ptr->key == key)
+			{
 				ptr->way = closed_way;
+				ft_overlap(ptr->key, key2, map);
+			}
 			ptr = ptr->next;
 		}
 		key = node->key;

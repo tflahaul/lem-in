@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:18:47 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/19 23:14:12 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,23 @@ static inline t_stack		*ft_allocate_stack_memory(void)
 	ft_memset(head, 0, sizeof(t_stack));
 	return (head);
 }
+#include <stdio.h>
 
 static inline void			ft_fill_stack(t_map *map, t_stack **node)
 {
 	t_vertices				*path;
+	t_vertices				*tmp;
 
 	path = map->hashtab[map->end_index];
 	while (path != NULL)
 	{
+		tmp = path;
+//		printf("prev list = %s\n", map->hashtab[path->key]->name);
 		ft_queue_push(&(*node)->path, path->key);
 		if (path->key != map->start_index)
 			++(*node)->size;
 		path = path->prev;
+	//	tmp->prev = NULL;
 	}
 }
 

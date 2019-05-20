@@ -1,6 +1,7 @@
 # Prerequisites
 *.d
 *.vscode
+*.swp
 
 # Object files
 *.o

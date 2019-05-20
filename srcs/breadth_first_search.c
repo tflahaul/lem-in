@@ -6,140 +6,185 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:50:02 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/20 04:00:24 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_algorithm.h>
 
-static uint8_t		ft_explore_child(t_map *map, uint8_t visited[MAX_VERTICES], uint32_t key, t_stack *list)
-{
-	t_edges			*ptr;
-	t_edges			*node;
+#include <stdio.h>
 
-	if (key == map->end_index)
+t_edges			*look_for_neg_edge(t_edges *edge)
+{
+	t_edges *tmp;
+
+	tmp = edge;
+	while (tmp)
 	{
-		ft_make_directed(map);
-		ft_push_path_to_stack(map, &list);
-		return (EXIT_SUCCESS);
-	}
-	visited[key] = visited_node;
-	node = map->hashtab[key]->adjc;
-	while (node != NULL)
-	{
-		ptr = map->hashtab[node->key]->adjc;
-		while (ptr != NULL)
+		if (tmp->way == -1)
 		{
-			if (visited[ptr->key] != visited_node && ptr->way == open_way)
-			{
-				visited[ptr->key] = visited_node;
-				map->hashtab[ptr->key]->prev = map->hashtab[node->key];
-				ft_explore_child(map, visited, ptr->key, list);
-			}
-			ptr = ptr->next;
+//			tmp->way = 2;
+			return (tmp);
 		}
-		node = node->next;
+		tmp = tmp->next;
 	}
-	return (EXIT_FAILURE);
+	return (tmp);
 }
 
-static uint8_t		ft_depth_first_search(t_graph **g, uint32_t key, uint32_t dest, t_stack *list)
+void			check_for_doubles(t_map *map)
 {
-	uint8_t			visited[MAX_VERTICES];
+	t_edges			*path;
+	t_vertices		*node;
+	t_vertices		*prev;
+	t_vertices		*tmp;
+	int				i;
+	int				j;
 
-	ft_memcpy(visited, (*g)->visited, MAX_VERTICES);
-	visited[key] = unvisited_node;
-	if (ft_explore_child(*(*g)->map, visited, dest, list) == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
-	return (EXIT_FAILURE);
-}
-
-static void			ft_regular_edges(t_graph *graph, t_edges *ptr, uint32_t key)
-{
-	while (ptr != NULL)
-	{
-		if (ptr->way == open_way && graph->visited[ptr->key] != visited_node)
+	i = 0;
+	node = map->hashtab[map->end_index];
+	tmp = map->hashtab[map->end_index];
+	prev = node;
+	while ((node = node->prev))
+	{		
+		i++;
+		tmp = map->hashtab[map->end_index];
+		j = 0;
+		while (tmp != node)
 		{
-			graph->visited[ptr->key] = visited_node;
-			(*graph->map)->hashtab[ptr->key]->prev = (*graph->map)->hashtab[key];
-			ft_queue_append(graph->queue, ptr->key);
+			tmp = tmp->prev;
+			++j;
 		}
-		ptr = ptr->next;
-	}
-}
-
-/*
-** 	Looks at the adjacency list of the 'node' item then goes through
-** 	all respective adjacency lists of each element within that list.
-**	This is done to find directed edges. If found, those are added to the queue.
-** 	Else, (head == g->queue) -> EXIT_FAILURE
-*/
-
-static uint8_t		ft_directed_edges(t_graph *g, t_edges *node, uint32_t key, t_stack *ptr)
-{
-	t_edges			*list;
-	t_queue			*head;
-
-	head = *g->queue;
-	while (node != NULL)
-	{
-		if (node->way == open_way && g->visited[node->key] != visited_node)
+		if (j != i)
 		{
-			list = (*g->map)->hashtab[node->key]->adjc;
-			while (list != NULL)
+			path = map->hashtab[prev->key]->adjc;
+			while (path != NULL)
 			{
-				if (list->key == key && list->way == closed_way)
+				if (path->key == node->key)
 				{
-					if (ft_depth_first_search(&g, key, node->key, ptr) == EXIT_SUCCESS)
-					{
-						g->visited[node->key] = visited_node;
-						(*g->map)->hashtab[node->key]->prev = (*g->map)->hashtab[key];
-						ft_queue_append(g->queue, node->key);
-					}
+					path->way = closed_way;
+					break;
 				}
-				list = list->next;
+				path = path->next;
 			}
+			path = map->hashtab[node->key]->adjc;
+			while (path != NULL)
+			{
+				if (path->key == prev->key)
+				{
+					path->way = closed_way;
+					break;
+				}
+				path = path->next;
+			}
+			break;
 		}
-		node = node->next;
+		prev = node;
 	}
-	return (head != *g->queue ? EXIT_SUCCESS : EXIT_FAILURE);
+	prev->prev = NULL;
+
 }
 
-/*
-**	Finds the shortest path while prioritizing fully directed edges.
-**	If a directed edge is found we go through that path no matter what
-**	(unless vertex has already been 'visited')
-*/
+uint8_t				neg_edge_bfs(t_map *map, t_queue **queue, uint8_t *visited, uint32_t key)
+{
+	t_edges			*v;
 
-uint8_t				ft_breadth_first_search(t_map *map, uint8_t *vstd, void *ptr)
+	while (*queue != NULL)
+	{
+		key = (*queue)->key;
+		if (key == map->end_index)
+			return (ft_drain_queue(queue));
+		*queue = ft_queue_pop(queue);
+		v = map->hashtab[key]->adjc;
+		if ((v = look_for_neg_edge(v)) != NULL && visited[v->key] != 1)
+		{	
+			visited[key] = 0;
+			visited[v->key] = 1;
+			map->hashtab[v->key]->prev = map->hashtab[key];
+			ft_queue_append(queue, v->key);
+			if ((neg_edge_bfs(map, queue, visited, v->key)) == EXIT_FAILURE)
+				return (neg_edge_bfs(map, queue, visited, key));
+			else	
+				return (EXIT_SUCCESS);
+		}
+		v = map->hashtab[key]->adjc;
+		while (v != NULL)
+		{
+			if (v->way == open_way && !visited[v->key] && (visited[v->key] = 1))
+			{
+				map->hashtab[v->key]->prev = map->hashtab[key];
+				ft_queue_append(queue, v->key);
+			}
+			v = v->next;
+		}	
+	}
+	return (EXIT_FAILURE);
+}
+#include <stdio.h>
+void					print_graph(t_map *map)
+{
+	register uint16_t	index = 0;
+
+	while (index < MAX_VERTICES)
+	{
+		if (map->hashtab[index]->name != NULL)
+		{
+			printf("%s\t", map->hashtab[index]->name);
+			t_edges *ptr = map->hashtab[index]->adjc;
+			while (ptr != NULL)
+			{
+				printf("  -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
+				ptr = ptr->next;
+			}
+			printf("\n");
+		}
+		index++;
+	}
+}
+
+/*void			reset_tryout(t_stack *list, t_map *map)
+{
+	t_stack		*tmp;
+	t_queue		*node;
+
+	tmp = list;
+	while (list != NULL)
+	{
+		node = list->path;
+	//	while ((node=node->next) != NULL)
+	//	{
+			
+	//	}
+		
+	}
+
+	
+}*/
+
+uint8_t			ft_bfs(t_map *map, uint8_t *visited, t_stack **list)
 {
 	uint32_t		key;
-	t_graph			graph;
-	t_edges			*node;
 	t_queue			*queue;
 
+	key = map->start_index;
 	queue = NULL;
-	vstd[map->start_index] = visited_node;
-	graph.map = &map;
-	graph.queue = &queue;
-	graph.visited = vstd;
-	ft_queue_push(&queue, (*graph.map)->start_index);
-	while (queue != NULL)
+	visited[key] = visited_node;
+	ft_queue_push(&queue, key);
+	if (neg_edge_bfs(map, &queue, visited, key) == EXIT_SUCCESS)
 	{
-		key = queue->key;
-		if (key == (*graph.map)->end_index)
-			return (ft_drain_queue(&queue));
-		queue = ft_queue_pop(&queue);
-		node = (*graph.map)->hashtab[key]->adjc;
-		if (ft_directed_edges(&graph, node, key, (t_stack *)ptr) == EXIT_FAILURE)
-			ft_regular_edges(&graph, node, key);
+		check_for_doubles(map);
+		ft_push_path_to_stack(map, list);
+		ft_fast_bzero(visited, MAX_VERTICES);
+//		reset_tryout(*list, map);
+		ft_make_directed(map);
+		return (EXIT_SUCCESS);
+
 	}
+	ft_update_graph(map, *list);
 	return (EXIT_FAILURE);
 }
-
 /*
-** Basic BFS algorithm, no prioritizing of vertices to visit.
-*/
+ ** Basic BFS algorithm, no prioritizing of vertices to visit.
+ */
 
 uint8_t				ft_simple_bfs(t_map *map, uint8_t *visited)
 {
