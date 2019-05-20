@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/20 04:00:24 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/20 06:21:30 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ t_edges			*look_for_neg_edge(t_edges *edge)
 	while (tmp)
 	{
 		if (tmp->way == -1)
-		{
-//			tmp->way = 2;
 			return (tmp);
-		}
 		tmp = tmp->next;
 	}
 	return (tmp);
@@ -141,25 +138,6 @@ void					print_graph(t_map *map)
 	}
 }
 
-/*void			reset_tryout(t_stack *list, t_map *map)
-{
-	t_stack		*tmp;
-	t_queue		*node;
-
-	tmp = list;
-	while (list != NULL)
-	{
-		node = list->path;
-	//	while ((node=node->next) != NULL)
-	//	{
-			
-	//	}
-		
-	}
-
-	
-}*/
-
 uint8_t			ft_bfs(t_map *map, uint8_t *visited, t_stack **list)
 {
 	uint32_t		key;
@@ -174,7 +152,6 @@ uint8_t			ft_bfs(t_map *map, uint8_t *visited, t_stack **list)
 		check_for_doubles(map);
 		ft_push_path_to_stack(map, list);
 		ft_fast_bzero(visited, MAX_VERTICES);
-//		reset_tryout(*list, map);
 		ft_make_directed(map);
 		return (EXIT_SUCCESS);
 
