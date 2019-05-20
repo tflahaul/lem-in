@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/18 16:56:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/20 18:11:04 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/20 19:19:49 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void			ft_append_path(t_map *map, t_queue *path, t_stack **list)
 }
 
 static uint8_t		ft_explore(t_map *map, uint8_t visited[MAX_VERTICES],
-							uint32_t key, t_stack *list, int16_t nb)
+							uint32_t key, t_stack *list, __unused int16_t nb)
 {
 	t_edges			*node;
 	t_queue			*stack = NULL;
@@ -89,17 +89,18 @@ static uint8_t		ft_explore(t_map *map, uint8_t visited[MAX_VERTICES],
 	ft_queue_push(&stack, key);
 	ft_queue_push(&parents, key);
 	visited[key] = visited_node;
-	while (stack != NULL)
+	while (stack != NULL && nb > 0)
 	{
 		node = map->hashtab[stack->key]->adjc;
 		stack = ft_queue_pop(&stack);
-		while (node != NULL && nb-- > 1)
+		while (node != NULL)
 		{
 			if (node->way == open_way && visited[node->key] != visited_node)
 			{
 				visited[node->key] = visited_node;
 				ft_queue_push(&stack, node->key);
 				ft_queue_append(&parents, node->key);
+				nb--;
 				if (node->key == map->end_index)
 				{
 					ft_queue_append(&parents, node->key);
@@ -121,13 +122,17 @@ uint8_t				ft_depth_first_search(t_graph *g,
 					uint32_t dest,
 					t_stack *list)
 {
-	uint16_t		nb = list->size + 30;
+	uint16_t		nb = list->size;
 	uint8_t			visited[MAX_VERTICES];
 
 	ft_memcpy(visited, g->visited, MAX_VERTICES);
 	visited[key] = unvisited_node;
 	while (ft_explore(*g->map, visited, dest, list, ++nb) != EXIT_SUCCESS)
-		if (nb >= 75)
+	{
+		ft_memcpy(visited, g->visited, MAX_VERTICES);
+		visited[key] = unvisited_node;
+		if (nb >= 100)
 			return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
