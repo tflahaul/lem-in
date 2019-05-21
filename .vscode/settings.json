@@ -8,7 +8,19 @@
 		"stdint.h": "c",
 		"libft.h": "c",
 		"lem_in_algorithm.h": "c",
-		"lem_in_compiler.h": "c"
+		"lem_in_compiler.h": "c",
+		"__functional_base": "cpp",
+		"__functional_base_03": "cpp",
+		"__tuple": "cpp",
+		"chrono": "cpp",
+		"functional": "cpp",
+		"limits": "cpp",
+		"memory": "cpp",
+		"ratio": "cpp",
+		"tuple": "cpp",
+		"type_traits": "cpp",
+		"utility": "cpp",
+		"stdlib.h": "c"
 	},
 	"editor.rulers": [80]
 }

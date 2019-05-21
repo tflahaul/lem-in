@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/18 16:59:41 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/21 15:54:59 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,6 @@ endif
 CFLAGS 		= 	-Wall						\
 				-Wextra						\
 				-Werror						\
-				-Wpadded					\
-				-std=c99					\
 				-g
 
 INC 		= 	-I $(HDR)
@@ -44,9 +42,8 @@ SRC 		= 	main						parsing						\
 				tools						connection_list				\
 				hash						queue						\
 				stacks						algorithm					\
-				movements					breadth_first_search		\
-				graph_manipulation			distribution				\
-				visual						depth_first_search
+				breadth_first_search		visual						\
+				list
 
 LIBFT		=	$(LIBDIR)/libft.a
 

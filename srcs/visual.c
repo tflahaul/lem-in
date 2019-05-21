@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visual.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abrunet <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:23:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/17 22:41:47 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/21 15:46:56 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ uint8_t		write_data(t_map *map)
 	append_to_file(DATA, map->hashtab[map->end_index]->name);
 	return (EXIT_SUCCESS);
 }
-
+/*
 uint8_t		write_paths_to_file(t_map *map, t_stack *list)
 {
 	t_stack		*tmp;
@@ -61,3 +61,4 @@ uint8_t		write_paths_to_file(t_map *map, t_stack *list)
 	}
 	return (EXIT_SUCCESS);
 }
+*/

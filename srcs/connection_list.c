@@ -6,13 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:15:36 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/17 23:02:33 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/21 15:42:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
 #include <lem_in_compiler.h>
+#include <lem_in_algorithm.h>
 
 static t_edges		*make_node(uint32_t hashkey)
 {

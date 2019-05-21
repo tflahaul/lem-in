@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:18:38 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/21 15:28:47 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <lem_in_queue.h>
 #include <stdlib.h>
 
-static inline t_queue	*ft_allocate_queue_node(uint32_t key)
+inline t_queue			*ft_queue_node(uint32_t key)
 {
 	t_queue				*node;
 
@@ -22,11 +22,9 @@ static inline t_queue	*ft_allocate_queue_node(uint32_t key)
 		return (NULL);
 	node->key = key;
 	node->ant = 0;
-	node->next = NULL;
-	node->prev = NULL;
 	return (node);
 }
-
+/*
 inline uint8_t			ft_drain_queue(t_queue **head)
 {
 	t_queue				*ptr;
@@ -91,3 +89,4 @@ t_queue					*ft_queue_pop(t_queue **head)
 		node->prev = NULL;
 	return (node);
 }
+*/

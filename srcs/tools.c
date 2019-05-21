@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 17:19:26 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/19 13:15:09 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/21 15:42:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdint.h>
 #include <lem_in_stacks.h>
-
+/*
 inline t_queue				*list_last_node(t_queue *head)
 {
 	if (head != NULL)
@@ -20,7 +20,7 @@ inline t_queue				*list_last_node(t_queue *head)
 			head = head->next;
 	return (head);
 }
-
+*/
 inline uint64_t				ft_list_size(t_stack *list)
 {
 	uint64_t				length;

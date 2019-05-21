@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/19 13:14:52 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/21 15:48:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ inline t_stack				*ft_stack_pop(t_stack **head)
 	if (head == NULL || *head == NULL)
 		return (NULL);
 	node = (*head)->next;
-	ft_drain_queue(&(*head)->path);
 	free((void *)(*head));
 	return (node);
 }
-
+/*
 uint8_t						ft_free_stacks(t_stack **head)
 {
 	t_stack					*ptr;
@@ -51,7 +50,7 @@ uint8_t						ft_free_stacks(t_stack **head)
 	*head = NULL;
 	return (EXIT_SUCCESS);
 }
-
+*/
 inline t_stack				*ft_allocate_stack_memory(void)
 {
 	t_stack					*head;
@@ -61,7 +60,7 @@ inline t_stack				*ft_allocate_stack_memory(void)
 	ft_memset(head, 0, sizeof(t_stack));
 	return (head);
 }
-
+/*
 static inline void			ft_fill_stack(t_map *map, t_stack **node)
 {
 	t_vertices				*path;
@@ -100,3 +99,4 @@ uint32_t					ft_push_path_to_stack(t_map *map, t_stack **stack)
 	}
 	return (EXIT_SUCCESS);
 }
+*/

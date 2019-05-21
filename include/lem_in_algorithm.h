@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/20 17:50:59 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/21 15:41:55 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ enum					e_visitedarray
 {
 	unvisited_node = 0,
 	visited_node = 1
+};
+
+enum					e_ways
+{
+	closed_way = 0,
+	open_way,
+	selected_way
 };
 
 typedef struct			s_graph
