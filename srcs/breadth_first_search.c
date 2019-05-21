@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/20 06:21:30 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/21 02:32:38 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ t_edges			*look_for_neg_edge(t_edges *edge)
 	while (tmp)
 	{
 		if (tmp->way == -1)
+		{
+			tmp->way = 2;
 			return (tmp);
+		}
 		tmp = tmp->next;
 	}
 	return (tmp);
@@ -93,7 +96,7 @@ uint8_t				neg_edge_bfs(t_map *map, t_queue **queue, uint8_t *visited, uint32_t 
 		*queue = ft_queue_pop(queue);
 		v = map->hashtab[key]->adjc;
 		if ((v = look_for_neg_edge(v)) != NULL && visited[v->key] != 1)
-		{	
+		{
 			visited[key] = 0;
 			visited[v->key] = 1;
 			map->hashtab[v->key]->prev = map->hashtab[key];
@@ -149,6 +152,7 @@ uint8_t			ft_bfs(t_map *map, uint8_t *visited, t_stack **list)
 	ft_queue_push(&queue, key);
 	if (neg_edge_bfs(map, &queue, visited, key) == EXIT_SUCCESS)
 	{
+		printf("#here\n");
 		check_for_doubles(map);
 		ft_push_path_to_stack(map, list);
 		ft_fast_bzero(visited, MAX_VERTICES);
@@ -156,6 +160,7 @@ uint8_t			ft_bfs(t_map *map, uint8_t *visited, t_stack **list)
 		return (EXIT_SUCCESS);
 
 	}
+//	printf("5\n");
 	ft_update_graph(map, *list);
 	return (EXIT_FAILURE);
 }
