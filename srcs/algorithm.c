@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/22 06:36:41 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/22 19:31:21 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,28 +84,34 @@ static void				ft_make_directed(t_map *map, t_listhead *head)
 }
 
 /*
-**	Doit créer une sorte de liaison au sein des salles visitées pour pouvoir
-**	réduire le problème à un simple edges-disjoints pathfinding (bhandari).
-**	Normalement il faudrait appeller cette fonction juste après make_directed.
+**	Update 'visited' array to relabel nodes through which the BFS algorithm
+**	have gone.
 */
 
-void					ft_update_residual_graph(__unused t_map *map)
+static inline void		ft_relabel_directed_nodes(int8_t *vstd, t_stack *stack)
 {
-	return ;
+	t_listhead			*node;
+	t_listhead			*position;
+
+	ft_fast_bzero(vstd, MAX_VERTICES);
+	node = &(LIST_ENTRY(stack->list.prev, t_stack, list)->path->list);
+	position = node->next;
+	while ((position = position->next) != node->prev)
+		vstd[LIST_ENTRY(position, t_queue, list)->key] = selected_node;
 }
 
 uint8_t					ft_algorithm(t_map *map)
 {
 	t_stack				stacks;
-	uint8_t				visited[MAX_VERTICES];
+	int8_t				visited[MAX_VERTICES];
 
 	ft_list_init_head(&(stacks.list));
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
-		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_join_paths(map, &(stacks.list));
 		ft_make_directed(map, stacks.list.prev);
+		ft_relabel_directed_nodes(visited, &stacks);
 	}
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return ((uint8_t)ft_printf(C_RED"lem-in: %s"C_NONE, DEADEND));

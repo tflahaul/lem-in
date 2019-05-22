@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/21 15:41:53 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:48:24 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 **	Algorithm
 */
 uint8_t					ft_algorithm(t_map *map);
-uint8_t					ft_simple_bfs(t_map *map, uint8_t *v);
-uint8_t					ft_breadth_first_search(t_map *map, uint8_t *visited);
+uint8_t					ft_simple_bfs(t_map *map, int8_t *v);
+uint8_t					ft_breadth_first_search(t_map *map, int8_t *visited);
 uint64_t				ft_abs(int64_t nb);
 
 /*

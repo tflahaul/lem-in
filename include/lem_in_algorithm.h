@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/22 06:38:00 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/22 18:29:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 enum					e_visitedarray
 {
+	selected_node = -1,
 	unvisited_node,
 	visited_node
 };
