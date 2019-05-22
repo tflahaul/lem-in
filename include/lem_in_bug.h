@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/21 13:19:47 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/22 06:37:41 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@
 # define NOROOM			"Room doesn't exist"
 # define TOOSMALLFARM	"Ant farm doesn't have enough rooms"
 # define NOENTRY		"No ##start and/or ##end"
-# define NOPATH			"No path to ##start and/or ##end"
 # define DEADEND		"No possible path to ##end"
 
 uint8_t					ft_puterror(char const *str, char const *err);

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 13:30:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/21 15:31:24 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/22 03:25:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ int					main(int argc, char **argv)
 {
 	t_list			*tmp;
 	t_listhead		*pos, *q;
-	unsigned int	i;
+	unsigned int	i = 0;
 
-	i = 0;
 	t_list			ourlist;
 	ft_list_head_init(&ourlist.list);
 	while (i < 5)

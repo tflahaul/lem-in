@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/21 15:54:59 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/22 06:25:34 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ endif
 CFLAGS 		= 	-Wall						\
 				-Wextra						\
 				-Werror						\
+				-Wpadded					\
 				-g
 
 INC 		= 	-I $(HDR)
@@ -39,11 +40,10 @@ CLIBFT		=	-L $(LIBDIR) -lft
 SRC 		= 	main						parsing						\
 				parsing_vertices			memory						\
 				errors						parsing_edges				\
-				tools						connection_list				\
-				hash						queue						\
-				stacks						algorithm					\
-				breadth_first_search		visual						\
-				list
+				connection_list				hash						\
+				queue						stacks						\
+				algorithm					breadth_first_search		\
+				visual						list
 
 LIBFT		=	$(LIBDIR)/libft.a
 

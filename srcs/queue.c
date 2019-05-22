@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:50:32 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/21 15:28:47 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/22 06:39:02 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,69 +24,3 @@ inline t_queue			*ft_queue_node(uint32_t key)
 	node->ant = 0;
 	return (node);
 }
-/*
-inline uint8_t			ft_drain_queue(t_queue **head)
-{
-	t_queue				*ptr;
-	t_queue				*node;
-
-	node = *head;
-	while (node != NULL)
-	{
-		ptr = node->next;
-		free((void *)node);
-		node = ptr;
-	}
-	*head = NULL;
-	return (EXIT_SUCCESS);
-}
-
-void					ft_queue_push(t_queue **head, uint32_t key)
-{
-	t_queue				*node;
-
-	if (head != NULL)
-	{
-		if (LIKELY((node = ft_allocate_queue_node(key)) != NULL))
-		{
-			node->next = *head;
-			if (*head != NULL)
-				(*head)->prev = node;
-			*head = node;
-		}
-	}
-}
-
-void					ft_queue_append(t_queue **head, uint32_t key)
-{
-	t_queue				*tmp;
-	t_queue				*node;
-
-	if (LIKELY((node = ft_allocate_queue_node(key)) != NULL))
-	{
-		if (*head == NULL)
-			*head = node;
-		else
-		{
-			tmp = *head;
-			while (tmp->next != NULL)
-				tmp = tmp->next;
-			node->prev = tmp;
-			tmp->next = node;
-		}
-	}
-}
-
-t_queue					*ft_queue_pop(t_queue **head)
-{
-	t_queue				*node;
-
-	if (head == NULL || *head == NULL)
-		return (NULL);
-	node = (*head)->next;
-	free((void *)(*head));
-	if (node != NULL)
-		node->prev = NULL;
-	return (node);
-}
-*/
