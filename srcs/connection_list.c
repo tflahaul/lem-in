@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 23:15:36 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/21 15:42:32 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/23 12:06:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ uint8_t				key_idx(uint32_t h1, uint32_t h2, t_map *map, t_edges *new)
 		if (UNLIKELY(tmp->key == h2))
 		{
 			free((void *)new);
-			return (ft_puterror(map->hashtab[h2]->name, DUPLINK));
+			return (ft_puterror(DUPLINK));
 		}
 		if (!tmp->next)
 		{

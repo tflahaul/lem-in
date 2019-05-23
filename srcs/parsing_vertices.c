@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 18:05:00 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:42:12 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/23 12:06:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 	while (hashkey < MAX_VERTICES && map->hashtab[hashkey]->name != NULL)
 	{
 		if (UNLIKELY(!ft_strcmp(map->hashtab[hashkey++]->name, name)))
-			return (ft_puterror(name, DUPLICATE));
+			return (ft_puterror(DUPLICATE));
 		if (UNLIKELY(hashkey == MAX_VERTICES))
 			hashkey = index++;
 		else if (UNLIKELY(index > 1))
-			return (ft_puterror(name, TOOBIG));
+			return (ft_puterror(TOOBIG));
 	}
 	if (UNLIKELY(map->entry_point))
 		set_entry(map->entry_point, map, hashkey);
@@ -67,7 +67,7 @@ static uint8_t		ft_add_to_hashtable(t_map *map, char const *name)
 }
 
 /*
-** Initial check of room definition.
+**	Initial check of room definition.
 */
 
 uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
@@ -77,17 +77,16 @@ uint8_t				ft_parse_vertices(t_map *map, char const *buffer)
 
 	index = 0;
 	if (UNLIKELY(buffer[0] == 'L' || buffer[0] == ' '))
-		return (ft_puterror(buffer, BADNAME));
+		return (ft_puterror(BADNAME));
 	while (ft_isblank(buffer[index]) == 0)
 		index++;
 	if (UNLIKELY(buffer[index] != ' '))
-		return (ft_puterror(buffer, BADNAME));
+		return (ft_puterror(BADNAME));
 	if (UNLIKELY(!(name = ft_strsub(buffer, 0, index))))
-		return (ft_puterror(buffer, MEMERR));
+		return (ft_puterror(MEMERR));
 	if (UNLIKELY(ft_add_to_hashtable(map, name) == EXIT_FAILURE))
 		return (ft_variadic_freeing(1, (void *)name));
 	if (UNLIKELY(ft_coordinate(buffer + index + 1) == EXIT_FAILURE))
-		return (ft_puterror(buffer, BADINPUT));
-	ft_putstr_endl(buffer);
+		return (ft_puterror(BADINPUT));
 	return (EXIT_SUCCESS);
 }

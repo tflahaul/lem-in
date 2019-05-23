@@ -21,7 +21,8 @@
 		"type_traits": "cpp",
 		"utility": "cpp",
 		"stdlib.h": "c",
-		"lem_in_list.h": "c"
+		"lem_in_list.h": "c",
+		"lem_in_parsing.h": "c"
 	},
 	"editor.rulers": [80]
 }

@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/10 18:37:35 by thflahau          #+#    #+#              #
-#    Updated: 2019/05/17 17:53:52 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/23 12:17:05 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRCS	=	ft_isaligned.c	ft_isblank.c	ft_isdigit.c	ft_isprintable.c \
 			ft_strcmp.c		ft_strncmp.c	ft_is32bits.c	ft_putnbr_light.c\
 			ft_printf.c		ft_putchar_fd.c	ft_putstr_fd.c	ft_putendl_fd.c	 \
 			ft_itoa.c		ft_memcpy.c		ft_abs.c		ft_min.c		 \
-			ft_variadic_freeing.c 			get_next_line_stdin.c
+			ft_readline.c					ft_putstr_endl_free.c			 \
+			ft_variadic_freeing.c
 
 OBJDIR	=	objs/
 

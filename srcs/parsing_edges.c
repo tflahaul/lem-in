@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:15:48 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/23 12:06:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ uint8_t				get_collision_key(uint32_t *hashkey, t_map *map,
 		if (UNLIKELY(*hashkey == MAX_VERTICES))
 			*hashkey = 0;
 		if (UNLIKELY(*hashkey == tmp))
-			return (ft_puterror(NULL, TOOBIG));
+			return (ft_puterror(TOOBIG));
 	}
-	return (ft_puterror(NULL, NOROOM));
+	return (ft_puterror(NOROOM));
 }
 
 void				check_for_entry_edges(t_map *map, uint32_t h1, uint32_t h2)
@@ -75,16 +75,15 @@ uint8_t				ft_parse_edges(t_map *map, char const *buffer)
 
 	index = 0;
 	if (UNLIKELY(map->vertices < 2))
-		return (ft_puterror(buffer, TOOSMALLFARM));
+		return (ft_puterror(TOOSMALLFARM));
 	if (UNLIKELY(map->start_index == 0 || map->end_index == 0))
-		return (ft_puterror(buffer, NOENTRY));
+		return (ft_puterror(NOENTRY));
 	if (LIKELY((ptr = ft_strrchr(buffer, '-'))))
 	{
 		if (get_connections(buffer, ptr, map))
 			return (EXIT_FAILURE);
 	}
 	else
-		return (ft_puterror(buffer, UNKCOMM));
-	ft_putstr_endl(buffer);
+		return (ft_puterror(UNKCOMM));
 	return (EXIT_SUCCESS);
 }
