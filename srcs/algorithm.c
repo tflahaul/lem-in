@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 13:06:52 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/24 18:56:19 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,6 @@
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 #include <stdio.h>
-/*
-void					print_hash(t_map *map)
-{
-	for (register uint16_t index = 0; index < MAX_VERTICES; ++index)
-	{
-		if (map->hashtab[index]->name != NULL)
-		{
-			printf("%s", map->hashtab[index]->name);
-			for (t_edges *ptr = map->hashtab[index]->adjc; ptr; (ptr = ptr->next))
-				printf(" -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
-			printf("\n");
-		}
-	}
-}
 
 static void				print_stack(t_map *map, t_listhead *head)
 {
@@ -49,103 +35,6 @@ static void				print_stack(t_map *map, t_listhead *head)
 		position = position->next;
 	}
 	ft_putchar(10);
-}
-*/
-static void				ft_make_directed(t_map *map, t_listhead *head)
-{
-	t_stack				*ptr;
-	t_edges				*tmp;
-	t_listhead			*list;
-	register uint32_t	hashkey;
-
-	ptr = LIST_ENTRY(head, t_stack, list);
-	list = &(ptr->path->list);
-	while ((list = list->next) != ptr->path->list.prev)
-	{
-		hashkey = LIST_ENTRY(list->next, t_queue, list)->key;
-		tmp = map->hashtab[LIST_ENTRY(list, t_queue, list)->key]->adjc;
-		while (tmp->key != hashkey && LIKELY(tmp != NULL))
-			tmp = tmp->next;
-		tmp->way = closed_way;
-	}
-}
-
-static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
-{
-	register t_edges	*node;
-
-	node = map->hashtab[prevkey]->adjc;
-	while (node != NULL)
-	{
-		if (node->key == key)
-		{
-			node->way = open_way;
-			break ;
-		}
-		node = node->next;
-	}
-	node = map->hashtab[key]->adjc;
-	while (node != NULL)
-	{
-		if (node->key == prevkey)
-		{
-			node->way = open_way;
-			break ;
-		}
-		node = node->next;
-	}
-}
-
-static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
-{
-	t_edges				*ptr;
-	t_edges				*node;
-
-	node = map->hashtab[prevkey]->adjc;
-	while (node != NULL)
-	{
-		if (node->key == key && node->way == closed_way)
-		{
-			ptr = map->hashtab[key]->adjc;
-			while (ptr != NULL)
-			{
-				if (ptr->key == prevkey && ptr->way == closed_way)
-					return (EXIT_SUCCESS);
-				ptr = ptr->next;
-			}
-		}
-		node = node->next;
-	}
-	return (EXIT_FAILURE);
-}
-
-/*
-**	Nettoie toutes les connexions du graph, sauf celles pour lesquelles deux
-**	chemins se superposent.
-*/
-
-static inline void		ft_update_graph(t_map *map, t_listhead *head)
-{
-	uint32_t			hashkey;
-	t_queue				*list;
-	t_listhead			*node_head;
-	t_listhead			*node;
-	t_listhead			*ptr;
-
-	ptr = head;
-	while ((ptr = ptr->next) != head)
-	{
-		node_head = &(LIST_ENTRY(ptr, t_stack, list)->path->list);
-		hashkey = LIST_ENTRY(node_head->next, t_queue, list)->key;
-		node = node_head;
-		while ((node = node->next) != node_head)
-		{
-			list = LIST_ENTRY(node, t_queue, list);
-			if (LIKELY(ft_overlaps(map, hashkey, list->key) == EXIT_FAILURE))
-				ft_open_path(map, hashkey, list->key);
-			hashkey = list->key;
-		}
-	}
 }
 
 static void				ft_join_paths(t_map *map, t_listhead *head)
@@ -174,39 +63,160 @@ static void				ft_join_paths(t_map *map, t_listhead *head)
 	}
 }
 
-static void				ft_free_stacks(t_listhead *head)
+void					check_for_doubles(t_map *map)
 {
+	t_edges				*path;
+	t_vertices			*node;
+	t_vertices			*prev;
+	t_vertices			*tmp;
+	int32_t				i;
+	int32_t				j;
+
+	i = 0;
+	node = map->hashtab[map->end_index];
+	tmp = node;
+	prev = node;
+	while ((node = node->prev) != NULL)
+	{
+		i++;
+		tmp = map->hashtab[map->end_index];
+		j = 0;
+		while (tmp != node)
+		{
+			tmp = tmp->prev;
+			++j;
+		}
+		if (j != i)
+		{
+			path = map->hashtab[prev->key]->adjc;
+			while (path != NULL)
+			{
+				if (path->key == node->key)
+				{
+					path->way = closed_way;
+					break;
+				}
+				path = path->next;
+			}
+			path = map->hashtab[node->key]->adjc;
+			while (path != NULL)
+			{
+				if (path->key == prev->key)
+				{
+					path->way = closed_way;
+					break;
+				}
+				path = path->next;
+			}
+			break;
+		}
+		prev = node;
+	}
+	prev->prev = NULL;
+}
+
+t_edges					*look_for_neg_edge(t_edges *edge)
+{
+	t_edges				*tmp;
+
+	tmp = edge;
+	while (tmp != NULL)
+	{
+		if (tmp->way == -1)
+		{
+			tmp->way = 2;
+			return (tmp);
+		}
+		tmp = tmp->next;
+	}
+	return (tmp);
+}
+
+uint8_t					neg_edge_bfs(t_map *map,
+									t_listhead *head,
+									int8_t *visited,
+									uint32_t key)
+{
+	t_edges				*vert;
 	t_listhead			*node;
-	t_listhead			*next;
 
 	node = head->next;
 	while (node != head)
 	{
-		next = node->next;
-		ft_list_del(&(LIST_ENTRY(node, t_stack, list)->path->list));
-		free((void *)LIST_ENTRY(node, t_stack, list)->path);
-		free((void *)LIST_ENTRY(node, t_stack, list));
-		node = next;
+		key = LIST_ENTRY(node, t_queue, list)->key;
+		if (key == map->end_index)
+			return (ft_list_del(head));
+		ft_list_pop(node);
+		vert = map->hashtab[key]->adjc;
+		if ((vert = look_for_neg_edge(vert)) != NULL && visited[vert->key] != visited_node)
+		{
+			visited[key] = unvisited_node;
+			visited[vert->key] = visited_node;
+			map->hashtab[vert->key]->prev = map->hashtab[key];
+			ft_list_add_tail(&(ft_queue_node(vert->key)->list), node);
+			if (neg_edge_bfs(map, node->prev, visited, vert->key) == EXIT_FAILURE)
+				return (neg_edge_bfs(map, node->prev, visited, key));
+			else
+				return (EXIT_SUCCESS);
+		}
+		vert = map->hashtab[key]->adjc;
+		while (vert != NULL)
+		{
+			if (vert->way == open_way && !visited[vert->key] && (visited[vert->key] = visited_node))
+			{
+				map->hashtab[vert->key]->prev = map->hashtab[key];
+				ft_list_add_tail(&(ft_queue_node(vert->key)->list), head->next);
+			}
+			vert = vert->next;
+		}
 	}
+	return (EXIT_FAILURE);
+}
+
+static uint8_t			ft_bfs(t_map *map, int8_t *visited, t_listhead *head)
+{
+	t_queue				queue;
+	register uint32_t	key;
+
+	key = map->start_index;
+	visited[key] = visited_node;
+	ft_list_init_head(&(queue.list));
+	ft_list_push(&(ft_queue_node(key)->list), &(queue.list));
+	if (neg_edge_bfs(map, &(queue.list), visited, key) == EXIT_SUCCESS)
+	{
+		check_for_doubles(map);
+		ft_join_paths(map, head);
+		ft_make_directed(map, head->prev);
+		ft_fast_bzero(visited, MAX_VERTICES);
+		return (EXIT_SUCCESS);
+	}
+//	ft_update_graph(map, head);
+	return (EXIT_FAILURE);
 }
 
 uint8_t					ft_algorithm(t_map *map)
 {
 	t_stack				stacks;
 	int8_t				visited[MAX_VERTICES];
+	uint8_t				test = EXIT_SUCCESS;
+	int8_t				ind = 2;
 
 	ft_list_init_head(&(stacks.list));
 	ft_fast_bzero(visited, MAX_VERTICES);
-	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
+	while (--ind && test == EXIT_SUCCESS)
 	{
-		ft_join_paths(map, &(stacks.list));
-		ft_fast_bzero(visited, MAX_VERTICES);
-		ft_make_directed(map, stacks.list.prev);
+		test = ft_bfs(map, visited, &(stacks.list));
 	}
-	ft_update_graph(map, &(stacks.list));
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return (ft_puterror(DEADEND));
-//	print_stack(map, &(stacks.list));
+	ft_fast_bzero(visited, MAX_VERTICES);
+//	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
+//	{
+//		ft_join_paths(map, &(stacks.list));
+//		ft_fast_bzero(visited, MAX_VERTICES);
+//		ft_make_directed(map, stacks.list.prev);
+//	}
+	print_stack(map, &(stacks.list));
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }
