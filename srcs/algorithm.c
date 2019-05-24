@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/22 19:31:21 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/24 13:06:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 #include <stdio.h>
+/*
+void					print_hash(t_map *map)
+{
+	for (register uint16_t index = 0; index < MAX_VERTICES; ++index)
+	{
+		if (map->hashtab[index]->name != NULL)
+		{
+			printf("%s", map->hashtab[index]->name);
+			for (t_edges *ptr = map->hashtab[index]->adjc; ptr; (ptr = ptr->next))
+				printf(" -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
+			printf("\n");
+		}
+	}
+}
 
 static void				print_stack(t_map *map, t_listhead *head)
 {
@@ -36,34 +50,7 @@ static void				print_stack(t_map *map, t_listhead *head)
 	}
 	ft_putchar(10);
 }
-
-static void				ft_join_paths(t_map *map, t_listhead *head)
-{
-	t_queue				*list;
-	t_stack				*node;
-	t_vertices			*vertice;
-
-	if (LIKELY((node = (t_stack *)malloc(sizeof(t_stack))) != NULL))
-	{
-		node->ant = 0;
-		node->size = 0;
-		if (LIKELY((node->path = (t_queue *)malloc(sizeof(t_queue))) != NULL))
-			ft_list_init_head(&(node->path->list));
-		vertice = map->hashtab[map->end_index];
-		while (vertice != NULL)
-		{
-			if (LIKELY((list = (t_queue *)malloc(sizeof(t_queue))) != NULL))
-			{
-				list->key = (uint32_t)vertice->key;
-				ft_list_push(&(list->list), &(node->path->list));
-				++node->size;
-			}
-			vertice = vertice->prev;
-		}
-		ft_list_add_tail(&(node->list), head);
-	}
-}
-
+*/
 static void				ft_make_directed(t_map *map, t_listhead *head)
 {
 	t_stack				*ptr;
@@ -83,21 +70,124 @@ static void				ft_make_directed(t_map *map, t_listhead *head)
 	}
 }
 
+static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
+{
+	register t_edges	*node;
+
+	node = map->hashtab[prevkey]->adjc;
+	while (node != NULL)
+	{
+		if (node->key == key)
+		{
+			node->way = open_way;
+			break ;
+		}
+		node = node->next;
+	}
+	node = map->hashtab[key]->adjc;
+	while (node != NULL)
+	{
+		if (node->key == prevkey)
+		{
+			node->way = open_way;
+			break ;
+		}
+		node = node->next;
+	}
+}
+
+static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
+{
+	t_edges				*ptr;
+	t_edges				*node;
+
+	node = map->hashtab[prevkey]->adjc;
+	while (node != NULL)
+	{
+		if (node->key == key && node->way == closed_way)
+		{
+			ptr = map->hashtab[key]->adjc;
+			while (ptr != NULL)
+			{
+				if (ptr->key == prevkey && ptr->way == closed_way)
+					return (EXIT_SUCCESS);
+				ptr = ptr->next;
+			}
+		}
+		node = node->next;
+	}
+	return (EXIT_FAILURE);
+}
+
 /*
-**	Update 'visited' array to relabel nodes through which the BFS algorithm
-**	have gone.
+**	Nettoie toutes les connexions du graph, sauf celles pour lesquelles deux
+**	chemins se superposent.
 */
 
-static inline void		ft_relabel_directed_nodes(int8_t *vstd, t_stack *stack)
+static inline void		ft_update_graph(t_map *map, t_listhead *head)
+{
+	uint32_t			hashkey;
+	t_queue				*list;
+	t_listhead			*node_head;
+	t_listhead			*node;
+	t_listhead			*ptr;
+
+	ptr = head;
+	while ((ptr = ptr->next) != head)
+	{
+		node_head = &(LIST_ENTRY(ptr, t_stack, list)->path->list);
+		hashkey = LIST_ENTRY(node_head->next, t_queue, list)->key;
+		node = node_head;
+		while ((node = node->next) != node_head)
+		{
+			list = LIST_ENTRY(node, t_queue, list);
+			if (LIKELY(ft_overlaps(map, hashkey, list->key) == EXIT_FAILURE))
+				ft_open_path(map, hashkey, list->key);
+			hashkey = list->key;
+		}
+	}
+}
+
+static void				ft_join_paths(t_map *map, t_listhead *head)
+{
+	t_queue				*list;
+	t_stack				*node;
+	t_vertices			*vertice;
+
+	if (LIKELY((node = (t_stack *)malloc(sizeof(t_stack))) != NULL))
+	{
+		node->ant = 0;
+		node->size = 0;
+		if (LIKELY((node->path = (t_queue *)malloc(sizeof(t_queue))) != NULL))
+			ft_list_init_head(&(node->path->list));
+		vertice = map->hashtab[map->end_index];
+		while (vertice != NULL)
+		{
+			if (LIKELY((list = ft_queue_node((uint32_t)vertice->key)) != NULL))
+			{
+				ft_list_push(&(list->list), &(node->path->list));
+				++node->size;
+			}
+			vertice = vertice->prev;
+		}
+		ft_list_add_tail(&(node->list), head);
+	}
+}
+
+static void				ft_free_stacks(t_listhead *head)
 {
 	t_listhead			*node;
-	t_listhead			*position;
+	t_listhead			*next;
 
-	ft_fast_bzero(vstd, MAX_VERTICES);
-	node = &(LIST_ENTRY(stack->list.prev, t_stack, list)->path->list);
-	position = node->next;
-	while ((position = position->next) != node->prev)
-		vstd[LIST_ENTRY(position, t_queue, list)->key] = selected_node;
+	node = head->next;
+	while (node != head)
+	{
+		next = node->next;
+		ft_list_del(&(LIST_ENTRY(node, t_stack, list)->path->list));
+		free((void *)LIST_ENTRY(node, t_stack, list)->path);
+		free((void *)LIST_ENTRY(node, t_stack, list));
+		node = next;
+	}
 }
 
 uint8_t					ft_algorithm(t_map *map)
@@ -110,11 +200,13 @@ uint8_t					ft_algorithm(t_map *map)
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
+		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_make_directed(map, stacks.list.prev);
-		ft_relabel_directed_nodes(visited, &stacks);
 	}
+	ft_update_graph(map, &(stacks.list));
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
-		return ((uint8_t)ft_printf(C_RED"lem-in: %s"C_NONE, DEADEND));
-	print_stack(map, &(stacks.list));
-	return (EXIT_SUCCESS); // Leaks
+		return (ft_puterror(DEADEND));
+//	print_stack(map, &(stacks.list));
+	ft_free_stacks(&(stacks.list));
+	return (EXIT_SUCCESS);
 }

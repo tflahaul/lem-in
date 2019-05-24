@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 13:36:02 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/22 01:49:07 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/24 13:03:08 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,10 @@ inline void				ft_list_add(t_listhead *node,
 									t_listhead *prev,
 									t_listhead *next)
 {
-	if (LIKELY(node != NULL && prev != NULL && next != NULL))
-	{
-		next->prev = node;
-		node->next = next;
-		node->prev = prev;
-		prev->next = node;
-	}
+	next->prev = node;
+	node->next = next;
+	node->prev = prev;
+	prev->next = node;
 }
 
 /*
