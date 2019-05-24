@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/20 06:21:30 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/24 16:05:35 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ t_edges			*look_for_neg_edge(t_edges *edge)
 	while (tmp)
 	{
 		if (tmp->way == -1)
+		{
+			tmp->way = 2;
 			return (tmp);
+		}
 		tmp = tmp->next;
 	}
 	return (tmp);

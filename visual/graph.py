@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/20 04:13:41 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/24 02:49:04 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,5 +105,5 @@ def graph(G, paths, data):
         
 
     # animation
-    ani = animation.FuncAnimation(fig, update, frames=frames - 1, interval=interval, repeat=False)
+    ani = animation.FuncAnimation(fig, update, frames=frames, interval=interval, repeat=False)
     plt.show()
