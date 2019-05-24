@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/23 12:51:23 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/24 14:07:06 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRC 		= 	main						parsing						\
 				queue						stacks						\
 				algorithm					breadth_first_search		\
 				visual						list						\
-				parsing_memory
+				parsing_memory				tools						\
+				movements
 
 LIBFT		=	$(LIBDIR)/libft.a
 

@@ -6,10 +6,11 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 21:02:43 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/24 12:54:49 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 
@@ -100,7 +101,7 @@ void				ft_population_distribution(t_map *map, t_stack *stacks)
 
 	ants = stacks->ant;
 	sum = ants;
-	if (stacks->next != NULL)
+	if (stacks->list.next == &(stacks->list))
 	{
 		ants_to_path(ants, &sum, map->population, stacks);
 		ants_sup(map->population, sum, stacks);

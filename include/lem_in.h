@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/23 12:54:04 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/24 14:08:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 # define LEM_IN_H
 
 # include "../libft/libft.h"
-# include <lem_in_visual.h>
 
-# define MAX_VERTICES	6000
+# define MAX_VERTICES	6203
 
 # define VISUAL			0x00000001u
 # define COLORS			0x00010000u
@@ -59,8 +58,8 @@ uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 /*
 **	Memory
 */
-void					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
 uint8_t					ft_initialize_hashtable(t_map *map);
+uint8_t					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES]);
 
 /*
 **	Lists
@@ -76,7 +75,6 @@ uint8_t					ft_breadth_first_search(t_map *map, int8_t *visited);
 /*
 **	Visualization
 */
-void					ft_print_colored_ant(uint32_t nb, char const *name);
 uint8_t					append_to_file(char const *file, char const *s);
 
 #endif

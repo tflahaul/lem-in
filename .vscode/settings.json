@@ -22,7 +22,9 @@
 		"utility": "cpp",
 		"stdlib.h": "c",
 		"lem_in_list.h": "c",
-		"lem_in_parsing.h": "c"
+		"lem_in_parsing.h": "c",
+		"lem_in_hash.h": "c",
+		"lem_in_visual.h": "c"
 	},
 	"editor.rulers": [80]
 }

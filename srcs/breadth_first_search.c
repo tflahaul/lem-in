@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/22 19:32:11 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/23 15:46:36 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ uint8_t						ft_breadth_first_search(t_map *map, int8_t *vstd)
 		vert = map->hashtab[hashkey]->adjc;
 		while (vert != NULL)
 		{
-			if (vert->way == open_way && vstd[vert->key] < visited_node)
+			if (vert->way == open_way && vstd[vert->key] == unvisited_node)
 			{
-				vstd[vert->key] = vstd[vert->key] + 1;
+				vstd[vert->key] = visited_node;
 				map->hashtab[vert->key]->prev = map->hashtab[hashkey];
 				ft_list_add_tail(&(ft_queue_node(vert->key)->list), &(queue.list));
 			}

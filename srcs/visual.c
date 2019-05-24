@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:23:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/21 15:46:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/24 13:36:47 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <lem_in_stacks.h>
+#include <lem_in_visual.h>
 
 uint8_t		append_to_file(char const *file, char const *s)
 {
