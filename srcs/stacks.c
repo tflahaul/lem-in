@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/19 23:14:12 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/21 02:32:57 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static inline void			ft_fill_stack(t_map *map, t_stack **node)
 		path = path->prev;
 	//	tmp->prev = NULL;
 	}
+	printf("#SIZE = %llu\n", (*node)->size);
 }
 
 uint32_t					ft_push_path_to_stack(t_map *map, t_stack **stack)

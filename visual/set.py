@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:22 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/17 23:20:48 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/21 01:48:33 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ def read_paths():
     return (paths)
                 
 def read_output(lines, G):
+    coord = 0
     for line in lines:
         if (line):
             if ('\033' in line[0]):
@@ -49,12 +50,14 @@ def read_output(lines, G):
                     name = data[0]
                     x = int(data[1])
                     y = int(data[2])
+                    coord += x + y
                     G.add_node(name, pos=(x, y))
                 elif (line.find('-') != -1):
                     e = line.split('-')
                     e = (tuple((e[0], e[1])))
                     G.add_edge(*e)
             print (line)
+    return (coord)
 
 
 def clear_files():
@@ -75,10 +78,11 @@ if __name__ == '__main__':
     lines = output.split('\n')
     try:
         G = nx.Graph()
-        read_output(lines, G)
+        coord = read_output(lines, G)
+        print(coord)
         data = read_data()
         paths = read_paths()
-        graph(G, paths, data)
+        graph(G, coord, paths, data)
         clear_files()
     except Exception as e:
         print(e)

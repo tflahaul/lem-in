@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/24 02:49:04 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/24 16:38:41 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,18 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-def get_options(G, vertices, ax):
+def set_options(G, ax, node_size, width, pos):
+    options = {
+        'pos': pos,
+        'node_size': node_size,
+        'alpha': 0.60,
+        'width': width,
+        'ax': ax,
+    }
+    return (options)
+
+def get_options(G, vertices, ax, coord):
+    #set edges width
     if vertices < 50:
         width = 10.0
     elif 50 <= vertices <= 1000:
@@ -22,6 +33,7 @@ def get_options(G, vertices, ax):
     else:
         width = 3.0
 
+    #set nodes size
     if vertices < 50:
         node_size = 500
     elif 50 <= vertices <= 1000:
@@ -29,14 +41,19 @@ def get_options(G, vertices, ax):
     else:
         node_size = 100
 
-    options = {
-        'pos': nx.nx_pydot.pydot_layout(G, prog='sfdp') if vertices > 100
-           else nx.get_node_attributes(G, 'pos'),
-        'node_size': node_size,
-        'alpha': 0.60,
-        'width': width,
-        'ax': ax,
-    }
+    #set coordinates mapping
+    if coord == 0 :
+        if vertices <= 500:
+            pos = nx.nx_pydot.pydot_layout(G, prog='fdp')  
+        else:
+            pos = nx.nx_pydot.pydot_layout(G, prog='sfdp')  
+    else:
+        if vertices <= 100:
+            pos = nx.get_node_attributes(G, 'pos')
+        else:
+            pos = nx.nx_pydot.pydot_layout(G, prog='sfdp') 
+
+    options = set_options(G, ax, node_size, width, pos)
     return (options)
 
 def get_ants_per_path():
@@ -49,7 +66,7 @@ def get_ants_per_path():
             i += 1
     return (dic)
 
-def graph(G, paths, data):
+def graph(G, coord, paths, data):
 
     #reset paths accounting for data['init'], set animation data
     ants = get_ants_per_path()
@@ -60,7 +77,7 @@ def graph(G, paths, data):
 
     # set subplots
     fig, ax = plt.subplots(figsize=(23, 13))
-    options = get_options(G, data['vertices'], ax)
+    options = get_options(G, data['vertices'], ax, coord)
 
     def update(i):
         ax.clear()

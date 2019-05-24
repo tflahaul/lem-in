@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 03:06:15 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/24 16:37:45 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,19 @@ uint8_t					ft_algorithm(t_map *map)
 	int					path;
 	uint8_t				visited[MAX_VERTICES];
 	uint8_t				test;
+	int					ind;
+
+	ind = 2;
 	list = NULL;
 	path = 1;
 
 	test = EXIT_SUCCESS;
 	ft_fast_bzero(visited, MAX_VERTICES);
-	while (test == EXIT_SUCCESS)
+	while (--ind && test == EXIT_SUCCESS)
+	{
 		test = ft_bfs(map, visited, &list);
-//	print_paths(map, list);
+//		print_paths(map, list);
+	}
 	if (UNLIKELY(list == NULL))
 		return (ft_printf(C_RED"lem-in: %s\n"C_NONE, DEADEND));
 	ft_free_stacks(&list->next);
@@ -108,10 +113,11 @@ uint8_t					ft_algorithm(t_map *map)
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_update_tab(list, visited);
 	}
-//	print_paths(map, list);
+	print_paths(map, list);
 
 	ft_delete_unused_stacks(&list, nbr_optimum_paths(map, list, &path), map);
 	ft_population_distribution(map, list);
+//	print_movements
 	return (ft_free_stacks(&list));
 }
 
