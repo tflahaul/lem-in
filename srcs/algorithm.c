@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/28 11:27:39 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/28 12:02:03 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
+
+/*
 #include <stdio.h>
 
 static void				print_stack(t_map *map, t_listhead *head)
@@ -35,6 +37,7 @@ static void				print_stack(t_map *map, t_listhead *head)
 	}
 	ft_putchar(10);
 }
+*/
 
 static void				ft_join_paths(t_map *map, t_listhead *head)
 {
@@ -144,51 +147,6 @@ static void				ft_search_for_common_vertices(t_graph *graph,
 	}
 }
 
-static void				ft_delete_unused_stacks(t_listhead *head, uint16_t nb)
-{
-	t_listhead			*tmp;
-	t_listhead			*position;
-
-	if (UNLIKELY(nb == 0))
-	{
-		while (head != head->next)
-		{
-			ft_list_del(&(ft_stack_entry(head->next)->path->list));
-			free((void *)ft_stack_entry(head->next)->path);
-			ft_list_pop(head->next);
-		}
-	}
-	else if (nb == 1)
-	{
-		position = head->next->next;
-		while (position != head)
-		{
-			tmp = position->next;
-			ft_list_del(&(ft_stack_entry(position)->path->list));
-			free((void *)ft_stack_entry(position)->path);
-			ft_list_pop(position);
-			position = tmp;
-		}
-	}
-	else
-	{
-		ft_list_del(&(ft_stack_entry(head->next)->path->list));
-		free((void *)ft_stack_entry(head->next)->path);
-		ft_list_pop(head->next);
-		position = head;
-		while (position->next != head && nb-- > 0)
-			position = position->next;
-		while (position != head)
-		{
-			tmp = position->next;
-			ft_list_del(&(ft_stack_entry(position)->path->list));
-			free((void *)ft_stack_entry(position)->path);
-			ft_list_pop(position);
-			position = tmp;
-		}
-	}
-}
-
 uint8_t					ft_algorithm(t_map *map)
 {
 	int					s = 1;
@@ -209,7 +167,7 @@ uint8_t					ft_algorithm(t_map *map)
 		return (ft_puterror(DEADEND));
 	ft_update_graph(map, &(stacks.list));
 	ft_fast_bzero(graph.visited, MAX_VERTICES);
-	ft_free_stacks(&(stacks.list));
+	ft_delete_unused_stacks(&(stacks.list), 1);
 	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
@@ -219,7 +177,6 @@ uint8_t					ft_algorithm(t_map *map)
 		ft_search_for_common_vertices(&graph, stacks.list.prev);
 	}
 	ft_delete_unused_stacks(&(stacks.list), nbr_optimum_paths(map, &(stacks.list), &s));
-	print_stack(map, &(stacks.list));
 //	ft_population_distribution(map, &stacks);
 //	ft_print_movements(map, &stacks);
 	ft_free_stacks(&(stacks.list));

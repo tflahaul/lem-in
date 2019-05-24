@@ -6,13 +6,13 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:22 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/17 23:20:48 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/24 18:31:16 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import networkx as nx
 from graph import graph
-import subprocess 
+import subprocess
 import os
 
 def read_data():
@@ -37,7 +37,7 @@ def read_paths():
                 paths.append(lst)
                 lst = []
     return (paths)
-                
+
 def read_output(lines, G):
     for line in lines:
         if (line):
