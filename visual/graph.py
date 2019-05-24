@@ -6,13 +6,42 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/24 16:38:41 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/24 20:23:47 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+
+def set_colors():
+    default = {
+        'background'  : "#94DAD5",
+        'edge_std'    : "#0D7D84",
+        'node_std'    : "#07B2B4",
+        'short'       : "yellow",
+        'opti'        : "orange",
+        'ants'        : "green",
+    }
+
+    holy_graph = {
+        'background'  : "#051B26",
+        'edge_std'    : "#4C4C4E",
+        'node_std'    : "#4C4C4E",
+        'short'       : "#19BFBC",
+        'opti'        : "#19BFBC",
+        'ants'        : "#19BFBC",
+    }
+
+    city = {
+        'background'  : "#424242",
+        'edge_std'    : "#100805",
+        'node_std'    : "#100805",
+        'short'       : "#37D7FD",
+        'opti'        : "#37D7FD",
+        'ants'        : "#37D7FD",
+    }
+    return (holy_graph)
 
 def set_options(G, ax, node_size, width, pos):
     options = {
@@ -70,6 +99,8 @@ def graph(G, coord, paths, data):
 
     #reset paths accounting for data['init'], set animation data
     ants = get_ants_per_path()
+    colors = set_colors()
+    print(colors)
     shrtlen = len(paths[0])
     frames = shrtlen + len(paths[len(paths) - 1])
     steps = ants[1] + len(paths[1])
@@ -84,15 +115,15 @@ def graph(G, coord, paths, data):
         plt.gca().invert_yaxis()
 
         # draw background graph
-        nx.draw_networkx_edges(G, **options, edge_color="#0D7D84")
-        nx.draw_networkx_nodes(G, **options, node_color="#07B2B4")
+        nx.draw_networkx_edges(G, **options, edge_color=colors['edge_std'])
+        nx.draw_networkx_nodes(G, **options, node_color=colors['node_std'])
         
         # draw shortest path
         if (i and i < shrtlen):
             nodelist = paths[0][(i - i):(i + 1)]
             edgelist = [nodelist[k:k+2] for k in range(len(nodelist) - 1)]
-            nx.draw_networkx_nodes(G, **options, nodelist=nodelist, node_color='yellow')
-            nx.draw_networkx_edges(G, **options, edgelist=edgelist, edge_color='yellow')
+            nx.draw_networkx_nodes(G, **options, nodelist=nodelist, node_color=colors['short'])
+            nx.draw_networkx_edges(G, **options, edgelist=edgelist, edge_color=colors['short'])
             ax.set_title("SHORTEST PATH")
 
         # draw optimal paths 
@@ -101,8 +132,8 @@ def graph(G, coord, paths, data):
             for n in range(len(paths) - 1):
                 nodelist = paths[n + 1][(idx - idx):(idx + 1)]
                 edgelist = [nodelist[k:k+2] for k in range(len(nodelist) - 1)]
-                nx.draw_networkx_nodes(G, **options, nodelist=nodelist, node_color='orange')
-                nx.draw_networkx_edges(G, **options, edgelist=edgelist, edge_color='orange')
+                nx.draw_networkx_nodes(G, **options, nodelist=nodelist, node_color=colors['opti'])
+                nx.draw_networkx_edges(G, **options, edgelist=edgelist, edge_color=colors['opti'])
             ax.set_title("OPTIMAL PATHS")
 
         #set ants moves
@@ -115,10 +146,10 @@ def graph(G, coord, paths, data):
                 else:
                     nodelist = paths[n + 1][(moves - ants[n + 1] - 1):(idx + 1)]
                 edgelist = [nodelist[k:k+2] for k in range(len(nodelist) - 1)]
-                nx.draw_networkx_nodes(G, **options, nodelist=nodelist, node_color='green')
-                nx.draw_networkx_edges(G, **options, edgelist=edgelist, edge_color='green')
+                nx.draw_networkx_nodes(G, **options, nodelist=nodelist, node_color=colors['ants'])
+                nx.draw_networkx_edges(G, **options, edgelist=edgelist, edge_color=colors['ants'])
             ax.set_title("MOVES :" + str(i - frames + 1))
-        ax.set_facecolor("#94DAD5")
+        ax.set_facecolor(colors['background'])
         
 
     # animation
