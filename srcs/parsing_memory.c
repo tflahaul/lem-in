@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 12:20:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/26 13:07:01 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 15:09:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "../libft/libft.h"
 
 /*
-**	Cast the t_listhead pointer of the t_queue structure out to the
+**	Cast the t_listhead pointer of the t_input structure out to the
 **	containing structure. Works just like the `container_of` macro from
 **	the Linux kernel, file `include/linux/kernel.h` L.968
 */
@@ -58,22 +58,6 @@ inline uint8_t			ft_parsing_panic(t_listhead *head, char const *str)
 		next = node->next;
 	}
 	return (EXIT_FAILURE);
-}
-
-inline uint8_t			ft_free_lines(t_listhead *head)
-{
-	t_listhead			*node;
-	t_listhead			*next;
-
-	node = head->next;
-	next = node->next;
-	while (node != head)
-	{
-		free((void *)ft_input_entry(node));
-		node = next;
-		next = node->next;
-	}
-	return (EXIT_SUCCESS);
 }
 
 inline void				ft_safe_print_and_free(t_listhead *head)

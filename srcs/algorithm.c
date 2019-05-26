@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/26 13:38:15 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 16:08:34 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-/*
 #include <stdio.h>
-
+/*
 static void				print_stack(t_map *map, t_listhead *head)
 {
 	t_stack				*node;
@@ -38,6 +37,7 @@ static void				print_stack(t_map *map, t_listhead *head)
 	ft_putchar(10);
 }
 */
+
 static void				ft_join_paths(t_map *map, t_listhead *head)
 {
 	t_queue				*list;
@@ -64,6 +64,47 @@ static void				ft_join_paths(t_map *map, t_listhead *head)
 	}
 }
 
+static void				ft_del_unused_stacks(t_listhead *head, uint16_t nb)
+{
+	if (UNLIKELY(nb == 0))
+	{
+		while (head != head->next)
+		{
+			ft_list_del(&(ft_stack_entry(head->next)->path->list));
+			free((void *)ft_stack_entry(head->next)->path);
+			ft_list_pop(head->next);
+		}
+	}
+	else if (nb == 1)
+	{
+		ft_list_del(&(ft_stack_entry(head->next)->path->list));
+		free((void *)ft_stack_entry(head->next)->path);
+		ft_list_pop(head->next);
+	}
+	else
+	{
+		printf("ayyye\n");
+	}
+}
+
+/*
+**	Update 'visited' array to indicate nodes through which the BFS algorithm
+**	have gone. Function only used after overlaps have been handled, when
+**	looking for distinct paths.
+*/
+
+static inline void		ft_update_visited_array(int8_t *array, t_listhead *head)
+{
+	t_listhead			*ref;
+	t_listhead			*node;
+
+	ft_fast_bzero(array, MAX_VERTICES);
+	ref = &(ft_stack_entry(head)->path->list);
+	node = ref;
+	while ((node = node->next) != ref)
+		array[ft_queue_entry(node)->key] = visited_node;
+}
+
 uint8_t					ft_algorithm(t_map *map)
 {
 	t_stack				stacks;
@@ -79,6 +120,13 @@ uint8_t					ft_algorithm(t_map *map)
 	}
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return (ft_puterror(DEADEND));
+	ft_del_unused_stacks(&(stacks.list), 0);
+	ft_fast_bzero(visited, MAX_VERTICES);
+	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
+	{
+		ft_join_paths(map, &(stacks.list));
+		ft_update_visited_array(visited, stacks.list.prev);
+	}
 //	print_stack(map, &(stacks.list));
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);

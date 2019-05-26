@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/26 13:53:59 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/26 16:08:56 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ CFLAGS 		= 	-Wall						\
 				-Wpadded					\
 				-std=c99					\
 				-pedantic					\
+				-fsanitize=address			\
 				-g
 
 INC 		= 	-I $(HDR)

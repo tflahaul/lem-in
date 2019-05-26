@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/23 12:48:55 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 15:11:33 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 }
 
 /*
-** 	Reads Standard Input. If file descriptor 0 is redirection (isatty == 0),
+** 	Reads standard input. If file descriptor 0 is redirection (isatty == 0),
 **	checks if redirection is towards a regular file (S_ISREG)
 **	or of the pipe kind (S_ISFIFO).
-**	The lines are stored in a circularly-linked list and are freed while being
-**	displayed on the Standard Ouput.
+**	The lines are stored in a circular linked list and are freed while being
+**	displayed on the standard ouput.
 */
 
 uint8_t					ft_read_std_input(t_map *map)

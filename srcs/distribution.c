@@ -6,89 +6,95 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 12:54:49 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 16:07:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
-#include <lem_in_algorithm.h>
 
-int					func2(int pop, int diff, int paths)
+static inline int	func2(int pop, int diff, int paths)
 {
 	return ((pop + diff) / paths + 1);
 }
 
-int					nbr_optimum_paths(t_map *map, t_stack *stacks, int *path)
+int					nbr_optimum_paths(t_map *map, t_listhead *head, int *path)
 {
 	int				size;
 	int				sum;
-	int				var;
+	int32_t			var;
 	int				diff;
-	t_stack			*tmp;
+	t_listhead		*tmp;
 
 	diff = 0;
 	var = map->population;
-	size = stacks->size;
-	tmp = stacks->next;
+	size = ft_stack_entry(head->next)->size;
+	tmp = head->next->next;
 	while ((tmp = tmp->next) != NULL)
 	{
-		diff += tmp->size - size;
+		diff += ft_stack_entry(tmp)->size - size;
 		sum = func2(map->population, diff, ++(*path));
 		if (sum > var)
 		{
-			stacks->next->ant = var;
+			ft_stack_entry(head->next->next)->ant = var;
 			return ((*path -= 1));
 		}
 		var = sum;
 	}
-	stacks->next->ant = var;
+	ft_stack_entry(head->next->next)->ant = var;
 	if (*path == 2 && var == sum)
-		stacks->next->ant -= 1;
+		ft_stack_entry(head->next->next)->ant -= 1;
 	return (*path);
 }
 
-void				ants_sup(int population, int sum, t_stack *stacks)
+void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
 {
-	int				diff;
-	t_stack			*tmp;
+	int32_t			diff;
+	t_listhead		*node;
 
 	while (sum > population)
 	{
-		tmp = stacks;
-		while (tmp->next != NULL && tmp->next->ant > 0)
-			tmp = tmp->next;
+		node = head->next;
+		while (node->next != head && ft_stack_entry(node->next)->ant > 0)
+			node = node->next;
 		diff = sum - population;
-		if (((int)tmp->ant - diff) < 0)
+		if (((int32_t)(ft_stack_entry(node)->ant) - diff) < 0)
 		{
-			sum -= tmp->ant;
-			diff = ft_abs(tmp->ant - diff);
-			tmp->ant = 0;
+			sum -= ft_stack_entry(node)->ant;
+			diff = ft_abs(ft_stack_entry(node)->ant - diff);
+			ft_stack_entry(node)->ant = 0;
 		}
 		else
 		{
-			tmp->ant -= diff;
+			ft_stack_entry(node)->ant -= diff;
 			sum -= diff;
 		}
 	}
-	return ;
 }
 
-void				ants_to_path(uint32_t ants, int *sum, int pop, t_stack *ptr)
+void				ants_to_path(uint32_t ants,
+								int *sum,
+								int pop,
+								t_listhead *head)
 {
-	int				tmp;
-	t_stack			*lst;
+	int32_t			tmp;
+	t_stack			*node;
+	t_listhead		*ptr;
 
-	tmp = ants;
-	lst = ptr;
-	lst->ant = ants;
-	while ((lst = lst->next) != NULL && tmp > 0 && *sum <= pop)
+	tmp = (int32_t)ants;
+	ptr = head;
+	ft_stack_entry(ptr)->ant = ants;
+	while ((ptr = ptr->next) != head && tmp > 0 && *sum <= pop)
 	{
-		if ((tmp = ants - (lst->size - ptr->size)) > 0)
+		node = ft_stack_entry(ptr);
+		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size)) > 0)
 		{
-			if (ptr->next == lst && lst->size == ptr->size && pop % 2)
+			// Pas compris la première condition :(
+			if (head->next == ptr && node->size == ft_stack_entry(head->next)->size
+				&& pop % 2)
 				tmp -= 1;
-			lst->ant = tmp;
+			node->ant = tmp;
 			*sum += tmp;
 		}
 	}
@@ -96,7 +102,7 @@ void				ants_to_path(uint32_t ants, int *sum, int pop, t_stack *ptr)
 
 void				ft_population_distribution(t_map *map, t_stack *stacks)
 {
-	int				sum;
+	int32_t			sum;
 	uint32_t		ants;
 
 	ants = stacks->ant;

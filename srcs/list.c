@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 13:36:02 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/26 13:44:38 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 15:10:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 /*
 **	These are easy-to-use, highly portable functions for manipulating
-**	circularly-linked list. This implementation comes from the Linux
+**	circular linked lists. This implementation comes from the Linux
 **	kernel source tree, file `include/linux/list.h`
 */
 
