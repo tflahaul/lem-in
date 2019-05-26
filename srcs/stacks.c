@@ -6,13 +6,24 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 17:56:38 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 13:07:03 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include "../libft/libft.h"
+
+/*
+**	Cast the t_listhead pointer of the t_stack structure out to the
+**	containing structure. Works just like the `container_of` macro from
+**	the Linux kernel, file `include/linux/kernel.h` L.968
+*/
+
+inline t_stack				*ft_stack_entry(t_listhead *ptr)
+{
+	return ((t_stack *)((char *)ptr - __builtin_offsetof(t_stack, list)));
+}
 
 inline t_stack				*ft_stack_node(void)
 {
@@ -33,9 +44,9 @@ void						ft_free_stacks(t_listhead *head)
 	while (node != head)
 	{
 		next = node->next;
-		ft_list_del(&(LIST_ENTRY(node, t_stack, list)->path->list));
-		free((void *)LIST_ENTRY(node, t_stack, list)->path);
-		free((void *)LIST_ENTRY(node, t_stack, list));
+		ft_list_del(&(ft_stack_entry(node)->path->list));
+		free((void *)ft_stack_entry(node)->path);
+		free((void *)ft_stack_entry(node));
 		node = next;
 	}
 }

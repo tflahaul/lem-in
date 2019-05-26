@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 17:59:05 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 13:43:51 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@
 #  include <lem_in_list.h>
 # endif
 
-enum					e_visitedarray
-{
+enum					e_visitedarray {
 	selected_node = -1,
 	unvisited_node,
 	visited_node
 };
 
-enum					e_ways
-{
+enum					e_ways {
 	closed_way,
 	open_way,
 	selected_way

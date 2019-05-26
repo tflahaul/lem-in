@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:42:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/23 15:46:36 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 12:56:01 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ uint8_t						ft_breadth_first_search(t_map *map, int8_t *vstd)
 	node = &(queue.list);
 	while (node != node->next)
 	{
-		hashkey = ((t_queue *)LIST_ENTRY(node->next, t_queue, list))->key;
+		hashkey = ((t_queue *)ft_queue_entry(node->next))->key;
 		if (hashkey == map->end_index)
 			return (ft_list_del(&(queue.list)));
 		ft_list_pop(node->next);

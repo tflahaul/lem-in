@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 13:36:02 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 13:03:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 13:44:38 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ inline void				ft_list_pop(t_listhead *node)
 {
 	node->next->prev = node->prev;
 	node->prev->next = node->next;
-	free((void *)LIST_ENTRY(node, t_queue, list));
+	free((void *)ft_queue_entry(node));
 }
 
 /*
@@ -68,20 +68,4 @@ inline void				ft_list_pop(t_listhead *node)
 inline void				ft_list_add_tail(t_listhead *node, t_listhead *head)
 {
 	ft_list_add(node, head->prev, head);
-}
-
-inline uint8_t			ft_list_del(t_listhead *head)
-{
-	t_listhead			*node;
-	t_listhead			*next;
-
-	node = head->next;
-	next = node->next;
-	while (node != head)
-	{
-		free((void *)LIST_ENTRY(node, t_queue, list));
-		node = next;
-		next = node->next;
-	}
-	return (EXIT_SUCCESS);
 }

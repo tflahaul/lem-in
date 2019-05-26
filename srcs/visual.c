@@ -6,15 +6,15 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:23:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/24 13:36:47 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 13:52:14 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem_in.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <lem_in_stacks.h>
 #include <lem_in_visual.h>
+#include <lem_in_stacks.h>
+#include <lem_in.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 uint8_t		append_to_file(char const *file, char const *s)
 {
@@ -37,29 +37,28 @@ uint8_t		write_data(t_map *map)
 	append_to_file(DATA, map->hashtab[map->end_index]->name);
 	return (EXIT_SUCCESS);
 }
-/*
-uint8_t		write_paths_to_file(t_map *map, t_stack *list)
-{
-	t_stack		*tmp;
-	t_queue		*ptr;
-	const char	*name;
 
-	tmp = list;
+uint8_t		write_paths_to_file(t_map *map, t_listhead *head)
+{
+	t_queue		*lst;
+	t_stack		*tmp;
+	t_listhead	*ptr;
+	t_listhead	*node;
+
+	node = head;
 	write_data(map);
-	while (tmp && tmp->ant > 0)
+	while ((node = node->next) != head && ft_stack_entry(node)->ant > 0)
 	{
-		ptr = tmp->path;
-		while (ptr)
+		tmp = ft_stack_entry(node);
+		ptr = &(tmp->path->list);
+		while ((ptr = ptr->next) != &(tmp->path->list))
 		{
-			name = map->hashtab[ptr->key]->name;
-			if (append_to_file(PATHS, name) == EXIT_FAILURE)
+			lst = ft_queue_entry(ptr);
+			if (append_to_file(PATHS, map->hashtab[lst->key]->name) == 1)
 				return (EXIT_FAILURE);
-			ptr = ptr->next;
 		}
 		append_to_file(PATHS, "");
 		append_to_file(ANTS, ft_itoa(tmp->ant));
-		tmp = tmp->next;
 	}
 	return (EXIT_SUCCESS);
 }
-*/

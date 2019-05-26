@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/23 12:05:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/26 12:41:15 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /*
 **	Codes couleur pour l'affichage des erreurs
 */
-# define C_RED			"\e[41m"
+# define C_RED			"\x1B[41m"
 # define C_NONE			"\033[0m\n"
 
 /*
