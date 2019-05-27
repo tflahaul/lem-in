@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/26 15:07:48 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/27 17:35:00 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,23 @@
 #  include <lem_in_stacks.h>
 # endif
 
-enum					e_visitedarray {
+enum					e_vertex {
 	selected_node = -1,
 	unvisited_node,
 	visited_node
 };
 
-enum					e_ways {
+enum					e_direction {
 	closed_way,
 	open_way,
 	selected_way
 };
+
+typedef struct			s_graph
+{
+	t_map				*map;
+	int8_t				visited[MAX_VERTICES];
+}						t_graph;
 
 void					ft_print_movements(t_map *map, t_stack *list);
 void					ft_update_graph(t_map *map, t_listhead *head);
