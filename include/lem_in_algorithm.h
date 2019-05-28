@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/27 17:35:00 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/28 10:47:33 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ typedef struct			s_graph
 	int8_t				visited[MAX_VERTICES];
 }						t_graph;
 
+int						nbr_optimum_paths(t_map *map, t_listhead *head, int *p);
+void					ft_population_distribution(t_map *map, t_stack *stacks);
+void					ft_make_directed(t_map *map, t_listhead *head);
 void					ft_print_movements(t_map *map, t_stack *list);
 void					ft_update_graph(t_map *map, t_listhead *head);
-void					ft_make_directed(t_map *map, t_listhead *head);
 
 #endif

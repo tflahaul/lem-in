@@ -6,14 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/26 13:00:27 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/28 10:49:36 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
-#include <string.h>
 
 static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 {
@@ -26,7 +25,6 @@ static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 
 static inline void			ft_print_stack(t_map *map, t_listhead *head)
 {
-	uint32_t				tmp;
 	t_queue					*node;
 	t_listhead				*position;
 
@@ -37,10 +35,8 @@ static inline void			ft_print_stack(t_map *map, t_listhead *head)
 		{
 			node = ft_queue_entry(position);
 			if (node->ant && node->ant <= map->population)
-			{
-				tmp = (node->ant | map->visual);
-				ft_print_colored_ant(tmp, map->hashtab[node->key]->name);
-			}
+				ft_print_colored_ant(node->ant | map->visual, \
+					map->hashtab[node->key]->name);
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/27 18:12:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/28 11:27:39 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,27 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
+#include <stdio.h>
+
+static void				print_stack(t_map *map, t_listhead *head)
+{
+	t_stack				*node;
+	t_listhead			*ptr;
+	t_listhead			*position = head->next;
+	while (position != head)
+	{
+		node = ft_stack_entry(position);
+		ptr = node->path->list.next;
+		printf("\n================\n");
+		while (ptr != &(node->path->list))
+		{
+			printf("%s\n", map->hashtab[ft_queue_entry(ptr)->key]->name);
+			ptr = ptr->next;
+		}
+		position = position->next;
+	}
+	ft_putchar(10);
+}
 
 static void				ft_join_paths(t_map *map, t_listhead *head)
 {
@@ -123,11 +144,59 @@ static void				ft_search_for_common_vertices(t_graph *graph,
 	}
 }
 
+static void				ft_delete_unused_stacks(t_listhead *head, uint16_t nb)
+{
+	t_listhead			*tmp;
+	t_listhead			*position;
+
+	if (UNLIKELY(nb == 0))
+	{
+		while (head != head->next)
+		{
+			ft_list_del(&(ft_stack_entry(head->next)->path->list));
+			free((void *)ft_stack_entry(head->next)->path);
+			ft_list_pop(head->next);
+		}
+	}
+	else if (nb == 1)
+	{
+		position = head->next->next;
+		while (position != head)
+		{
+			tmp = position->next;
+			ft_list_del(&(ft_stack_entry(position)->path->list));
+			free((void *)ft_stack_entry(position)->path);
+			ft_list_pop(position);
+			position = tmp;
+		}
+	}
+	else
+	{
+		ft_list_del(&(ft_stack_entry(head->next)->path->list));
+		free((void *)ft_stack_entry(head->next)->path);
+		ft_list_pop(head->next);
+		position = head;
+		while (position->next != head && nb-- > 0)
+			position = position->next;
+		while (position != head)
+		{
+			tmp = position->next;
+			ft_list_del(&(ft_stack_entry(position)->path->list));
+			free((void *)ft_stack_entry(position)->path);
+			ft_list_pop(position);
+			position = tmp;
+		}
+	}
+}
+
 uint8_t					ft_algorithm(t_map *map)
 {
+	int					s = 1;
 	t_graph				graph;
 	t_stack				stacks;
 
+	graph.map = map;
+	ft_memset(&stacks, 0, sizeof(t_stack));
 	ft_list_init_head(&(stacks.list));
 	ft_fast_bzero(graph.visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
@@ -144,9 +213,15 @@ uint8_t					ft_algorithm(t_map *map)
 	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
+		if (UNLIKELY(ft_stack_entry(stacks.list.next)->size == 2))
+			break ;
 		ft_update_visited_array(graph.visited, selected_node, &(stacks.list));
 		ft_search_for_common_vertices(&graph, stacks.list.prev);
 	}
+	ft_delete_unused_stacks(&(stacks.list), nbr_optimum_paths(map, &(stacks.list), &s));
+	print_stack(map, &(stacks.list));
+//	ft_population_distribution(map, &stacks);
+//	ft_print_movements(map, &stacks);
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }
