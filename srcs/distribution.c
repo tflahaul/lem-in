@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/28 11:08:00 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/29 16:34:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int					nbr_optimum_paths(t_map *map, t_listhead *head, int *path)
 	ft_stack_entry(head->next->next)->ant = var;
 	if (*path == 2 && var == sum)
 		ft_stack_entry(head->next->next)->ant -= 1;
-	return (*path);
+	return ((*path -= 1));
 }
 
 void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
@@ -76,9 +76,9 @@ void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
 }
 
 void				ants_to_path(uint32_t ants,
-								int *sum,
-								int pop,
-								t_listhead *head)
+									int *sum,
+									int pop,
+									t_listhead *head)
 {
 	int32_t			tmp;
 	t_stack			*node;
@@ -90,10 +90,10 @@ void				ants_to_path(uint32_t ants,
 	while ((ptr = ptr->next) != head && tmp > 0 && *sum <= pop)
 	{
 		node = ft_stack_entry(ptr);
-		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size) - 3) > 0)
+		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size) - 2) > 0)
 		{
-			// Pas compris la première condition :(
-			if (head->next == ptr && node->size == ft_stack_entry(head->next)->size - 1
+			if (head->next == ptr \
+				&& node->size == ft_stack_entry(head->next)->size - 1 \
 				&& pop % 2)
 				tmp -= 1;
 			node->ant = tmp;
@@ -110,15 +110,13 @@ void				ft_population_distribution(t_map *map, t_stack *stacks)
 	ants = stacks->ant;
 	sum = ants;
 	stacks = ft_stack_entry(stacks->list.next);
-	if (stacks->list.next == &(stacks->list))
+	if (&(stacks->list) != stacks->list.next)
 	{
 		ants_to_path(ants, &sum, map->population, &(stacks->list));
 		ants_sup(map->population, sum, &(stacks->list));
 	}
 	else
-	{
 		stacks->ant = map->population;
-	}
 //	if (!!(map->visual & VISUAL))
 //		write_paths_to_file(map, &(stacks->list));
 	printf("#steps = %u\n", stacks->ant + stacks->size - 2);

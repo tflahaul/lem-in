@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/29 13:44:40 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/29 16:43:26 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static inline void		ft_update_visited_array(int8_t *array, t_listhead *head)
 	t_listhead			*node;
 	t_listhead			*position;
 
-	position = head;
+	position = head->next;
 	ft_fast_bzero(array, MAX_VERTICES);
 	while ((position = position->next) != head)
 	{
@@ -63,17 +63,15 @@ static inline void		ft_update_visited_array(int8_t *array, t_listhead *head)
 }
 
 static void				ft_reopen_path(t_map *map,
-									t_listhead *head,
-									uint32_t hashkey,
-									uint32_t prevkey)
+										t_listhead *head,
+										uint32_t hashkey,
+										uint32_t prevkey)
 {
-	uint32_t			key;
 	t_edges				*ptr;
 	t_queue				*node;
 	t_listhead			*position;
 
 	position = head;
-	key = ft_queue_entry(head->next)->key;
 	while ((position = position->next) != head)
 	{
 		node = ft_queue_entry(position);
@@ -85,7 +83,6 @@ static void				ft_reopen_path(t_map *map,
 			if (LIKELY(ptr != NULL))
 				ptr->way = open_way;
 		}
-		key = node->key;
 	}
 }
 
@@ -100,7 +97,7 @@ static void				ft_make_residual_graph(t_map *map, t_listhead *head)
 	key = ft_queue_entry(position)->key;
 	while ((position = position->next) != new_head)
 	{
-		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == EXIT_SUCCESS)
+		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == 0)
 			ft_reopen_path(map, new_head, key, ft_queue_entry(position)->key);
 		key = ft_queue_entry(position)->key;
 	}
@@ -108,10 +105,11 @@ static void				ft_make_residual_graph(t_map *map, t_listhead *head)
 
 uint8_t					ft_algorithm(t_map *map)
 {
-	int					s = 1;
+	int					s;
 	t_graph				graph;
 	t_stack				stacks;
 
+	s = 1;
 	graph.map = map;
 	ft_memset(&stacks, 0, sizeof(t_stack));
 	ft_list_init_head(&(stacks.list));
@@ -127,7 +125,7 @@ uint8_t					ft_algorithm(t_map *map)
 		return (ft_puterror(DEADEND));
 	ft_update_graph(map, &(stacks.list));
 	ft_fast_bzero(graph.visited, MAX_VERTICES);
-	ft_free_stacks(&(stacks.list));
+	ft_delete_unused_stacks(&(stacks.list), 1);
 	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
@@ -135,8 +133,9 @@ uint8_t					ft_algorithm(t_map *map)
 			break ;
 		ft_update_visited_array(graph.visited, &(stacks.list));
 	}
-	ft_delete_unused_stacks(&(stacks.list), nbr_optimum_paths(map, &(stacks.list), &s));
-//	ft_population_distribution(map, &stacks);
+	ft_delete_unused_stacks(&(stacks.list), \
+		nbr_optimum_paths(map, &(stacks.list), &s));
+	ft_population_distribution(map, &stacks);
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }
