@@ -6,17 +6,17 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/24 14:07:06 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/29 16:42:59 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	 	= 	lem-in
+NAME		= 	lem-in
 
 ####### DIRECTORIES #######
 HDR			=	include
 LIBDIR		=	libft
-SRCDIR 		=	srcs
-OBJDIR 		= 	obj
+SRCDIR		=	srcs
+OBJDIR		=	obj
 
 ###### MAKE VARIABLES #####
 STDOUT		=	/dev/fd/1
@@ -27,17 +27,19 @@ ifeq '$(MODE)' 'silent'
 endif
 
 ########## FLAGS ##########
-CFLAGS 		= 	-Wall						\
+CFLAGS		=	-Wall						\
 				-Wextra						\
 				-Werror						\
 				-Wpadded					\
+				-std=c99					\
+				-pedantic					\
 				-g
 
-INC 		= 	-I $(HDR)
+INC			=	-I $(HDR)
 CLIBFT		=	-L $(LIBDIR) -lft
 
 ######### SOURCES #########
-SRC 		= 	main						parsing						\
+SRC			=	main						parsing						\
 				parsing_vertices			memory						\
 				errors						parsing_edges				\
 				connection_list				hash						\
@@ -45,12 +47,13 @@ SRC 		= 	main						parsing						\
 				algorithm					breadth_first_search		\
 				visual						list						\
 				parsing_memory				tools						\
-				movements
+				movements					graph_manipulation			\
+				distribution				algorithm_unused_paths
 
 LIBFT		=	$(LIBDIR)/libft.a
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
-OBJ 		= 	$(patsubst %,$(OBJDIR)/%.o, $(SRC))
+OBJ 		=	$(patsubst %,$(OBJDIR)/%.o, $(SRC))
 
 ######### COLORS ##########
 STD			=	\033[0m

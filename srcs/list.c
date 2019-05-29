@@ -17,7 +17,7 @@
 
 /*
 **	These are easy-to-use, highly portable functions for manipulating
-**	circularly-linked list. This implementation comes from the Linux
+**	circular linked lists. This implementation comes from the Linux
 **	kernel source tree, file `include/linux/list.h`
 */
 
@@ -57,7 +57,7 @@ inline void				ft_list_pop(t_listhead *node)
 {
 	node->next->prev = node->prev;
 	node->prev->next = node->next;
-	free((void *)LIST_ENTRY(node, t_queue, list));
+	free((void *)ft_queue_entry(node));
 }
 
 /*
@@ -68,20 +68,4 @@ inline void				ft_list_pop(t_listhead *node)
 inline void				ft_list_add_tail(t_listhead *node, t_listhead *head)
 {
 	ft_list_add(node, head->prev, head);
-}
-
-inline uint8_t			ft_list_del(t_listhead *head)
-{
-	t_listhead			*node;
-	t_listhead			*next;
-
-	node = head->next;
-	next = node->next;
-	while (node != head)
-	{
-		free((void *)LIST_ENTRY(node, t_queue, list));
-		node = next;
-		next = node->next;
-	}
-	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 14:08:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/27 17:33:26 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/libft.h"
 
-# define MAX_VERTICES	6203
+# define MAX_VERTICES	6200
 
 # define VISUAL			0x00000001u
 # define COLORS			0x00010000u

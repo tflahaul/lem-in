@@ -30,7 +30,7 @@ uint8_t						ft_breadth_first_search(t_map *map, int8_t *vstd)
 	node = &(queue.list);
 	while (node != node->next)
 	{
-		hashkey = ((t_queue *)LIST_ENTRY(node->next, t_queue, list))->key;
+		hashkey = (ft_queue_entry(node->next))->key;
 		if (hashkey == map->end_index)
 			return (ft_list_del(&(queue.list)));
 		ft_list_pop(node->next);

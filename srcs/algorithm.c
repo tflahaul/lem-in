@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/24 13:06:52 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/29 16:43:26 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,199 +14,129 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-#include <stdio.h>
-/*
-void					print_hash(t_map *map)
-{
-	for (register uint16_t index = 0; index < MAX_VERTICES; ++index)
-	{
-		if (map->hashtab[index]->name != NULL)
-		{
-			printf("%s", map->hashtab[index]->name);
-			for (t_edges *ptr = map->hashtab[index]->adjc; ptr; (ptr = ptr->next))
-				printf(" -> %s(%i)", map->hashtab[ptr->key]->name, ptr->way);
-			printf("\n");
-		}
-	}
-}
-
-static void				print_stack(t_map *map, t_listhead *head)
-{
-	t_stack				*node;
-	t_listhead			*ptr;
-	t_listhead			*position = head->next;
-
-	while (position != head)
-	{
-		node = LIST_ENTRY(position, t_stack, list);
-		ptr = node->path->list.next;
-		printf("\n================\n");
-		while (ptr != &(node->path->list))
-		{
-			printf("%s\n", map->hashtab[LIST_ENTRY(ptr, t_queue, list)->key]->name);
-			ptr = ptr->next;
-		}
-		position = position->next;
-	}
-	ft_putchar(10);
-}
-*/
-static void				ft_make_directed(t_map *map, t_listhead *head)
-{
-	t_stack				*ptr;
-	t_edges				*tmp;
-	t_listhead			*list;
-	register uint32_t	hashkey;
-
-	ptr = LIST_ENTRY(head, t_stack, list);
-	list = &(ptr->path->list);
-	while ((list = list->next) != ptr->path->list.prev)
-	{
-		hashkey = LIST_ENTRY(list->next, t_queue, list)->key;
-		tmp = map->hashtab[LIST_ENTRY(list, t_queue, list)->key]->adjc;
-		while (tmp->key != hashkey && LIKELY(tmp != NULL))
-			tmp = tmp->next;
-		tmp->way = closed_way;
-	}
-}
-
-static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
-{
-	register t_edges	*node;
-
-	node = map->hashtab[prevkey]->adjc;
-	while (node != NULL)
-	{
-		if (node->key == key)
-		{
-			node->way = open_way;
-			break ;
-		}
-		node = node->next;
-	}
-	node = map->hashtab[key]->adjc;
-	while (node != NULL)
-	{
-		if (node->key == prevkey)
-		{
-			node->way = open_way;
-			break ;
-		}
-		node = node->next;
-	}
-}
-
-static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
-{
-	t_edges				*ptr;
-	t_edges				*node;
-
-	node = map->hashtab[prevkey]->adjc;
-	while (node != NULL)
-	{
-		if (node->key == key && node->way == closed_way)
-		{
-			ptr = map->hashtab[key]->adjc;
-			while (ptr != NULL)
-			{
-				if (ptr->key == prevkey && ptr->way == closed_way)
-					return (EXIT_SUCCESS);
-				ptr = ptr->next;
-			}
-		}
-		node = node->next;
-	}
-	return (EXIT_FAILURE);
-}
-
-/*
-**	Nettoie toutes les connexions du graph, sauf celles pour lesquelles deux
-**	chemins se superposent.
-*/
-
-static inline void		ft_update_graph(t_map *map, t_listhead *head)
-{
-	uint32_t			hashkey;
-	t_queue				*list;
-	t_listhead			*node_head;
-	t_listhead			*node;
-	t_listhead			*ptr;
-
-	ptr = head;
-	while ((ptr = ptr->next) != head)
-	{
-		node_head = &(LIST_ENTRY(ptr, t_stack, list)->path->list);
-		hashkey = LIST_ENTRY(node_head->next, t_queue, list)->key;
-		node = node_head;
-		while ((node = node->next) != node_head)
-		{
-			list = LIST_ENTRY(node, t_queue, list);
-			if (LIKELY(ft_overlaps(map, hashkey, list->key) == EXIT_FAILURE))
-				ft_open_path(map, hashkey, list->key);
-			hashkey = list->key;
-		}
-	}
-}
 
 static void				ft_join_paths(t_map *map, t_listhead *head)
 {
 	t_queue				*list;
 	t_stack				*node;
-	t_vertices			*vertice;
+	t_vertices			*vertex;
 
-	if (LIKELY((node = (t_stack *)malloc(sizeof(t_stack))) != NULL))
+	if (LIKELY((node = ft_stack_node()) != NULL))
 	{
-		node->ant = 0;
-		node->size = 0;
 		if (LIKELY((node->path = (t_queue *)malloc(sizeof(t_queue))) != NULL))
 			ft_list_init_head(&(node->path->list));
-		vertice = map->hashtab[map->end_index];
-		while (vertice != NULL)
+		vertex = map->hashtab[map->end_index];
+		while (vertex != NULL)
 		{
-			if (LIKELY((list = ft_queue_node((uint32_t)vertice->key)) != NULL))
+			if (LIKELY((list = ft_queue_node((uint32_t)vertex->key)) != NULL))
 			{
 				ft_list_push(&(list->list), &(node->path->list));
 				++node->size;
 			}
-			vertice = vertice->prev;
+			vertex = vertex->prev;
 		}
 		ft_list_add_tail(&(node->list), head);
 	}
 }
 
-static void				ft_free_stacks(t_listhead *head)
-{
-	t_listhead			*node;
-	t_listhead			*next;
+/*
+**	Update 'visited' array to indicate nodes through which the BFS algorithm
+**	have gone. Function only used after overlaps have been handled, when
+**	looking for distinct paths.
+*/
 
-	node = head->next;
-	while (node != head)
+static inline void		ft_update_visited_array(int8_t *array, t_listhead *head)
+{
+	t_listhead			*ref;
+	t_listhead			*node;
+	t_listhead			*position;
+
+	position = head->next;
+	ft_fast_bzero(array, MAX_VERTICES);
+	while ((position = position->next) != head)
 	{
-		next = node->next;
-		ft_list_del(&(LIST_ENTRY(node, t_stack, list)->path->list));
-		free((void *)LIST_ENTRY(node, t_stack, list)->path);
-		free((void *)LIST_ENTRY(node, t_stack, list));
-		node = next;
+		ref = &(ft_stack_entry(position)->path->list);
+		node = ref->next;
+		while ((node = node->next) != ref->prev)
+			array[ft_queue_entry(node)->key] = visited_node;
+	}
+}
+
+static void				ft_reopen_path(t_map *map,
+										t_listhead *head,
+										uint32_t hashkey,
+										uint32_t prevkey)
+{
+	t_edges				*ptr;
+	t_queue				*node;
+	t_listhead			*position;
+
+	position = head;
+	while ((position = position->next) != head)
+	{
+		node = ft_queue_entry(position);
+		if (node->key != hashkey && node->key != prevkey)
+		{
+			ptr = map->hashtab[node->key]->adjc;
+			while (LIKELY(ptr != NULL) && ptr->key != prevkey)
+				ptr = ptr->next;
+			if (LIKELY(ptr != NULL))
+				ptr->way = open_way;
+		}
+	}
+}
+
+static void				ft_make_residual_graph(t_map *map, t_listhead *head)
+{
+	uint32_t			key;
+	t_listhead			*new_head;
+	t_listhead			*position;
+
+	new_head = &(ft_stack_entry(head)->path->list);
+	position = new_head->next;
+	key = ft_queue_entry(position)->key;
+	while ((position = position->next) != new_head)
+	{
+		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == 0)
+			ft_reopen_path(map, new_head, key, ft_queue_entry(position)->key);
+		key = ft_queue_entry(position)->key;
 	}
 }
 
 uint8_t					ft_algorithm(t_map *map)
 {
+	int					s;
+	t_graph				graph;
 	t_stack				stacks;
-	int8_t				visited[MAX_VERTICES];
 
+	s = 1;
+	graph.map = map;
+	ft_memset(&stacks, 0, sizeof(t_stack));
 	ft_list_init_head(&(stacks.list));
-	ft_fast_bzero(visited, MAX_VERTICES);
-	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
+	ft_fast_bzero(graph.visited, MAX_VERTICES);
+	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
-		ft_fast_bzero(visited, MAX_VERTICES);
+		ft_fast_bzero(graph.visited, MAX_VERTICES);
 		ft_make_directed(map, stacks.list.prev);
+		ft_make_residual_graph(map, stacks.list.prev);
 	}
 	ft_update_graph(map, &(stacks.list));
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return (ft_puterror(DEADEND));
-//	print_stack(map, &(stacks.list));
+	ft_update_graph(map, &(stacks.list));
+	ft_fast_bzero(graph.visited, MAX_VERTICES);
+	ft_delete_unused_stacks(&(stacks.list), 1);
+	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
+	{
+		ft_join_paths(map, &(stacks.list));
+		if (UNLIKELY(ft_stack_entry(stacks.list.next)->size == 2))
+			break ;
+		ft_update_visited_array(graph.visited, &(stacks.list));
+	}
+	ft_delete_unused_stacks(&(stacks.list), \
+		nbr_optimum_paths(map, &(stacks.list), &s));
+	ft_population_distribution(map, &stacks);
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }
