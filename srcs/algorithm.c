@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/28 12:02:03 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/29 13:44:40 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,6 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-
-/*
-#include <stdio.h>
-
-static void				print_stack(t_map *map, t_listhead *head)
-{
-	t_stack				*node;
-	t_listhead			*ptr;
-	t_listhead			*position = head->next;
-	while (position != head)
-	{
-		node = ft_stack_entry(position);
-		ptr = node->path->list.next;
-		printf("\n================\n");
-		while (ptr != &(node->path->list))
-		{
-			printf("%s\n", map->hashtab[ft_queue_entry(ptr)->key]->name);
-			ptr = ptr->next;
-		}
-		position = position->next;
-	}
-	ft_putchar(10);
-}
-*/
 
 static void				ft_join_paths(t_map *map, t_listhead *head)
 {
@@ -69,9 +45,7 @@ static void				ft_join_paths(t_map *map, t_listhead *head)
 **	looking for distinct paths.
 */
 
-static inline void		ft_update_visited_array(int8_t *array,
-												int8_t value,
-												t_listhead *head)
+static inline void		ft_update_visited_array(int8_t *array, t_listhead *head)
 {
 	t_listhead			*ref;
 	t_listhead			*node;
@@ -84,66 +58,51 @@ static inline void		ft_update_visited_array(int8_t *array,
 		ref = &(ft_stack_entry(position)->path->list);
 		node = ref->next;
 		while ((node = node->next) != ref->prev)
-			array[ft_queue_entry(node)->key] = value;
+			array[ft_queue_entry(node)->key] = visited_node;
 	}
 }
 
-/*
-**	Reproduction d'un "Dévier (si possible) le chemin A et garder le B"
-*/
-
-static void				ft_conflict_management(t_graph *graph,
-											t_listhead *head,
-											uint32_t hashkey)
+static void				ft_reopen_path(t_map *map,
+									t_listhead *head,
+									uint32_t hashkey,
+									uint32_t prevkey)
 {
+	uint32_t			key;
+	t_edges				*ptr;
 	t_queue				*node;
-	t_listhead			*ptr;
+	t_listhead			*position;
 
-	ptr = &(ft_stack_entry(head->prev)->path->list);
-	while ((ptr = ptr->prev) != &(ft_stack_entry(head->prev)->path->list))
+	position = head;
+	key = ft_queue_entry(head->next)->key;
+	while ((position = position->next) != head)
 	{
-		node = ft_queue_entry(ptr);
-		if (node->key == hashkey)
+		node = ft_queue_entry(position);
+		if (node->key != hashkey && node->key != prevkey)
 		{
-			while (ft_breadth_first_search(graph->map, graph->visited) == EXIT_FAILURE)
-			{
-				ptr = ptr->prev;
-				graph->visited[ft_queue_entry(ptr)->key] = selected_node;
-			}
-			ft_join_paths(graph->map, head->next);
-			break ;
+			ptr = map->hashtab[node->key]->adjc;
+			while (LIKELY(ptr != NULL) && ptr->key != prevkey)
+				ptr = ptr->next;
+			if (LIKELY(ptr != NULL))
+				ptr->way = open_way;
 		}
-		graph->visited[node->key] = unvisited_node;
+		key = node->key;
 	}
-//	ft_update_visited_array(graph->visited, visited_node, head->next); // crash
 }
 
-/*
-**	Cherche les vertex communs aux deux derniers chemins trouvés. Pour chaque
-**	vertex commun, un `conflit` est ouvert où on va déterminer la meilleure
-**	action à faire (reste à savoir selon quelles heuristiques) parmi:
-**	1 - Détruire le chemin A et n'utiliser que le B
-**	2 - Détruire le chemin B et n'utiliser que le A
-**	3 - Dévier (si possible) le chemin A et garder le B
-**	4 - Dévier (si possible) le chemin B et garder le A
-*/
-
-static void				ft_search_for_common_vertices(t_graph *graph,
-													t_listhead *head)
+static void				ft_make_residual_graph(t_map *map, t_listhead *head)
 {
-	t_listhead			*pv;
-	t_listhead			*path;
-	register uint32_t	hashkey;
+	uint32_t			key;
+	t_listhead			*new_head;
+	t_listhead			*position;
 
-	path = ft_stack_entry(head)->path->list.next;
-	while ((path = path->next) != ft_stack_entry(head)->path->list.prev)
+	new_head = &(ft_stack_entry(head)->path->list);
+	position = new_head->next;
+	key = ft_queue_entry(position)->key;
+	while ((position = position->next) != new_head)
 	{
-		hashkey = ft_queue_entry(path)->key;
-		pv = &(ft_stack_entry(head->prev)->path->list);
-		if (LIKELY(head->prev != head->next))
-			while ((pv = pv->next) != &(ft_stack_entry(head->prev)->path->list))
-				if (ft_queue_entry(pv)->key == hashkey)
-					ft_conflict_management(graph, head, hashkey);
+		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == EXIT_SUCCESS)
+			ft_reopen_path(map, new_head, key, ft_queue_entry(position)->key);
+		key = ft_queue_entry(position)->key;
 	}
 }
 
@@ -162,23 +121,22 @@ uint8_t					ft_algorithm(t_map *map)
 		ft_join_paths(map, &(stacks.list));
 		ft_fast_bzero(graph.visited, MAX_VERTICES);
 		ft_make_directed(map, stacks.list.prev);
+		ft_make_residual_graph(map, stacks.list.prev);
 	}
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return (ft_puterror(DEADEND));
 	ft_update_graph(map, &(stacks.list));
 	ft_fast_bzero(graph.visited, MAX_VERTICES);
-	ft_delete_unused_stacks(&(stacks.list), 1);
+	ft_free_stacks(&(stacks.list));
 	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
 		if (UNLIKELY(ft_stack_entry(stacks.list.next)->size == 2))
 			break ;
-		ft_update_visited_array(graph.visited, selected_node, &(stacks.list));
-		ft_search_for_common_vertices(&graph, stacks.list.prev);
+		ft_update_visited_array(graph.visited, &(stacks.list));
 	}
 	ft_delete_unused_stacks(&(stacks.list), nbr_optimum_paths(map, &(stacks.list), &s));
 //	ft_population_distribution(map, &stacks);
-//	ft_print_movements(map, &stacks);
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }

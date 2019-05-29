@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/28 10:47:33 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/29 13:02:17 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void					ft_population_distribution(t_map *map, t_stack *stacks);
 void					ft_make_directed(t_map *map, t_listhead *head);
 void					ft_print_movements(t_map *map, t_stack *list);
 void					ft_update_graph(t_map *map, t_listhead *head);
+uint8_t					ft_overlaps(t_map *map, uint32_t prev, uint32_t key);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:35:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/26 13:12:02 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/29 12:45:00 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 	}
 }
 
-static uint8_t			ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
+uint8_t					ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 {
 	t_edges				*ptr;
 	t_edges				*node;
