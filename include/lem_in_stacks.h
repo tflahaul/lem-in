@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/28 11:44:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 19:01:02 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef struct				s_stack
 	t_listhead				list;
 	t_queue					*path;
 	uint32_t				size;
-	uint32_t				ant;
+	int32_t					ant;
 }							t_stack;
 
 void						ft_delete_unused_stacks(t_listhead *h, uint16_t nb);

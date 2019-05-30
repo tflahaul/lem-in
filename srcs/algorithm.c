@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 18:16:20 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 19:29:10 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ static void				ft_make_residual_graph(t_map *map, t_listhead *head)
 
 uint8_t					ft_algorithm(t_map *map)
 {
-	int					s;
+	int32_t				s;
 	t_graph				graph;
 	t_stack				stacks;
 
