@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:23:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/30 15:32:36 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 20:19:30 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ uint8_t		append_to_file(char const *file, char const *s)
 {
 	int fd;
 
-	fd = (access(file, F_OK) != -1) ? open(file, O_APPEND | O_RDWR, 0666)
-		: open(file, O_CREAT | O_APPEND | O_RDWR, 0666);
+	fd = open(file, O_CREAT | O_APPEND | O_RDWR, 0666);
 	if (fd < 0)
 		return (EXIT_FAILURE);
 	ft_putendl_fd(s, fd);

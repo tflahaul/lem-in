@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 19:01:02 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 20:50:29 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # ifndef LEM_IN_QUEUE_H
 #  include <lem_in_queue.h>
+#  include <lem_in.h>
 # endif
 
 typedef struct				s_stack
@@ -25,7 +26,7 @@ typedef struct				s_stack
 	int32_t					ant;
 }							t_stack;
 
-void						ft_delete_unused_stacks(t_listhead *h, uint16_t nb);
+void						ft_delete_unused_stacks(t_listhead *h, t_map *map, uint16_t nb);
 void						ft_print_colored_ant(uint32_t nb, char const *str);
 void						ft_free_stacks(t_listhead *head);
 t_stack						*ft_stack_entry(t_listhead *ptr);

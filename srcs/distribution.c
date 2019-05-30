@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 19:28:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 20:47:19 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void				ants_to_path(int32_t ants,
 		}
 	}
 }
-
+#include <stdio.h>
 void				ft_population_distribution(t_map *map, t_stack *stacks)
 {
 	int32_t			sum;
@@ -118,5 +118,5 @@ void				ft_population_distribution(t_map *map, t_stack *stacks)
 	else
 		stacks->ant = map->population;
 	if (!!(map->visual & VISUAL))
-		write_paths_to_file(map, &(stacks->list));
+		write_paths_to_file(map, stacks->list.prev);
 }
