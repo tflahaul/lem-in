@@ -6,13 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/28 10:49:36 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 18:44:05 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
+#include <stdio.h>
 
 static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 {
@@ -34,7 +35,7 @@ static inline void			ft_print_stack(t_map *map, t_listhead *head)
 		while ((position = position->prev) != head->next)
 		{
 			node = ft_queue_entry(position);
-			if (node->ant && node->ant <= map->population)
+			if (node->ant <= map->population)
 				ft_print_colored_ant(node->ant | map->visual, \
 					map->hashtab[node->key]->name);
 		}
@@ -44,7 +45,7 @@ static inline void			ft_print_stack(t_map *map, t_listhead *head)
 		while ((position = position->prev) != head->next)
 		{
 			node = ft_queue_entry(position);
-			if (node->ant && node->ant <= map->population)
+			if (node->ant > 0 && node->ant <= map->population)
 				ft_print_single_ant(node->ant, map->hashtab[node->key]->name);
 		}
 	}
@@ -91,8 +92,6 @@ static inline void			ft_init_movements(t_stack *stacks)
 			node->ant = node->ant - 1;
 			node->path->ant = ++ant;
 		}
-		else
-			node->path->ant = 0;
 	}
 }
 
@@ -102,7 +101,7 @@ void						ft_print_movements(t_map *map, t_stack *list)
 	t_stack					*stacks;
 	t_listhead				*position;
 
-	length = list->ant + list->size;
+	length = list->ant + ft_stack_entry(list->list.next)->size - 1;
 	while (length-- > 0)
 	{
 		position = &(list->list);

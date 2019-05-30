@@ -6,14 +6,37 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/29 16:43:26 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 18:16:20 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <lem_in_bug.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
+
+void					print_stack(t_map *map, t_listhead *head)
+{
+	unsigned int		i = 0;
+	t_stack				*node;
+	t_listhead			*ptr;
+	t_listhead			*position = head->next;
+	while (position != head)
+	{
+		node = ft_stack_entry(position);
+		ptr = node->path->list.next;
+		printf("\n================\n");
+		++i;
+		while (ptr != &(node->path->list))
+		{
+			printf("%s\n", map->hashtab[ft_queue_entry(ptr)->key]->name);
+			ptr = ptr->next;
+		}
+		position = position->next;
+	}
+	ft_putchar(10);
+}
 
 static void				ft_join_paths(t_map *map, t_listhead *head)
 {
@@ -137,6 +160,7 @@ uint8_t					ft_algorithm(t_map *map)
 	ft_delete_unused_stacks(&(stacks.list), \
 		nbr_optimum_paths(map, &(stacks.list), &s));
 	ft_population_distribution(map, &stacks);
+	ft_print_movements(map, &stacks);
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }
