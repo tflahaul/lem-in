@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 12:36:20 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/31 14:13:56 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,11 @@ static inline void			ft_print_stack(t_map *map, t_listhead *head)
 	t_listhead				*position;
 
 	position = head;
-	if (UNLIKELY(map->visual >= COLORS))
+	while ((position = position->prev) != head->next)
 	{
-		while ((position = position->prev) != head->next)
-		{
-			node = ft_queue_entry(position);
-			if (node->ant <= map->population)
-				ft_print_colored_ant(node->ant | map->visual, \
-					map->hashtab[node->key]->name);
-		}
-	}
-	else
-	{
-		while ((position = position->prev) != head->next)
-		{
-			node = ft_queue_entry(position);
-			if (node->ant > 0 && node->ant <= map->population)
-				ft_print_single_ant(node->ant, map->hashtab[node->key]->name);
-		}
+		node = ft_queue_entry(position);
+		if (node->ant > 0 && node->ant <= map->population)
+			ft_print_single_ant(node->ant, map->hashtab[node->key]->name);
 	}
 }
 
@@ -76,32 +63,38 @@ static void					ft_update_stack(t_listhead *head, uint64_t size)
 **	is used to keep track of the last ant sent.
 */
 
-static inline void			ft_init_movements(t_stack *stacks)
+static inline void			ft_init_movements(t_listhead *head)
 {
 	t_listhead				*position;
 	t_stack					*node;
 	static uint64_t			ant;
 
-	position = &(stacks->list);
-	while ((position = position->next) != &(stacks->list))
+	position = head;
+	while ((position = position->next) != head)
 	{
 		node = ft_stack_entry(position);
-		node->path->ant = ++ant;
+		if (node->ant > 0)
+		{
+			ft_queue_entry(node->path->list.next)->ant = ++ant;
+			node->ant = node->ant - 1;
+		}
+		else
+			ft_queue_entry(node->path->list.next)->ant = 0;
 	}
 }
 
-void						ft_print_movements(t_map *map, t_stack *list)
+void						ft_print_movements(t_map *map, t_listhead *head)
 {
 	uint32_t				length;
 	t_stack					*stacks;
 	t_listhead				*position;
 
-	length = ft_stack_entry(list->list.next)->ant + ft_stack_entry(list->list.next)->size - 1;
+	length = ft_stack_entry(head->next)->ant + ft_stack_entry(head->next)->size;
 	while (length-- > 0)
 	{
-		ft_init_movements(list);
-		position = &(list->list);
-		while ((position = position->next) != &(list->list))
+		position = head;
+		ft_init_movements(head);
+		while ((position = position->next) != head)
 		{
 			stacks = ft_stack_entry(position);
 			ft_print_stack(map, &(stacks->path->list));

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 20:51:02 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/31 12:47:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,10 @@ uint8_t					ft_algorithm(t_map *map)
 			break ;
 		ft_update_visited_array(graph.visited, &(stacks.list));
 	}
-	ft_delete_unused_stacks(&(stacks.list), map,\
+	ft_delete_unused_stacks(&(stacks.list), map, \
 		nbr_optimum_paths(map, &(stacks.list), &s));
 	ft_population_distribution(map, &(stacks.list));
-	ft_print_movements(map, &stacks);
+	ft_print_movements(map, &(stacks.list));
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }
