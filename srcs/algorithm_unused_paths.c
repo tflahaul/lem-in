@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 11:39:05 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 17:48:45 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/31 18:10:31 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void					ft_delete_unused_stacks(t_listhead *head, t_map *map, uint16_t nb)
 		ft_delete_all(head);
 	else if (nb == 1)
 	{
-		if (!!(map->visual & VISUAL))
+		if (map->visual & VISUAL)
 			write_shortest_to_file(map, head);
 		ft_keep_shortest(head);
 	}

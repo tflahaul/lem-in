@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 17:19:25 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/31 19:43:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,10 @@ static void				ft_make_residual_graph(t_map *map, t_listhead *head)
 	key = ft_queue_entry(position)->key;
 	while ((position = position->next) != new_head)
 	{
-		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == 0)
+		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == 0
+			&& key != map->start_index && key != map->end_index
+			&& ft_queue_entry(position)->key != map->start_index
+			&& ft_queue_entry(position)->key != map->end_index)
 			ft_reopen_path(map, new_head, key, ft_queue_entry(position)->key);
 		key = ft_queue_entry(position)->key;
 	}
@@ -121,12 +124,11 @@ uint8_t					ft_algorithm(t_map *map)
 		ft_make_directed(map, stacks.list.prev);
 		ft_make_residual_graph(map, stacks.list.prev);
 	}
-	ft_update_graph(map, &(stacks.list));
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return (ft_puterror(DEADEND));
 	ft_update_graph(map, &(stacks.list));
-	ft_fast_bzero(graph.visited, MAX_VERTICES);
 	ft_delete_unused_stacks(&(stacks.list), map, 1);
+	ft_update_visited_array(graph.visited, &(stacks.list));
 	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));

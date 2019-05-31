@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 17:19:45 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/31 19:28:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void					ft_fill_buffer(t_map *map, t_listhead *head,
 	{
 		node = &(ft_stack_entry(position)->path->list);
 		new_head = node;
-		while ((node = node->next) != new_head)
+		while ((node = node->prev) != new_head)
 		{
 			ptr = ft_queue_entry(node);
 			if (ptr->ant > 0 && ptr->ant <= map->population
@@ -121,7 +121,7 @@ static inline void			ft_init_movements(t_listhead *head)
 			ft_queue_entry(node->path->list.next)->ant = 0;
 	}
 }
-#include <stdio.h>
+
 void						ft_print_movements(t_map *map, t_listhead *head)
 {
 	int32_t					length;
@@ -129,9 +129,7 @@ void						ft_print_movements(t_map *map, t_listhead *head)
 	t_listhead				*position;
 
 	ft_putchar('\n');
-	length = ft_stack_entry(head)->ant + ft_stack_entry(head->next)->size + 1;
-	printf("#steps = %i\n", length);
-	length = 0;
+	length = ft_stack_entry(head->next)->ant + ft_stack_entry(head->next)->size + 1;
 	while (length-- > 0)
 	{
 		position = head;
