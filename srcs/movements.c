@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 14:13:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/31 14:43:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ static inline void			ft_init_movements(t_listhead *head)
 
 void						ft_print_movements(t_map *map, t_listhead *head)
 {
-	uint32_t				length;
+	int32_t					length;
 	t_stack					*stacks;
 	t_listhead				*position;
 
-	length = ft_stack_entry(head->next)->ant + ft_stack_entry(head->next)->size;
+	length = ft_stack_entry(head)->ant + ft_stack_entry(head->next)->size + 1;
 	while (length-- > 0)
 	{
 		position = head;

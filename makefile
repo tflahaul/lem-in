@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/31 14:07:08 by thflahau         ###   ########.fr        #
+#    Updated: 2019/05/31 14:49:20 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ SRC			=	main						parsing						\
 				queue						stacks						\
 				algorithm					breadth_first_search		\
 				visual						list						\
-				parsing_memory				tools						\
+				parsing_memory				bonuses						\
 				movements					graph_manipulation			\
 				distribution				algorithm_unused_paths
 
