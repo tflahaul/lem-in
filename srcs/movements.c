@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 16:18:18 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/31 17:19:45 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static inline void			ft_init_movements(t_listhead *head)
 			ft_queue_entry(node->path->list.next)->ant = 0;
 	}
 }
-
+#include <stdio.h>
 void						ft_print_movements(t_map *map, t_listhead *head)
 {
 	int32_t					length;
@@ -130,6 +130,8 @@ void						ft_print_movements(t_map *map, t_listhead *head)
 
 	ft_putchar('\n');
 	length = ft_stack_entry(head)->ant + ft_stack_entry(head->next)->size + 1;
+	printf("#steps = %i\n", length);
+	length = 0;
 	while (length-- > 0)
 	{
 		position = head;

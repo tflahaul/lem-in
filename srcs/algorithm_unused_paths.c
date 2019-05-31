@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 11:39:05 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 20:51:30 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/31 17:48:45 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static inline void		ft_keep_n_paths(t_listhead *head, uint16_t nb)
 
 void					ft_delete_unused_stacks(t_listhead *head, t_map *map, uint16_t nb)
 {
+
 	if (UNLIKELY(nb == 0))
 		ft_delete_all(head);
 	else if (nb == 1)

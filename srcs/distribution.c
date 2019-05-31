@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 20:47:19 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/05/31 17:50:01 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,24 @@ void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
 	}
 }
 
+void				ants_min(uint32_t population, int32_t *sum, t_listhead *head)
+{
+	t_listhead		*node;
+
+	while (*sum < (int32_t)population)
+	{
+		node = head->next;
+		while (node->next != head && ft_stack_entry(node->next)->ant > 0)
+		{
+			ft_stack_entry(node)->ant += 1;
+			*sum += 1;
+			if (*sum == (int32_t)population)
+				break;
+			node = node->next;
+		}
+	}
+}
+
 void				ants_to_path(int32_t ants,
 									int *sum,
 									int pop,
@@ -113,6 +131,7 @@ void				ft_population_distribution(t_map *map, t_listhead *head)
 	if (head->next != head->prev)
 	{
 		ants_to_path(ants, &sum, map->population, head);
+		ants_min(map->population, &sum, head);
 		ants_sup(map->population, sum, head);
 	}
 	else
