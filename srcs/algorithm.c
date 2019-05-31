@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 12:34:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/30 20:51:02 by abrunet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ uint8_t					ft_algorithm(t_map *map)
 		return (ft_puterror(DEADEND));
 	ft_update_graph(map, &(stacks.list));
 	ft_fast_bzero(graph.visited, MAX_VERTICES);
-	ft_delete_unused_stacks(&(stacks.list), 1);
+	ft_delete_unused_stacks(&(stacks.list), map, 1);
 	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
@@ -134,7 +134,7 @@ uint8_t					ft_algorithm(t_map *map)
 			break ;
 		ft_update_visited_array(graph.visited, &(stacks.list));
 	}
-	ft_delete_unused_stacks(&(stacks.list), \
+	ft_delete_unused_stacks(&(stacks.list), map,\
 		nbr_optimum_paths(map, &(stacks.list), &s));
 	ft_population_distribution(map, &(stacks.list));
 	ft_print_movements(map, &stacks);
