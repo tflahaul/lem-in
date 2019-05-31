@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 19:28:56 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/31 12:33:07 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 	t_listhead		*tmp;
 
 	diff = 0;
-	var = map->population;
 	tmp = head->next;
+	var = map->population;
 	size = ft_stack_entry(tmp)->size - 2;
 	while (tmp->next != head->prev)
 	{
@@ -84,7 +84,7 @@ void				ants_to_path(int32_t ants,
 	t_stack			*node;
 	t_listhead		*ptr;
 
-	ptr = head;
+	ptr = head->next;
 	tmp = (int32_t)ants;
 	ft_stack_entry(ptr)->ant = ants;
 	while ((ptr = ptr->next) != head && tmp > 0 && *sum <= pop)
@@ -102,21 +102,21 @@ void				ants_to_path(int32_t ants,
 	}
 }
 
-void				ft_population_distribution(t_map *map, t_stack *stacks)
+void				ft_population_distribution(t_map *map, t_listhead *head)
 {
 	int32_t			sum;
 	int32_t			ants;
 
-	ants = stacks->ant;
-	stacks = ft_stack_entry(stacks->list.next);
+	ants = ft_stack_entry(head)->ant;
+	ft_stack_entry(head->next)->ant = ft_stack_entry(head)->ant;
 	sum = ants;
-	if (&(stacks->list) != stacks->list.prev)
+	if (head->next != head->prev)
 	{
-		ants_to_path(ants, &sum, map->population, &(stacks->list));
-		ants_sup(map->population, sum, stacks->list.prev);
+		ants_to_path(ants, &sum, map->population, head);
+		ants_sup(map->population, sum, head);
 	}
 	else
-		stacks->ant = map->population;
-	if (!!(map->visual & VISUAL))
-		write_paths_to_file(map, &(stacks->list));
+		ft_stack_entry(head->next)->ant = map->population;
+	if (map->visual & VISUAL)
+		write_paths_to_file(map, head);
 }

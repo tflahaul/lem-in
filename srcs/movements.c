@@ -6,14 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/30 18:44:05 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/05/31 12:36:20 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
-#include <stdio.h>
 
 static inline void			ft_print_single_ant(uint16_t nb, char const *name)
 {
@@ -87,11 +86,7 @@ static inline void			ft_init_movements(t_stack *stacks)
 	while ((position = position->next) != &(stacks->list))
 	{
 		node = ft_stack_entry(position);
-		if (node->ant > 0)
-		{
-			node->ant = node->ant - 1;
-			node->path->ant = ++ant;
-		}
+		node->path->ant = ++ant;
 	}
 }
 
@@ -101,11 +96,11 @@ void						ft_print_movements(t_map *map, t_stack *list)
 	t_stack					*stacks;
 	t_listhead				*position;
 
-	length = list->ant + ft_stack_entry(list->list.next)->size - 1;
+	length = ft_stack_entry(list->list.next)->ant + ft_stack_entry(list->list.next)->size - 1;
 	while (length-- > 0)
 	{
-		position = &(list->list);
 		ft_init_movements(list);
+		position = &(list->list);
 		while ((position = position->next) != &(list->list))
 		{
 			stacks = ft_stack_entry(position);
