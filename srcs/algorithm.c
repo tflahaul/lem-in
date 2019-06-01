@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 19:43:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/01 16:00:56 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
+#include <stdio.h>
+#include <time.h>
 
 static void				ft_join_paths(t_map *map, t_listhead *head)
 {
@@ -39,54 +41,7 @@ static void				ft_join_paths(t_map *map, t_listhead *head)
 	}
 }
 
-/*
-**	Update 'visited' array to indicate nodes through which the BFS algorithm
-**	have gone. Function only used after overlaps have been handled, when
-**	looking for distinct paths.
-*/
-
-static inline void		ft_update_visited_array(int8_t *array, t_listhead *head)
-{
-	t_listhead			*ref;
-	t_listhead			*node;
-	t_listhead			*position;
-
-	position = head->next;
-	ft_fast_bzero(array, MAX_VERTICES);
-	while ((position = position->next) != head)
-	{
-		ref = &(ft_stack_entry(position)->path->list);
-		node = ref->next;
-		while ((node = node->next) != ref->prev)
-			array[ft_queue_entry(node)->key] = visited_node;
-	}
-}
-
-static void				ft_reopen_path(t_map *map,
-										t_listhead *head,
-										uint32_t hashkey,
-										uint32_t prevkey)
-{
-	t_edges				*ptr;
-	t_queue				*node;
-	t_listhead			*position;
-
-	position = head;
-	while ((position = position->next) != head)
-	{
-		node = ft_queue_entry(position);
-		if (node->key != hashkey && node->key != prevkey)
-		{
-			ptr = map->hashtab[node->key]->adjc;
-			while (LIKELY(ptr != NULL) && ptr->key != prevkey)
-				ptr = ptr->next;
-			if (LIKELY(ptr != NULL))
-				ptr->way = open_way;
-		}
-	}
-}
-
-static void				ft_make_residual_graph(t_map *map, t_listhead *head)
+static inline void		ft_make_residual_graph(t_map *map, t_listhead *head)
 {
 	uint32_t			key;
 	t_listhead			*new_head;
@@ -97,11 +52,8 @@ static void				ft_make_residual_graph(t_map *map, t_listhead *head)
 	key = ft_queue_entry(position)->key;
 	while ((position = position->next) != new_head)
 	{
-		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == 0
-			&& key != map->start_index && key != map->end_index
-			&& ft_queue_entry(position)->key != map->start_index
-			&& ft_queue_entry(position)->key != map->end_index)
-			ft_reopen_path(map, new_head, key, ft_queue_entry(position)->key);
+		if (ft_overlaps(map, key, ft_queue_entry(position)->key) == 0)
+			ft_update_graph(map, head->next);
 		key = ft_queue_entry(position)->key;
 	}
 }
@@ -126,20 +78,23 @@ uint8_t					ft_algorithm(t_map *map)
 	}
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return (ft_puterror(DEADEND));
-	ft_update_graph(map, &(stacks.list));
-	ft_delete_unused_stacks(&(stacks.list), map, 1);
-	ft_update_visited_array(graph.visited, &(stacks.list));
-	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
-	{
-		ft_join_paths(map, &(stacks.list));
-		if (UNLIKELY(ft_stack_entry(stacks.list.next)->size == 2))
-			break ;
-		ft_update_visited_array(graph.visited, &(stacks.list));
-	}
+
+//	clock_t begin = clock();
+
+	ft_sort_stacks(&(stacks.list));
+
+//	clock_t end = clock();
+//	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+//	printf("sorting time = %f\n", time_spent);
+
+	ft_keep_best_paths(map, &(stacks.list));
+
 	ft_delete_unused_stacks(&(stacks.list), map, \
 		nbr_optimum_paths(map, &(stacks.list), &s));
-	ft_population_distribution(map, &(stacks.list));
-	ft_print_movements(map, &(stacks.list));
+
+//	ft_population_distribution(map, &(stacks.list));
+//	ft_print_movements(map, &(stacks.list));
+
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 12:48:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/01 14:12:28 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void				ft_delete_unused_stacks(t_listhead *head,
 											t_map *map,
 											uint16_t nb);
 void				ft_print_colored_ant(uint32_t nb, char const *str);
+void				ft_sort_stacks(t_listhead *head);
 void				ft_free_stacks(t_listhead *head);
 t_stack				*ft_stack_entry(t_listhead *ptr);
 t_stack				*ft_stack_node(void);
