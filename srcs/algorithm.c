@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/03 09:25:30 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/03 11:31:14 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ uint8_t					ft_algorithm(t_map *map)
 	if (UNLIKELY(&(stacks.list) == stacks.list.next))
 		return (ft_puterror(DEADEND));
 	ft_sort_stacks(&(stacks.list));
-	ft_keep_best_paths(map, &(stacks.list));
-//	ft_delete_unused_stacks(&(stacks.list), map, \
-//		nbr_optimum_paths(map, &(stacks.list), &s));
-//	ft_population_distribution(map, &(stacks.list));
-//	ft_print_movements(map, &(stacks.list));
+	ft_delete_unused_stacks(&(stacks.list), map, \
+		nbr_optimum_paths(map, &(stacks.list), &s));
+//	ft_keep_best_paths(&(stacks.list));
+	ft_population_distribution(map, &(stacks.list));
+	ft_print_movements(map, &(stacks.list));
 	ft_free_stacks(&(stacks.list));
 	return (EXIT_SUCCESS);
 }

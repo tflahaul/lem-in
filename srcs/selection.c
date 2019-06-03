@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 14:44:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/03 09:55:32 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/03 11:31:04 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ static inline void			ft_write_path(t_listhead *head, uint8_t *visited)
 {
 	register t_listhead		*ptr __asm__("eax");
 
-	ptr = head->next;
-	while ((ptr = ptr->next) != head->prev)
-		visited[ft_queue_entry(ptr)->key] = visited_node;
+	if (LIKELY(head != NULL))
+	{
+		ptr = head->next;
+		while ((ptr = ptr->next) != head->prev)
+			visited[ft_queue_entry(ptr)->key] = visited_node;
+	}
 }
 
 __attribute__((always_inline))
@@ -43,81 +46,63 @@ static inline uint8_t		ft_does_overlap(t_listhead *head, uint8_t *visited)
 	return (EXIT_FAILURE);
 }
 
-/*
-**	Check if the combination of paths in the given tab does not overlap.
-*/
-
-static uint8_t				ft_check_valid_path(t_listhead **tab)
+static uint8_t				ft_check_path(t_listhead **tab, t_listhead *new)
 {
 	uint8_t					visited[MAX_VERTICES];
 	register uint16_t		index;
 
 	index = 0;
-	__builtin_memset(visited, 0, MAX_VERTICES);
-	while (tab[index] != NULL)
-	{
-		ft_write_path(tab[index++], visited);
-		if (ft_does_overlap(tab[index], visited) == EXIT_SUCCESS)
-			return (EXIT_FAILURE);
-	}
+	ft_fast_bzero(visited, MAX_VERTICES);
+	while (LIKELY(tab[index]))
+		ft_write_path(&(ft_stack_entry(tab[index++])->path->list), visited);
+	if (ft_does_overlap(&(ft_stack_entry(new)->path->list), visited) == 0)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-static uint32_t				ft_selection(t_listhead *head, t_listhead *start,
-										uint8_t *visited, uint16_t nb)
+__attribute__((hot))
+static inline void			ft_add_address_to_tab(t_listhead **tab, t_listhead *node)
 {
-	uint32_t				size;
-	t_listhead				*position;
+	register uint16_t		index;
 
-	size = 0;
-	position = start;
-	while (LIKELY((position = position->next) != head) && nb > 0)
-	{
-		if (ft_does_overlap(&(ft_stack_entry(position)->path->list), visited))
-		{
-			ft_write_path(&(ft_stack_entry(position)->path->list), visited);
-			size += ft_stack_entry(position)->size;
-			--nb;
-		}
-	}
-	return (size);
+	index = 0;
+	while (tab[index])
+		++index;
+	tab[index] = node;
 }
 
-static uint32_t				ft_select_non_overlapping_paths(t_listhead *head,
-															uint16_t nb)
+static inline uint32_t		ft_get_paths_combinations(t_listhead *head,
+														uint32_t nb)
 {
-	register uint32_t		tmp;
-	register uint32_t		size;
-	t_listhead				*ptr;
-	uint8_t					visited[MAX_VERTICES];
+	t_listhead				*node;
+	t_listhead				*position;
+	t_listhead				*tab[(MAX_VERTICES >> 1)];
 
-	ptr = head;
-	tmp = UINT32_MAX;
-	__builtin_memset(visited, unvisited_node, MAX_VERTICES);
-	while ((ptr = ptr->next) != head)
+	while (tab[nb - 1] == 0)
 	{
-		size = ft_stack_entry(ptr)->size;
-		ft_write_path(&(ft_stack_entry(ptr)->path->list), visited);
-		size += ft_selection(head, ptr, visited, nb - 1);
-		if (LIKELY(size < tmp))
-			tmp = size;
-		else
-			return ((uint32_t)printf("__size__ = __%u__\n", size));
-		__builtin_memset(visited, unvisited_node, MAX_VERTICES);
+		node = head;
+		ft_fast_bzero(tab, (MAX_VERTICES >> 1));
+		while ((node = node->next) != head)
+		{
+			position = node;
+			while ((position = position->next) != node)
+				if (ft_check_path(tab, position) == EXIT_SUCCESS)
+					ft_add_address_to_tab(tab, position);
+		}
 	}
-	return ((uint32_t)printf("__size__ = __%u__\n", size));
+	return (EXIT_SUCCESS);
 }
 
 /*
 **	- Selectionne combinaison par combinaison
 **	- Calcule le nombre d'étapes pour chaque combinaison
-**	- A chaque meilleure solution, stocker
+**	- A chaque meilleure solution, remplacer l'ancinne
 */
 
-void					ft_keep_best_paths(__unused t_map *map, t_listhead *head)
+void					ft_keep_best_paths(t_listhead *head)
 {
 	uint16_t			index;
 
-	index = 3;
-	ft_select_non_overlapping_paths(head, index);
+	index = 2;
+	ft_get_paths_combinations(head, index);
 }
