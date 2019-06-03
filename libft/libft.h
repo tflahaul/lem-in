@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 15:24:44 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/03 14:18:08 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void				ft_memset(void *s, int c, size_t n);
 void				ft_putchar(int c);
 void				ft_memcpy(void *dst, void const *src, size_t n);
 void				ft_putnbr_light(uint16_t nb);
-void				ft_fast_bzero(void *ptr, size_t size);
+void				ft_fast_bzero(void *ptr, size_t size) __attribute__((hot));
 void				ft_putnstr(char const *s, uint8_t n);
 void				ft_putstr_endl(char const *s);
 void				ft_putstr_endl_free(char const *s);
 void				ft_putstr(char const *s);
 char				*ft_strchr(char const *s, int c);
 char				*ft_strrchr(const char *str, int c);
-size_t				ft_strlen(char const *str);
+size_t				ft_strlen(char const *str) __attribute__((always_inline));
 char				*ft_strndup(char const *s, size_t n);
 char				*ft_strnew(size_t n);
 char				*ft_strcat(char *s1, char const *s2);

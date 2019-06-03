@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/27 16:34:23 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/03 14:38:17 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ inline t_stack				*ft_stack_node(void)
 
 	if (UNLIKELY((head = (t_stack *)malloc(sizeof(t_stack))) == NULL))
 		return (NULL);
-	head->path = NULL;
-	head->size = 0;
-	head->ant = 0;
+	ft_memset(head, 0, sizeof(t_stack));
 	return (head);
 }
 
