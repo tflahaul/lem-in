@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 14:44:42 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/03 11:31:04 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/05 12:59:16 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static uint8_t				ft_check_path(t_listhead **tab, t_listhead *new)
 }
 
 __attribute__((hot))
-static inline void			ft_add_address_to_tab(t_listhead **tab, t_listhead *node)
+static inline void			ft_add_address_to_tab(t_listhead **tab,
+													t_listhead *node)
 {
 	register uint16_t		index;
 

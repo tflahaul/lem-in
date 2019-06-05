@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/03 15:32:05 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/05 13:47:15 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,12 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-#include <stdio.h>
 
-__attribute__((deprecated))
-static void					print_stack(t_map *map, t_listhead *head)
+static void				ft_join_paths(t_map *map, t_listhead *head)
 {
-	t_stack					*node;
-	t_listhead				*ptr;
-	t_listhead				*position = head->next;
-	while (position != head)
-	{
-		node = ft_stack_entry(position);
-		ptr = node->path->list.next;
-		printf("\n=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-		while (ptr != &(node->path->list))
-		{
-			printf("[ %s ]\n", map->hashtab[ft_queue_entry(ptr)->key]->name);
-			ptr = ptr->next;
-		}
-		position = position->next;
-	}
-	ft_putchar(10);
-}
-
-static void					ft_join_paths(t_map *map, t_listhead *head)
-{
-	t_queue					*list;
-	t_stack					*node;
-	t_vertices				*vertex;
+	t_queue				*list;
+	t_stack				*node;
+	t_vertices			*vertex;
 
 	if (LIKELY((node = ft_stack_node()) != NULL))
 	{
@@ -78,77 +56,64 @@ static inline void		ft_update_visited(int8_t *array, t_listhead *head)
 	}
 }
 
-static t_stack			*ft_get_paths_in_graph(t_map *map)
+static uint32_t			*foo(__unused t_map *map, t_listhead *head)
 {
-	t_stack				*stacks;
-	t_stack				*final = NULL;
-	uint32_t			tmp = 0;
-	uint32_t			min = 0;
-	uint32_t			superposition[2];
+	t_listhead			*position;
+
+	position = head;
+	while ((position = position->next) != head);
+	return (NULL);
+}
+
+static uint32_t			**ft_get_overlaps(t_map *map, t_listhead *head)
+{
+	uint32_t			**tab;
+	uint64_t			length;
+	t_listhead			*position;
+	register uint16_t	index;
+
+	index = 0;
+	length = ft_list_size(head);
+	if (!(tab = (uint32_t **)malloc(sizeof(uint32_t *) * length)))
+		return (NULL);
+	ft_memset(tab, 0, length);
+	position = head;
+	while ((position = position->next) != head)
+	{
+		tab[index] = foo(map, &(ft_stack_entry(position)->path->list));
+		if (tab[index])
+			++index;
+	}
+	return (tab);
+}
+
+static inline uint32_t	**ft_search_for_overlaps(t_map *map)
+{
+	uint32_t			**tab;
+	t_stack				stacks;
 	int8_t				visited[MAX_VERTICES];
 
-	if (UNLIKELY((stacks = ft_stack_node()) == NULL))
-		return (NULL);
-	ft_list_init_head(&(stacks->list));
+	ft_list_init_head(&(stacks.list));
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
-		ft_join_paths(map, &(stacks->list));
-		ft_update_visited(visited, &(stacks->list));
-		/* On trouve une superposition en inversant le chemin */
-		if (ft_make_directed(map, stacks->list.prev) == EXIT_FAILURE)
-		{
-			/* Remplie le tableau `superposition` par les deux clefs où se
-			 * situe la superposition */
-			ft_get_superposition(stacks->list.prev, superposition);
-			/* Remet tout le graph à 0 excepté la superposition [0]-[1]
-			 * pour partir sur une nouvelle recherche de chemins */
-			ft_update_graph(map, superposition[0], superposition[1]);
-			tmp = ft_compute_steps(&(stacks->list));
-			if (tmp < min)
-			{
-				min = tmp;
-				ft_free_stacks(final);
-				final = stacks;
-			}
-			ft_fast_bzero(visited, MAX_VERTICES);
-		}
+		ft_join_paths(map, &(stacks.list));
+		ft_make_directed(map, stacks.list.prev);
+		ft_update_visited(visited, &(stacks.list));
 	}
-	if (UNLIKELY(&(stacks->list) == stacks->list.next))
-		return (NULL);
-	/* Ici, on est """censés""" avoir la meilleure solution (final) */
-	return (final);
+	tab = ft_get_overlaps(map, &(stacks.list));
+	ft_free_stacks(&(stacks.list));
+	return (tab);
 }
 
 uint8_t					ft_algorithm(t_map *map)
 {
-	t_stack				*ptr;
+	t_stack				*solution;
+	uint32_t			**overlaps;
 
-	ptr = ft_get_paths_in_graph(map);
-/*	int32_t				s;
-	t_graph				graph;
-	t_stack				stacks;
-
-	s = 1;
-	graph.map = map;
-	ft_memset(&stacks, 0, sizeof(t_stack));
-	ft_list_init_head(&(stacks.list));
-	ft_fast_bzero(graph.visited, MAX_VERTICES);
-	while (ft_breadth_first_search(map, graph.visited) == EXIT_SUCCESS)
-	{
-		ft_join_paths(map, &(stacks.list));
-		ft_fast_bzero(graph.visited, MAX_VERTICES);
-		ft_make_directed(map, stacks.list.prev);
-		ft_make_residual_graph(map, stacks.list.prev);
-	}
-	if (UNLIKELY(&(stacks.list) == stacks.list.next))
-		return (ft_puterror(DEADEND));
-	ft_sort_stacks(&(stacks.list));
-	ft_delete_unused_stacks(&(stacks.list), map, \
-		nbr_optimum_paths(map, &(stacks.list), &s));
-//	ft_keep_best_paths(&(stacks.list));
-	ft_population_distribution(map, &(stacks.list));
-	ft_print_movements(map, &(stacks.list));	*/
-	ft_free_stacks(&(ptr->list));
+	solution = NULL;
+	overlaps = ft_search_for_overlaps(map);
+//	solution = ft_get_best_solution(map, overlaps);
+//	ft_print_movements(map, &(solution->list));
 	return (EXIT_SUCCESS);
 }

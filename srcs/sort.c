@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 13:55:46 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/01 15:09:58 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/05 10:17:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static inline uint8_t	ft_size_cmp(t_listhead *prev, t_listhead *next)
 {
-	return (!!(ft_stack_entry(prev)->size > ft_stack_entry(next)->size));
+	return (ft_stack_entry(prev)->size > ft_stack_entry(next)->size);
 }
 
 static void				ft_list_swap(t_listhead *head, t_listhead *prev,

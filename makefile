@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/01 15:29:37 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/05 12:58:41 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ CFLAGS		=	-Wall						\
 				-Wpadded					\
 				-std=c99					\
 				-pedantic					\
-				-fsanitize=address			\
+				-O3							\
 				-g
 
 INC			=	-I $(HDR)
@@ -50,7 +50,7 @@ SRC			=	main						parsing						\
 				parsing_memory				bonuses						\
 				movements					graph_manipulation			\
 				distribution				algorithm_unused_paths		\
-				selection					sort
+				list_size
 
 LIBFT		=	$(LIBDIR)/libft.a
 
