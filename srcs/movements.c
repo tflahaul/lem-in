@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/03 09:22:25 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/06 21:33:50 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ static void					ft_print_stack(t_map *map, t_listhead *head)
 		while ((temp = temp->prev) != ft_stack_entry(position)->path->list.next)
 		{
 			ptr = ft_queue_entry(temp);
-			if (ptr->ant > 0 && ptr->ant <= map->population && ptr->key != map->start_index)
-				length += ft_strlen(map->hashtab[ptr->key]->name) + ft_u32len(ptr->ant) + 3;
+			if (ptr->ant > 0 && ptr->ant <= map->population \
+				&& ptr->key != map->start_index)
+				length += ft_strlen(map->hashtab[ptr->key]->name) \
+				+ ft_u32len(ptr->ant) + 3;
 		}
 	}
 	if (LIKELY((str = ft_strnew(length)) != NULL))
