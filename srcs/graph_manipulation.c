@@ -58,12 +58,13 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 		node = node->next;
 	}
 }
-
+#include <stdio.h>
 uint8_t					ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 {
 	t_edges				*ptr;
 	t_edges				*node;
 
+	printf("prevkey = %u\n", prevkey);
 	node = map->hashtab[prevkey]->adjc;
 	while (node != NULL)
 	{

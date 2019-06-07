@@ -107,7 +107,7 @@ static uint8_t			ft_foo(t_map *map, t_listhead *head)
 
 	new = &(ft_stack_entry(head)->path->list);
 	position = new;
-	prevkey = ft_queue_entry(new)->key;
+	prevkey = ft_queue_entry(new->next)->key;
 	while ((position = position->next) != new)
 	{
 		hashkey = ft_queue_entry(position)->key;
@@ -129,6 +129,7 @@ static inline uint32_t	**ft_search_for_overlaps(t_map *map)
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
+		printf("test\n");
 		ft_join_paths(map, &(stacks.list));
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_make_directed(map, stacks.list.prev);
@@ -182,7 +183,9 @@ uint8_t					ft_algorithm(t_map *map)
 
 	funptr[0] = &ft_simple_pathfinding;
 	funptr[1] = &ft_advanced_pathfinding;
+	printf("start\n");
 	tab = ft_search_for_overlaps(map);
+	printf("Am i here?");
 	funptr[!!(tab)](map, tab);
 	ft_free_tab(tab);
 	return (EXIT_SUCCESS);
