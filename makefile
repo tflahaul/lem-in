@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/06 22:15:30 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/08 12:18:05 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,6 @@ CFLAGS		=	-Wall						\
 				-std=c99					\
 				-pedantic					\
 				-fsanitize=address			\
-				-O3							\
 				-g
 
 INC			=	-I $(HDR)
@@ -46,11 +45,12 @@ SRC			=	main						parsing						\
 				errors						parsing_edges				\
 				connection_list				hash						\
 				queue						stacks						\
-				algorithm					breadth_first_search		\
-				visual						list						\
+				algorithm_memory			algorithm					\
+				breadth_first_search		visual						\
 				parsing_memory				bonuses						\
 				movements					graph_manipulation			\
-				distribution				algorithm_unused_paths
+				distribution				algorithm_unused_paths		\
+				pathfinding_simple			list
 
 LIBFT		=	$(LIBDIR)/libft.a
 
