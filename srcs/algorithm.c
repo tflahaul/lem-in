@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/06 22:17:12 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 10:40:57 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static void				ft_join_paths(t_map *map, t_listhead *head)
 	}
 }
 
-static inline void		ft_update_visited(int8_t *array, t_listhead *head)
+static inline void		ft_update_visited_array(int8_t *array, t_listhead *head)
 {
 	t_listhead			*ref;
 	t_listhead			*node;
 	t_listhead			*position;
 
-	position = head;
+	position = head->next;
 	ft_fast_bzero(array, MAX_VERTICES);
 	while ((position = position->next) != head)
 	{
@@ -82,19 +82,19 @@ static void				ft_actually_put_into_tab(t_map *map, t_listhead *head,
 static uint8_t			ft_put_into_tab(t_map *map, t_listhead *head,
 										uint32_t **tab)
 {
-	register uint16_t	index;
+	register uint16_t	ix;
 
 	if (tab == NULL)
 		if (LIKELY((tab = (uint32_t **)malloc(sizeof(uint32_t *) * 32UL))))
 			ft_memset(tab, 0, 32UL);
-	index = 0;
-	while (tab[index] != 0)
-		++index;
-	if (UNLIKELY(index >= 32UL))
+	ix = 0;
+	while (tab[ix] != 0)
+		++ix;
+	if (UNLIKELY(ix >= 32UL))
 		return (EXIT_FAILURE);
-	if (UNLIKELY(!(tab[index] = (uint32_t *)malloc(sizeof(uint32_t) << 1))))
+	if (UNLIKELY(!(tab[ix] = (uint32_t *)malloc(sizeof(uint32_t) << 1))))
 		return (EXIT_FAILURE);
-	ft_actually_put_into_tab(map, &(ft_stack_entry(head)->path->list), tab[index]);
+	ft_actually_put_into_tab(map, &(ft_stack_entry(head)->path->list), tab[ix]);
 	return (EXIT_SUCCESS);
 }
 
@@ -129,7 +129,6 @@ static inline uint32_t	**ft_search_for_overlaps(t_map *map)
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
-		printf("test\n");
 		ft_join_paths(map, &(stacks.list));
 		ft_fast_bzero(visited, MAX_VERTICES);
 		ft_make_directed(map, stacks.list.prev);
@@ -156,17 +155,22 @@ static inline void		ft_free_tab(uint32_t **tab)
 
 static void				ft_simple_pathfinding(t_map *map, __unused uint32_t **t)
 {
+	int					s;
 	t_stack				stacks;
 	int8_t				visited[MAX_VERTICES];
 
+	s = 1;
+	stacks.size = 0;
 	ft_list_init_head(&(stacks.list));
 	ft_fast_bzero(visited, MAX_VERTICES);
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, &(stacks.list));
-		ft_update_visited(visited, stacks.list.prev);
+		ft_update_visited_array(visited, &(stacks.list));
 	}
-	ft_print_movements(map, &(stacks.list));
+	nbr_optimum_paths(map, &(stacks.list), &s);
+	ft_population_distribution(map, &(stacks.list));
+//	ft_print_movements(map, &(stacks.list));
 	ft_free_stacks(&(stacks.list));
 }
 
@@ -183,9 +187,8 @@ uint8_t					ft_algorithm(t_map *map)
 
 	funptr[0] = &ft_simple_pathfinding;
 	funptr[1] = &ft_advanced_pathfinding;
-	printf("start\n");
 	tab = ft_search_for_overlaps(map);
-	printf("Am i here?");
+	ft_reinitialize_graph(map);
 	funptr[!!(tab)](map, tab);
 	ft_free_tab(tab);
 	return (EXIT_SUCCESS);

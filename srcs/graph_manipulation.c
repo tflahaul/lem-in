@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:35:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/29 12:45:00 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 10:29:55 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ static void				ft_open_path(t_map *map, uint32_t prevkey, uint32_t key)
 		node = node->next;
 	}
 }
-#include <stdio.h>
+
 uint8_t					ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 {
 	t_edges				*ptr;
 	t_edges				*node;
 
-	printf("prevkey = %u\n", prevkey);
 	node = map->hashtab[prevkey]->adjc;
 	while (node != NULL)
 	{
@@ -81,6 +80,27 @@ uint8_t					ft_overlaps(t_map *map, uint32_t prevkey, uint32_t key)
 		node = node->next;
 	}
 	return (EXIT_FAILURE);
+}
+
+void					ft_reinitialize_graph(t_map *map)
+{
+	t_edges				*node;
+	register uint16_t	index;
+
+	index = 0;
+	while (index < MAX_VERTICES)
+	{
+		if (map->hashtab[index]->key != 0UL)
+		{
+			node = map->hashtab[index]->adjc;
+			while (node != NULL)
+			{
+				node->way = open_way;
+				node = node->next;
+			}
+		}
+		++index;
+	}
 }
 
 /*
