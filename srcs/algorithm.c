@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/08 12:13:01 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 12:45:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-
-#include <stdio.h>
 
 inline void				ft_update_visited_array(int8_t *array, t_listhead *head)
 {
@@ -63,7 +61,7 @@ static uint8_t			ft_put_into_tab(t_map *map, t_listhead *head,
 	ix = 0;
 	while (tab[ix] != 0)
 		++ix;
-	if (UNLIKELY(ix >= 32UL))
+	if (UNLIKELY(ix >= 32))
 		return (EXIT_FAILURE);
 	if (UNLIKELY(!(tab[ix] = (uint32_t *)malloc(sizeof(uint32_t) << 1))))
 		return (EXIT_FAILURE);
@@ -108,19 +106,13 @@ static inline uint32_t	**ft_search_for_overlaps(t_map *map)
 		if (ft_foo(map, stacks.list.prev) == EXIT_SUCCESS)
 		{
 			if (overlaps == NULL)
-				if ((overlaps = (uint32_t **)malloc(sizeof(uint32_t *) * 32UL)))
-					ft_memset(overlaps, 0, 32UL);
+				if (UNLIKELY((overlaps = ft_initialize_tab()) == NULL))
+					return (NULL);
 			ft_put_into_tab(map, stacks.list.prev, overlaps);
 		}
 	}
 	ft_free_stacks(&(stacks.list));
 	return (overlaps);
-}
-
-static void				ft_advanced_pathfinding(t_map *map, uint32_t **tab)
-{
-	(void)map;
-	(void)tab;
 }
 
 uint8_t					ft_algorithm(t_map *map)

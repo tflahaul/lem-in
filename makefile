@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/08 12:18:05 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/08 12:51:56 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRC			=	main						parsing						\
 				parsing_memory				bonuses						\
 				movements					graph_manipulation			\
 				distribution				algorithm_unused_paths		\
-				pathfinding_simple			list
+				pathfinding_simple			list						\
+				pathfinding_hard
 
 LIBFT		=	$(LIBDIR)/libft.a
 
