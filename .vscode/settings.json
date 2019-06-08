@@ -26,7 +26,8 @@
 		"lem_in_hash.h": "c",
 		"lem_in_visual.h": "c",
 		"iterator": "c",
-		"stdarg.h": "c"
+		"stdarg.h": "c",
+		"iso646.h": "c"
 	},
 	"editor.rulers": [80]
 }

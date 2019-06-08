@@ -6,13 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/07 13:34:24 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 16:17:34 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 11:19:54 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-char					*ft_strcat(char *s1, char const *s2)
+inline char				*ft_strcat(char *s1, char const *s2)
 {
 	char				*ptr;
 

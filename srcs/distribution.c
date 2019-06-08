@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/01 13:52:25 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 11:34:17 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
 	}
 }
 
-void				ants_min(uint32_t population, int32_t *sum, t_listhead *head)
+void				ants_min(uint32_t population, int32_t *sum,
+												t_listhead *head)
 {
 	t_listhead		*node;
 
@@ -87,7 +88,7 @@ void				ants_min(uint32_t population, int32_t *sum, t_listhead *head)
 			ft_stack_entry(node)->ant += 1;
 			*sum += 1;
 			if (*sum == (int32_t)population)
-				break;
+				break ;
 			node = node->next;
 		}
 	}
@@ -108,7 +109,8 @@ void				ants_to_path(int32_t ants,
 	while ((ptr = ptr->next) != head && tmp > 0 && *sum <= pop)
 	{
 		node = ft_stack_entry(ptr);
-		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size - 2)) > 0)
+		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size - 2)) \
+			> 0)
 		{
 			if (head->next == ptr \
 				&& node->size == ft_stack_entry(head->next)->size - 2 \

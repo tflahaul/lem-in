@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 11:39:05 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/31 18:10:31 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 11:35:18 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static inline void		ft_keep_shortest(t_listhead *head)
 
 static inline void		write_shortest_to_file(t_map *map, t_listhead *head)
 {
-	t_queue 			*lst;
+	t_queue				*lst;
 	t_listhead			*ptr;
 	t_stack				*node;
 
@@ -81,9 +81,9 @@ static inline void		ft_keep_n_paths(t_listhead *head, uint16_t nb)
 	}
 }
 
-void					ft_delete_unused_stacks(t_listhead *head, t_map *map, uint16_t nb)
+void					ft_delete_unused_stacks(t_listhead *head, t_map *map,
+												uint16_t nb)
 {
-
 	if (UNLIKELY(nb == 0))
 		ft_delete_all(head);
 	else if (nb == 1)
