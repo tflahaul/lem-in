@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/08 11:34:17 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 14:17:09 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,5 +139,8 @@ void				ft_population_distribution(t_map *map, t_listhead *head)
 	else
 		ft_stack_entry(head->next)->ant = map->population;
 	if (map->visual & VISUAL)
+	{
 		write_paths_to_file(map, head);
+		map->visual = 0;
+	}
 }

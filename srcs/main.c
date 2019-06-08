@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:41:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/29 16:41:00 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:07:35 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int						main(int argc, char const **argv)
 	if (argc > 1 && ft_strcmp("-v", argv[1]) == 0)
 		map.visual |= VISUAL;
 	if (ft_read_std_input(&map) == EXIT_FAILURE && map.vertices < 2)
-		return ((int)ft_free_hashtable(map.hashtab));
+		return (ft_free_hashtable(map.hashtab));
 	if (map.start_index && map.end_index)
 		ft_algorithm(&map);
-	return ((int)ft_free_hashtable(map.hashtab));
+	return (ft_free_hashtable(map.hashtab));
 }

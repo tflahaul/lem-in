@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 15:41:57 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/26 13:44:57 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/08 13:07:06 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void				ft_free_adjacency_list(t_edges **head)
 	}
 }
 
-uint8_t					ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES])
+int						ft_free_hashtable(t_vertices *hashtab[MAX_VERTICES])
 {
 	register uint16_t	index;
 
