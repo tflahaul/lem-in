@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:23:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/05/31 17:49:03 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/06/09 12:35:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ uint8_t		write_data(t_map *map)
 
 uint8_t		write_paths_to_file(t_map *map, t_listhead *head)
 {
+	char		*str;
 	t_queue		*lst;
 	t_stack		*tmp;
 	t_listhead	*ptr;
@@ -61,7 +62,8 @@ uint8_t		write_paths_to_file(t_map *map, t_listhead *head)
 				return (EXIT_FAILURE);
 		}
 		append_to_file(PATHS, "");
-		append_to_file(ANTS, ft_itoa(tmp->ant));
+		append_to_file(ANTS, (str = ft_itoa(tmp->ant)));
+		free((void *)str);
 		node = node->next;
 	}
 	return (EXIT_SUCCESS);

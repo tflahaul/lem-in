@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/08 15:30:40 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/09 12:38:02 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,7 @@ CFLAGS		=	-Wall						\
 				-Werror						\
 				-Wpadded					\
 				-std=c99					\
-				-pedantic					\
-				-g
+				-pedantic
 
 INC			=	-I $(HDR)
 CLIBFT		=	-L $(LIBDIR) -lft

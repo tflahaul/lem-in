@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 10:41:46 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/09 12:14:19 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/09 12:33:11 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
-
-#include <stdio.h>
 
 static inline void		ft_copy_queue(t_listhead *dest, t_listhead *source)
 {
@@ -106,13 +104,14 @@ static inline uint8_t	ft_evaluate_solution(t_map *map, t_listhead *new,
 
 void					ft_advanced_pathfinding(t_map *map, uint32_t **tab)
 {
-	int	s = 1;
+	int32_t				s;
 	uint32_t			min;
 	int8_t				visited[MAX_VERTICES];
 	t_stack				temp;
 	t_stack				stacks;
 	register uint16_t	index;
 
+	s = 1;
 	index = 0;
 	min = UINT32_MAX;
 	ft_list_init_head(&(temp.list));
