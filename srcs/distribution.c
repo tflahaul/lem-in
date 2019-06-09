@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/08 14:17:09 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/09 11:20:41 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,8 @@ void				ants_min(uint32_t population, int32_t *sum,
 	}
 }
 
-void				ants_to_path(int32_t ants,
-									int *sum,
-									int pop,
-									t_listhead *head)
+void				ants_to_path(int32_t ants, int *sum, int pop,
+												t_listhead *head)
 {
 	int32_t			tmp;
 	t_stack			*node;
