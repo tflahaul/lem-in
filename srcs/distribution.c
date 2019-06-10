@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/09 11:20:41 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/10 12:14:48 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 	tmp = head->next;
 	var = map->population;
 	size = ft_stack_entry(tmp)->size - 2;
-	while (tmp->next != head->prev)
+	while (tmp != head->prev)
 	{
 		diff += ft_stack_entry(tmp)->size - size - 2;
 		sum = (int32_t)func2(map->population, diff, ++(*s));
@@ -82,14 +82,13 @@ void				ants_min(uint32_t population, int32_t *sum,
 
 	while (*sum < (int32_t)population)
 	{
-		node = head->next;
-		while (node->next != head && ft_stack_entry(node->next)->ant > 0)
+		node = head;
+		while ((node = node->next) != head && ft_stack_entry(node)->ant > 0)
 		{
 			ft_stack_entry(node)->ant += 1;
 			*sum += 1;
 			if (*sum == (int32_t)population)
 				break ;
-			node = node->next;
 		}
 	}
 }
