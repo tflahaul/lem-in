@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/08 13:07:54 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/11 12:09:05 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/libft.h"
 
-# define MAX_VERTICES	6200
+# define MAX_VERTICES	6500
 
 # define VISUAL			0x00000001u
 # define COLORS			0x00010000u
@@ -69,8 +69,9 @@ uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 /*
 **	Algorithm
 */
-uint8_t					ft_algorithm(t_map *map);
+double					func2(int32_t pop, int32_t diff, int32_t paths);
 uint8_t					ft_breadth_first_search(t_map *map, int8_t *visited);
+uint8_t					ft_algorithm(t_map *map);
 
 /*
 **	Visualization

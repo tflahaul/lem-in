@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/10 12:14:48 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/11 12:35:46 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 #include <lem_in_stacks.h>
 #include <lem_in_visual.h>
 #include <lem_in_compiler.h>
-
-static double		func2(int32_t pop, int32_t diff, int32_t paths)
-{
-	return (((double)(pop + diff) / (double)paths) + 1);
-}
 
 int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 {
@@ -36,11 +31,8 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 	{
 		diff += ft_stack_entry(tmp)->size - size - 2;
 		sum = (int32_t)func2(map->population, diff, ++(*s));
-		if (sum > var)
-		{
-			ft_stack_entry(head)->ant = var;
+		if (sum > var && (ft_stack_entry(head)->ant = var))
 			return ((*s -= 1));
-		}
 		tmp = tmp->next;
 		var = sum;
 	}
