@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 12:06:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/09 12:32:35 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/11 12:22:26 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
-uint32_t				**ft_initialize_tab(void)
+uint32_t					**ft_initialize_tab(void)
 {
-	uint32_t			**tab;
+	uint32_t				**tab;
 
 	tab = NULL;
 	if (LIKELY((tab = (uint32_t **)malloc(sizeof(uint32_t *) << 5)) != NULL))
@@ -25,11 +25,11 @@ uint32_t				**ft_initialize_tab(void)
 	return (tab);
 }
 
-void					ft_join_paths(t_map *map, t_listhead *head)
+void						ft_join_paths(t_map *map, t_listhead *head)
 {
-	t_queue				*list;
-	t_stack				*node;
-	t_vertices			*vertex;
+	t_queue					*list;
+	t_stack					*node;
+	t_vertices				*vertex;
 
 	if (LIKELY((node = ft_stack_node()) != NULL))
 	{

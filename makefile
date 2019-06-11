@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/09 12:38:02 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/11 12:33:53 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,9 @@ CFLAGS		=	-Wall						\
 				-Werror						\
 				-Wpadded					\
 				-std=c99					\
-				-pedantic
+				-pedantic					\
+				-O3							\
+				-g
 
 INC			=	-I $(HDR)
 CLIBFT		=	-L $(LIBDIR) -lft
@@ -47,9 +49,11 @@ SRC			=	main						parsing						\
 				breadth_first_search		visual						\
 				parsing_memory				bonuses						\
 				movements					graph_manipulation			\
+				list						list_copy					\
+				distribution_formula		algorithm_overlaps			\
 				distribution				algorithm_unused_paths		\
-				pathfinding_simple			list						\
-				pathfinding_hard
+				graph_modifications			algorithm_pathfinding_hard	\
+				algorithm_pathfinding_simple
 
 LIBFT		=	$(LIBDIR)/libft.a
 

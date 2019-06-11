@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/09 11:20:41 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/11 12:35:46 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 #include <lem_in_stacks.h>
 #include <lem_in_visual.h>
 #include <lem_in_compiler.h>
-
-static double		func2(int32_t pop, int32_t diff, int32_t paths)
-{
-	return (((double)(pop + diff) / (double)paths) + 1);
-}
 
 int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 {
@@ -32,15 +27,12 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 	tmp = head->next;
 	var = map->population;
 	size = ft_stack_entry(tmp)->size - 2;
-	while (tmp->next != head->prev)
+	while (tmp != head->prev)
 	{
 		diff += ft_stack_entry(tmp)->size - size - 2;
 		sum = (int32_t)func2(map->population, diff, ++(*s));
-		if (sum > var)
-		{
-			ft_stack_entry(head)->ant = var;
+		if (sum > var && (ft_stack_entry(head)->ant = var))
 			return ((*s -= 1));
-		}
 		tmp = tmp->next;
 		var = sum;
 	}
@@ -82,14 +74,13 @@ void				ants_min(uint32_t population, int32_t *sum,
 
 	while (*sum < (int32_t)population)
 	{
-		node = head->next;
-		while (node->next != head && ft_stack_entry(node->next)->ant > 0)
+		node = head;
+		while ((node = node->next) != head && ft_stack_entry(node)->ant > 0)
 		{
 			ft_stack_entry(node)->ant += 1;
 			*sum += 1;
 			if (*sum == (int32_t)population)
 				break ;
-			node = node->next;
 		}
 	}
 }
