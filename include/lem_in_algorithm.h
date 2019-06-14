@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/11 12:30:15 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/14 23:28:44 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,5 @@ void					ft_free_tab(uint32_t **tab);
 uint8_t					ft_overlaps(t_map *map, uint32_t prev, uint32_t key);
 uint32_t				**ft_search_for_overlaps(t_map *map);
 uint32_t				**ft_initialize_tab(void);
-
 
 #endif

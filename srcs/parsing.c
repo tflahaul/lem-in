@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/28 10:43:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/14 23:24:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <lem_in_bug.h>
 #include <lem_in_parsing.h>
 #include <lem_in_compiler.h>
-#include <sys/stat.h>
 #include <unistd.h>
 
 static void				ft_parse_command_lines(t_map *map, char const *buffer)
@@ -104,13 +103,9 @@ uint8_t					ft_read_std_input(t_map *map)
 	t_input				lines;
 	char				*buffer;
 	static char			*string;
-	struct stat			informations;
 
-	if (UNLIKELY(fstat(STDIN_FILENO, &informations) < 0))
-		return (EXIT_FAILURE);
-	else if (!S_ISREG(informations.st_mode) && !S_ISFIFO(informations.st_mode))
-		if (isatty(STDIN_FILENO) == 0)
-			return (ft_puterror(INVALIDFMT));
+	if (UNLIKELY(ft_isvalidformat(STDIN_FILENO) == EXIT_FAILURE))
+		return (ft_puterror(INVALIDFMT));
 	if (UNLIKELY((string = ft_strnew(1)) == NULL))
 		return (ft_puterror(MEMERR));
 	ft_list_init_head(&(lines.list));
@@ -122,7 +117,10 @@ uint8_t					ft_read_std_input(t_map *map)
 	}
 	ft_variadic_freeing(2, (void *)buffer, (void *)string);
 	if (UNLIKELY(map->vertices < 2))
+	{
+		ft_parsing_panic(&(lines.list), NULL);
 		return (ft_puterror(TOOSMALLFARM));
+	}
 	map->start_edges = (uint32_t)ft_min(map->start_edges, map->end_edges);
 	ft_safe_print_and_free(&(lines.list));
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 18:36:33 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/03 14:18:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/14 23:21:08 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char				*ft_strnjoinfree(char const *s, char const *p, size_t n);
 int8_t				ft_readline(char **string, char **line);
 int64_t				ft_atoi_parsing(char const **string);
 int64_t				ft_min(int64_t a, int64_t b);
+uint8_t				ft_isvalidformat(int fd);
 uint8_t				ft_variadic_freeing(unsigned int nb, ...);
 uint16_t			ft_u32len(uint32_t nb);
 uint32_t			ft_word_count(char const *s);
