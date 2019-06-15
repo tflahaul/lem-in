@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/14 23:26:31 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/15 18:41:39 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ SRC			=	main						parsing						\
 				distribution_formula		algorithm_overlaps			\
 				distribution				algorithm_unused_paths		\
 				graph_modifications			algorithm_pathfinding_hard	\
-				algorithm_pathfinding_simple
+				movements_buffer			algorithm_pathfinding_simple
 
 LIBFT		=	$(LIBDIR)/libft.a
 

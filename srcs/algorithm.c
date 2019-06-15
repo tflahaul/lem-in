@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/22 09:59:25 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/11 12:10:13 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/15 18:25:44 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ inline void				ft_update_visited_array(int8_t *array, t_listhead *head)
 uint8_t					ft_algorithm(t_map *map)
 {
 	uint32_t			**tab;
-	void				(*funptr[2])(t_map *, uint32_t **);
+	void				(*funptr[2])(t_map *, uint32_t **, int32_t);
 
 	funptr[0] = &ft_simple_pathfinding;
 	funptr[1] = &ft_advanced_pathfinding;
 	tab = ft_search_for_overlaps(map);
 	ft_reinitialize_graph(map);
-	funptr[!!(tab)](map, tab);
+	funptr[!!(tab)](map, tab, 1);
 	ft_free_tab(tab);
 	return (EXIT_SUCCESS);
 }

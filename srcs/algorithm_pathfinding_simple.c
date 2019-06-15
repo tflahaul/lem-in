@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 12:03:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/14 23:30:32 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/15 18:29:09 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,12 @@
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 
-void					ft_simple_pathfinding(t_map *map, uint32_t **tab)
+void					ft_simple_pathfinding(t_map *map, uint32_t **tab,
+												int32_t s)
 {
 	t_stack				stacks;
 	int8_t				visited[MAX_VERTICES];
-	int32_t				s;
 
-	s = 1;
 	(void)tab;
 	ft_list_init_head(&(stacks.list));
 	ft_fast_bzero(visited, MAX_VERTICES);
@@ -34,7 +33,10 @@ void					ft_simple_pathfinding(t_map *map, uint32_t **tab)
 			break ;
 	}
 	if (UNLIKELY(stacks.list.prev == &(stacks.list)))
+	{
+		ft_free_stacks(&(stacks.list));
 		ft_puterror(DEADEND);
+	}
 	else
 	{
 		ft_delete_unused_stacks(&(stacks.list), map, \
@@ -42,5 +44,4 @@ void					ft_simple_pathfinding(t_map *map, uint32_t **tab)
 		ft_population_distribution(map, &(stacks.list));
 		ft_print_movements(map, &(stacks.list));
 	}
-	ft_free_stacks(&(stacks.list));
 }
