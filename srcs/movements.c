@@ -6,74 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/06 21:33:50 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/15 18:35:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
-
-static void					ft_fill_buffer(t_map *map, t_listhead *head,
-											char *buffer)
-{
-	char					*tmp;
-	t_listhead				*new_head;
-	t_listhead				*position;
-	register t_queue		*ptr;
-	register t_listhead		*node;
-
-	position = head;
-	while ((position = position->next) != head)
-	{
-		node = &(ft_stack_entry(position)->path->list);
-		new_head = node;
-		while ((node = node->prev) != new_head)
-		{
-			ptr = ft_queue_entry(node);
-			if (ptr->ant > 0 && ptr->ant <= map->population
-				&& ptr->key != map->start_index)
-			{
-				ft_strcat(buffer, " L");
-				ft_strcat(buffer, (tmp = ft_itoa(ptr->ant)));
-				free((void *)tmp);
-				ft_strcat(buffer, "-");
-				ft_strcat(buffer, map->hashtab[ptr->key]->name);
-			}
-		}
-	}
-}
-
-static void					ft_print_stack(t_map *map, t_listhead *head)
-{
-	char					*str;
-	t_queue					*ptr;
-	t_listhead				*temp;
-	t_listhead				*position;
-	register uint32_t		length;
-
-	length = 0;
-	position = head;
-	while ((position = position->next) != head)
-	{
-		temp = &(ft_stack_entry(position)->path->list);
-		while ((temp = temp->prev) != ft_stack_entry(position)->path->list.next)
-		{
-			ptr = ft_queue_entry(temp);
-			if (ptr->ant > 0 && ptr->ant <= map->population \
-				&& ptr->key != map->start_index)
-				length += ft_strlen(map->hashtab[ptr->key]->name) \
-				+ ft_u32len(ptr->ant) + 3;
-		}
-	}
-	if (LIKELY((str = ft_strnew(length)) != NULL))
-	{
-		ft_fill_buffer(map, head, str);
-		if (str[0])
-			ft_putstr_endl(str + 1);
-		free((void *)str);
-	}
-}
 
 /*
 **	Sends values of each 'queue' element one rung lower to mime
@@ -141,4 +80,5 @@ void						ft_print_movements(t_map *map, t_listhead *head)
 			ft_update_stack(&(stacks->path->list), stacks->size);
 		}
 	}
+	ft_free_stacks(head);
 }
