@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/11 12:09:05 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/16 18:38:13 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/libft.h"
 
-# define MAX_VERTICES	6500
+# define MAX_VERTICES	8192
 
 # define VISUAL			0x00000001u
 # define COLORS			0x00010000u
@@ -51,6 +51,7 @@ typedef struct			s_map
 /*
 **	Parsing
 */
+void					ft_print_usage(char const *name);
 uint8_t					ft_read_std_input(t_map *map);
 uint8_t					ft_parse_edges(t_map *map, char const *buffer);
 uint8_t					ft_parse_vertices(t_map *node, char const *buffer);

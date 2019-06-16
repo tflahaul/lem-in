@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:03:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/15 18:39:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:07:43 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,7 @@ typedef struct		s_stack
 
 void				ft_delete_unused_stacks(t_listhead *head, t_map *map,
 											uint16_t nb);
-void				ft_print_colored_ant(uint32_t nb, char const *str);
 void				ft_print_stack(t_map *map, t_listhead *head);
-void				ft_sort_stacks(t_listhead *head);
 void				ft_free_stacks(t_listhead *head);
 t_stack				*ft_stack_entry(t_listhead *ptr);
 t_stack				*ft_stack_node(void) __attribute__((always_inline));

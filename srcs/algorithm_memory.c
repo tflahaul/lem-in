@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 12:06:21 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/11 12:22:26 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/16 18:53:54 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void						ft_join_paths(t_map *map, t_listhead *head)
 	}
 }
 
-void					ft_free_tab(uint32_t **tab)
+void						ft_free_tab(uint32_t **tab)
 {
-	register uint16_t	index;
+	register uint16_t		index;
 
 	index = 0;
 	if (LIKELY(tab != NULL))

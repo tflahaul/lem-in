@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/15 18:41:39 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/16 19:07:07 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,18 +46,22 @@ SRC			=	main						parsing						\
 				queue						stacks						\
 				algorithm_memory			algorithm					\
 				breadth_first_search		visual						\
-				parsing_memory				bonuses						\
 				movements					graph_manipulation			\
 				list						list_copy					\
 				distribution_formula		algorithm_overlaps			\
 				distribution				algorithm_unused_paths		\
 				graph_modifications			algorithm_pathfinding_hard	\
-				movements_buffer			algorithm_pathfinding_simple
+				parsing_memory				movements_buffer			\
+				algorithm_pathfinding_simple
+
+HDRFILES	=	$(filter %.h, $(shell find $(HDR)))
 
 LIBFT		=	$(LIBDIR)/libft.a
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
 OBJ 		=	$(patsubst %,$(OBJDIR)/%.o, $(SRC))
+
+include libftsources.mk
 
 ######### COLORS ##########
 STD			=	\033[0m
@@ -73,15 +77,15 @@ $(NAME)			: $(LIBFT) $(OBJ)
 	gcc $(CFLAGS) $(OBJ) -o $@ $(CLIBFT)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
-$(LIBFT)		: $(LIBDIR)/libft.h
+$(LIBFT)		: $(LIBDIR)/libft.h $(LIBSRCS)
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
 	make -C $(LIBDIR)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
-$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDRFILES)
 	@mkdir -p $(OBJDIR)
-	@echo " > Compiling $<..." > $(STDOUT)
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@echo " > Compiling $(SRCDIR)/$*..." > $(STDOUT)
+	@gcc $(CFLAGS) $(INC) -c $< -o $@
 
 silent			:
 	@make MODE=silent
