@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/14 22:29:38 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:22:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,25 +112,22 @@ void				ants_to_path(int32_t ants, int *sum, int pop,
 	}
 }
 
-void				ft_population_distribution(t_map *map, t_listhead *head)
+void				ft_population_distrib(t_map *map, t_listhead *h, int8_t pat)
 {
 	int32_t			sum;
 	int32_t			ants;
 
-	ants = ft_stack_entry(head)->ant;
-	ft_stack_entry(head->next)->ant = ft_stack_entry(head)->ant;
+	ants = ft_stack_entry(h)->ant;
+	ft_stack_entry(h->next)->ant = ft_stack_entry(h)->ant;
 	sum = ants;
-	if (head->next != head->prev)
+	if (h->next != h->prev)
 	{
-		ants_to_path(ants, &sum, map->population, head);
-		ants_min(map->population, &sum, head);
-		ants_sup(map->population, sum, head);
+		ants_to_path(ants, &sum, map->population, h);
+		ants_min(map->population, &sum, h);
+		ants_sup(map->population, sum, h);
 	}
 	else
-		ft_stack_entry(head->next)->ant = map->population;
-	if (map->visual & VISUAL)
-	{
-		write_paths_to_file(map, head);
-		map->visual = 0;
-	}
+		ft_stack_entry(h->next)->ant = map->population;
+	if (pat != 0 && (map->visual & VISUAL))
+		write_paths_to_file(map, h);
 }

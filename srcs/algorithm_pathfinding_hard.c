@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 10:41:46 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/15 18:28:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/16 19:24:45 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ static void				ft_evaluate_solution(t_map *map, t_listhead *temp,
 
 	s = 1;
 	ft_delete_unused_stacks(temp, map, nbr_optimum_paths(map, temp, &s));
-	ft_population_distribution(map, temp);
+	ft_population_distrib(map, temp, 0);
 	if (ft_stack_entry(temp)->ant + ft_stack_entry(temp->next)->size < *min)
 	{
 		*min = ft_stack_entry(temp)->ant + ft_stack_entry(temp->next)->size;
 		ft_copy_list(ptr, temp);
 		ft_stack_entry(ptr)->ant = ft_stack_entry(temp)->ant;
 		nbr_optimum_paths(map, ptr, &s);
-		ft_population_distribution(map, ptr);
+		ft_population_distrib(map, ptr, 0);
 	}
 }
 
@@ -93,6 +93,6 @@ void					ft_advanced_pathfinding(t_map *map, uint32_t **tab,
 		}
 	}
 	nbr_optimum_paths(map, &(stacks.list), &s);
-	ft_population_distribution(map, &(stacks.list));
+	ft_population_distrib(map, &(stacks.list), 1);
 	ft_print_movements(map, &(stacks.list));
 }
