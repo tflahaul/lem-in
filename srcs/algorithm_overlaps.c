@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/11 12:09:58 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/11 12:23:05 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:13:50 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
 
-void					ft_add_overlap(t_map *map, uint32_t pk, uint32_t hk)
+inline void				ft_add_overlap(t_map *map, uint32_t pk, uint32_t hk)
 {
 	t_edges				*node;
 

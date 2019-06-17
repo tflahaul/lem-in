@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 18:33:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/16 19:10:15 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:06:05 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static inline void		ft_fill_buffer(t_map *map, char **buffer, t_queue *ptr)
 {
 	char				*tmp;
 
-	**buffer = ' ';
+	ft_strcat(*buffer, " ");
 	if (UNLIKELY(map->visual >= COLORS))
 		ft_buffer_colorize((ptr->ant | map->visual), buffer);
 	ft_strcat(*buffer, "L");
@@ -89,6 +89,8 @@ void					ft_print_stack(t_map *map, t_listhead *head)
 		while ((temp = temp->prev) != ft_stack_entry(position)->path->list.next)
 		{
 			ptr = ft_queue_entry(temp);
+			if (map->visual >= VISUAL)
+				length += 16;
 			if (ptr->ant > 0 && ptr->ant <= map->population \
 				&& ptr->key != map->start_index)
 				length += ft_strlen(map->hashtab[ptr->key]->name) \
