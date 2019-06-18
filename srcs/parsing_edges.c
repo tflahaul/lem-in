@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/14 22:27:49 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/18 12:01:21 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ uint8_t				ft_parse_edges(t_map *map, char const *buffer)
 
 	if (UNLIKELY(map->vertices < 2))
 		return (ft_puterror(TOOSMALLFARM));
-	if (UNLIKELY(map->start_index == 0 || map->end_index == 0))
+	if (UNLIKELY(map->hashtab[map->start_index]->name == NULL \
+		|| map->hashtab[map->end_index]->name == NULL))
 		return (ft_puterror(NOENTRY));
 	if (LIKELY((ptr = ft_strrchr(buffer, '-'))))
 	{

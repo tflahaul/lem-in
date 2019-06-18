@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 10:41:46 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/16 19:24:45 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/18 11:37:12 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static inline void		ft_pathfinding(t_map *map, t_listhead *head)
 	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
 	{
 		ft_join_paths(map, head);
+		if (UNLIKELY(ft_stack_entry(head->prev)->size == 2))
+			ft_make_directed(map, head->prev);
 		ft_update_visited_array(visited, head);
 	}
 }
