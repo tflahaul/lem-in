@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 18:34:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/16 17:05:06 by thflahau         ###   ########.fr       */
+/*   Created: 2018/11/07 13:34:24 by thflahau          #+#    #+#             */
+/*   Updated: 2019/06/08 11:19:54 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdint.h>
-#include <lem_in_bug.h>
-#include "../libft/libft.h"
+#include <libft.h>
 
-uint8_t				ft_puterror(char const *error)
+inline char				*ft_strcat(char *s1, char const *s2)
 {
-	ft_printf(C_RED"%s"C_NONE, error);
-	return (EXIT_FAILURE);
-}
+	char				*ptr;
 
-void				ft_print_usage(char const *name)
-{
-	ft_printf("usage:\t%s [-v]\n\t%s [-v] < file\n\tfile | %s [-v]\n", \
-		name, name, name);
+	ptr = s1;
+	s1 += ft_strlen(s1);
+	while (*s2)
+		*s1++ = *s2++;
+	*s1 = 0;
+	return (ptr);
 }

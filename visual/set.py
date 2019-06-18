@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:22 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/24 18:31:16 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/31 16:15:29 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ import os
 
 def read_data():
     data = {}
+    if os.path.exists('data.txt') == False:
+        raise Exception('Invalid Map')
     with open('data.txt', 'r') as f:
         lines = f.readlines()
         data['ants'] = int(lines[0].strip('\n'))
@@ -28,6 +30,8 @@ def read_data():
 def read_paths():
     paths = []
     lst = []
+    if os.path.exists('paths.txt') == False:
+        raise Exception('Invalid Map')
     with open('paths.txt', 'r') as f:
         lines = f.readlines()
         for line in lines:
@@ -40,11 +44,13 @@ def read_paths():
                 
 def read_output(lines, G):
     coord = 0
+    color = None
     for line in lines:
-        if (line):
-            if ('\033' in line[0]):
-                raise Exception('Invalid Map')
-            if (line.startswith(('#', 'L')) == False):
+        if (line and '\033' not in line[0]):
+            if (line.startswith('##theme') == True):
+                color = line.split('=')
+                color = color[1].strip()
+            elif (line.startswith(('#', 'L')) == False):
                 if (line.find(' ') != -1):
                     data = line.split(' ')
                     name = data[0]
@@ -56,9 +62,10 @@ def read_output(lines, G):
                     e = line.split('-')
                     e = (tuple((e[0], e[1])))
                     G.add_edge(*e)
-            print (line)
-    return (coord)
-
+        else:
+            return (coord, color)
+        print(line)
+    return (coord, color)
 
 def clear_files():
     if os.path.exists('paths.txt'):
@@ -76,13 +83,12 @@ if __name__ == '__main__':
     p = subprocess.check_output(cmd, shell=True)
     output = p.decode("utf-8")
     lines = output.split('\n')
+    G = nx.Graph()
+    coord, color = read_output(lines, G)
     try:
-        G = nx.Graph()
-        coord = read_output(lines, G)
-        print(coord)
         data = read_data()
         paths = read_paths()
-        graph(G, coord, paths, data)
+        graph(G, coord, paths, data, color)
         clear_files()
     except Exception as e:
         print(e)

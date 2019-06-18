@@ -6,108 +6,128 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/20 19:14:46 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/06/16 19:22:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <lem_in.h>
+#include <lem_in_stacks.h>
+#include <lem_in_visual.h>
 #include <lem_in_compiler.h>
-#include <lem_in_algorithm.h>
 
-int					func2(int pop, int diff, int paths)
+int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 {
-	return ((pop + diff) / paths + 1);
-}
+	int32_t			size;
+	int32_t			diff;
+	int32_t			sum;
+	int32_t			var;
+	t_listhead		*tmp;
 
-int					nbr_optimum_paths(t_map *map, t_stack *stacks, int *path)
-{
-	int				size;
-	int				sum;
-	int				var;
-	int				diff;
-	t_stack			*tmp;
-
+	sum = 0;
 	diff = 0;
+	tmp = head->next;
 	var = map->population;
-	size = stacks->size;
-	tmp = stacks->next;
-	while ((tmp = tmp->next) != NULL)
+	size = ft_stack_entry(tmp)->size - 2;
+	while (tmp != head->prev)
 	{
-		diff += tmp->size - size;
-		sum = func2(map->population, diff, ++(*path));
-		if (sum > var)
-		{
-			stacks->next->ant = var;
-			return ((*path -= 1));
-		}
+		diff += ft_stack_entry(tmp)->size - size - 2;
+		sum = (int32_t)func2(map->population, diff, ++(*s));
+		if (sum > var && (ft_stack_entry(head)->ant = var))
+			return ((*s -= 1));
+		tmp = tmp->next;
 		var = sum;
 	}
-	stacks->next->ant = var;
-	if (*path == 2 && var == sum)
-		stacks->next->ant -= 1;
-	return (*path);
+	ft_stack_entry(head)->ant = var;
+	if (*s == 2 && var == sum)
+		ft_stack_entry(head)->ant -= 1;
+	return (*s);
 }
 
-void				ants_sup(int population, int sum, t_stack *stacks)
+void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
 {
-	int				diff;
-	t_stack			*tmp;
+	int32_t			diff;
+	t_listhead		*node;
 
-	while (sum > population)
+	while ((uint32_t)sum > population)
 	{
-		tmp = stacks;
-		while (tmp->next != NULL && tmp->next->ant > 0)
-			tmp = tmp->next;
+		node = head->next;
+		while (node->next != head && ft_stack_entry(node->next)->ant > 0)
+			node = node->next;
 		diff = sum - population;
-		if (((int)tmp->ant - diff) < 0)
+		if (((int32_t)(ft_stack_entry(node)->ant) - diff) < 0)
 		{
-			sum -= tmp->ant;
-			diff = ft_abs(tmp->ant - diff);
-			tmp->ant = 0;
+			sum -= ft_stack_entry(node)->ant;
+			diff = ft_abs(ft_stack_entry(node)->ant - diff);
+			ft_stack_entry(node)->ant = 0;
 		}
 		else
 		{
-			tmp->ant -= diff;
+			ft_stack_entry(node)->ant -= diff;
 			sum -= diff;
 		}
 	}
-	return ;
 }
 
-void				ants_to_path(uint32_t ants, int *sum, int pop, t_stack *ptr)
+void				ants_min(uint32_t population, int32_t *sum,
+												t_listhead *head)
 {
-	int				tmp;
-	t_stack			*lst;
+	t_listhead		*node;
 
-	tmp = ants;
-	lst = ptr;
-	lst->ant = ants;
-	while ((lst = lst->next) != NULL && tmp > 0 && *sum <= pop)
+	while (*sum < (int32_t)population)
 	{
-		if ((tmp = ants - (lst->size - ptr->size)) > 0)
+		node = head;
+		while ((node = node->next) != head && ft_stack_entry(node)->ant > 0)
 		{
-			if (ptr->next == lst && lst->size == ptr->size && pop % 2)
+			ft_stack_entry(node)->ant += 1;
+			*sum += 1;
+			if (*sum == (int32_t)population)
+				break ;
+		}
+	}
+}
+
+void				ants_to_path(int32_t ants, int *sum, int pop,
+												t_listhead *head)
+{
+	int32_t			tmp;
+	t_stack			*node;
+	t_listhead		*ptr;
+
+	ptr = head->next;
+	tmp = (int32_t)ants;
+	ft_stack_entry(ptr)->ant = ants;
+	while ((ptr = ptr->next) != head && tmp > 0 && *sum <= pop)
+	{
+		node = ft_stack_entry(ptr);
+		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size - 2)) \
+			> 0)
+		{
+			if (head->next == ptr \
+				&& node->size == ft_stack_entry(head->next)->size - 2 \
+				&& pop % 2)
 				tmp -= 1;
-			lst->ant = tmp;
+			node->ant = tmp;
 			*sum += tmp;
 		}
 	}
 }
-#include <stdio.h>
-void				ft_population_distribution(t_map *map, t_stack *stacks)
-{
-	int				sum;
-	uint32_t		ants;
 
-	ants = stacks->ant;
+void				ft_population_distrib(t_map *map, t_listhead *h, int8_t pat)
+{
+	int32_t			sum;
+	int32_t			ants;
+
+	ants = ft_stack_entry(h)->ant;
+	ft_stack_entry(h->next)->ant = ft_stack_entry(h)->ant;
 	sum = ants;
-	if (stacks->next != NULL)
+	if (h->next != h->prev)
 	{
-		ants_to_path(ants, &sum, map->population, stacks);
-		ants_sup(map->population, sum, stacks);
+		ants_to_path(ants, &sum, map->population, h);
+		ants_min(map->population, &sum, h);
+		ants_sup(map->population, sum, h);
 	}
 	else
-		stacks->ant = map->population;
-	if (!!(map->visual & VISUAL))
-		write_paths_to_file(map, stacks);
-	printf("#%llu = steps\n", stacks->ant + stacks->size - 1);
+		ft_stack_entry(h->next)->ant = map->population;
+	if (pat != 0 && (map->visual & VISUAL))
+		write_paths_to_file(map, h);
 }

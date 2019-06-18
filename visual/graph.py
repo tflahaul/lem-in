@@ -6,84 +6,23 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/24 20:23:47 by abrunet          ###   ########.fr        #
+#    Updated: 2019/05/31 16:44:06 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import color as c
+from options import get_options
 
-def set_colors():
-    default = {
-        'background'  : "#94DAD5",
-        'edge_std'    : "#0D7D84",
-        'node_std'    : "#07B2B4",
-        'short'       : "yellow",
-        'opti'        : "orange",
-        'ants'        : "green",
-    }
-
-    holy_graph = {
-        'background'  : "#051B26",
-        'edge_std'    : "#4C4C4E",
-        'node_std'    : "#4C4C4E",
-        'short'       : "#19BFBC",
-        'opti'        : "#19BFBC",
-        'ants'        : "#19BFBC",
-    }
-
-    city = {
-        'background'  : "#424242",
-        'edge_std'    : "#100805",
-        'node_std'    : "#100805",
-        'short'       : "#37D7FD",
-        'opti'        : "#37D7FD",
-        'ants'        : "#37D7FD",
-    }
-    return (holy_graph)
-
-def set_options(G, ax, node_size, width, pos):
-    options = {
-        'pos': pos,
-        'node_size': node_size,
-        'alpha': 0.60,
-        'width': width,
-        'ax': ax,
-    }
-    return (options)
-
-def get_options(G, vertices, ax, coord):
-    #set edges width
-    if vertices < 50:
-        width = 10.0
-    elif 50 <= vertices <= 1000:
-        width = 5.0
+def set_colors(color):
+    if color == 'holy_graph':
+        return (c.holy_graph)
+    elif color == 'city':
+        return (c.city)
     else:
-        width = 3.0
-
-    #set nodes size
-    if vertices < 50:
-        node_size = 500
-    elif 50 <= vertices <= 1000:
-        node_size = 150
-    else:
-        node_size = 100
-
-    #set coordinates mapping
-    if coord == 0 :
-        if vertices <= 500:
-            pos = nx.nx_pydot.pydot_layout(G, prog='fdp')  
-        else:
-            pos = nx.nx_pydot.pydot_layout(G, prog='sfdp')  
-    else:
-        if vertices <= 100:
-            pos = nx.get_node_attributes(G, 'pos')
-        else:
-            pos = nx.nx_pydot.pydot_layout(G, prog='sfdp') 
-
-    options = set_options(G, ax, node_size, width, pos)
-    return (options)
+        return (c.default)
 
 def get_ants_per_path():
     dic = {}
@@ -95,12 +34,11 @@ def get_ants_per_path():
             i += 1
     return (dic)
 
-def graph(G, coord, paths, data):
+def graph(G, coord, paths, data, color):
 
     #reset paths accounting for data['init'], set animation data
     ants = get_ants_per_path()
-    colors = set_colors()
-    print(colors)
+    colors = set_colors(color)
     shrtlen = len(paths[0])
     frames = shrtlen + len(paths[len(paths) - 1])
     steps = ants[1] + len(paths[1])

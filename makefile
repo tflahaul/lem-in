@@ -6,17 +6,17 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/17 21:45:31 by thflahau         ###   ########.fr        #
+#    Updated: 2019/06/16 19:07:07 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	 	= 	lem-in
+NAME		= 	lem-in
 
 ####### DIRECTORIES #######
 HDR			=	include
 LIBDIR		=	libft
-SRCDIR 		=	srcs
-OBJDIR 		= 	obj
+SRCDIR		=	srcs
+OBJDIR		=	obj
 
 ###### MAKE VARIABLES #####
 STDOUT		=	/dev/fd/1
@@ -27,31 +27,41 @@ ifeq '$(MODE)' 'silent'
 endif
 
 ########## FLAGS ##########
-CFLAGS 		= 	-Wall						\
+CFLAGS		=	-Wall						\
 				-Wextra						\
 				-Werror						\
 				-Wpadded					\
 				-std=c99					\
-				-fsanitize=address -g
+				-pedantic					\
+				-O3
 
-INC 		= 	-I $(HDR)
+INC			=	-I $(HDR)
 CLIBFT		=	-L $(LIBDIR) -lft
 
 ######### SOURCES #########
-SRC 		= 	main						parsing						\
+SRC			=	main						parsing						\
 				parsing_vertices			memory						\
 				errors						parsing_edges				\
-				tools						connection_list				\
-				hash						queue						\
-				stacks						algorithm					\
-				movements					breadth_first_search		\
-				graph_manipulation			distribution				\
-				visual
+				connection_list				hash						\
+				queue						stacks						\
+				algorithm_memory			algorithm					\
+				breadth_first_search		visual						\
+				movements					graph_manipulation			\
+				list						list_copy					\
+				distribution_formula		algorithm_overlaps			\
+				distribution				algorithm_unused_paths		\
+				graph_modifications			algorithm_pathfinding_hard	\
+				parsing_memory				movements_buffer			\
+				algorithm_pathfinding_simple
+
+HDRFILES	=	$(filter %.h, $(shell find $(HDR)))
 
 LIBFT		=	$(LIBDIR)/libft.a
 
 SRCS		=	$(addprefix $(SRCDIR), $(SRC))
-OBJ 		= 	$(patsubst %,$(OBJDIR)/%.o, $(SRC))
+OBJ 		=	$(patsubst %,$(OBJDIR)/%.o, $(SRC))
+
+include libftsources.mk
 
 ######### COLORS ##########
 STD			=	\033[0m
@@ -67,15 +77,15 @@ $(NAME)			: $(LIBFT) $(OBJ)
 	gcc $(CFLAGS) $(OBJ) -o $@ $(CLIBFT)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
-$(LIBFT)		: $(LIBDIR)/libft.h
+$(LIBFT)		: $(LIBDIR)/libft.h $(LIBSRCS)
 	printf "$(YELLOW)%-35s$(STD)" "Building $@... " > $(STDOUT)
 	make -C $(LIBDIR)
 	echo "$(GREEN)DONE$(STD)" > $(STDOUT)
 
-$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDR)/*.h
+$(OBJDIR)/%.o	: $(SRCDIR)/%.c $(HDRFILES)
 	@mkdir -p $(OBJDIR)
-	@echo " > Compiling $<..." > $(STDOUT)
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@echo " > Compiling $(SRCDIR)/$*..." > $(STDOUT)
+	@gcc $(CFLAGS) $(INC) -c $< -o $@
 
 silent			:
 	@make MODE=silent

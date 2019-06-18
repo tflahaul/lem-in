@@ -6,34 +6,49 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2019/05/18 23:24:19 by abrunet          ###   ########.fr       */
+=======
+/*   Updated: 2019/06/16 19:23:55 by thflahau         ###   ########.fr       */
+>>>>>>> b82beeb0dae2a7af78f1594fc6a7f207c427e860
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_ALGORITHM_H
 # define LEM_IN_ALGORITHM_H
 
-# include <lem_in.h>
-# include <lem_in_stacks.h>
+# ifndef LEM_IN_H
+#  include <lem_in.h>
+# endif
+# ifndef LEM_IN_STACKS_H
+#  include <lem_in_stacks.h>
+# endif
 
-enum					e_visitedarray
-{
+enum			e_vertex {
 	unvisited_node,
 	visited_node
 };
 
-typedef struct			s_graph
-{
-	struct s_map		**map;
-	struct s_queue		**queue;
-	uint8_t				*visited;
-}						t_graph;
+enum			e_direction {
+	closed_way,
+	open_way
+};
 
-void					ft_make_directed(t_map *map);
-void					ft_update_graph(t_map *map, t_stack *lst);
-void					ft_update_visited_array(t_stack *s, uint8_t *v);
-void					ft_population_distribution(t_map *map, t_stack *s);
-int						nbr_optimum_paths(t_map *map, t_stack *stacks, int *p);
-uint64_t				ft_abs(int64_t nb);
+int				nbr_optimum_paths(t_map *map, t_listhead *head, int *p);
+void			ft_advanced_pathfinding(t_map *map, uint32_t **tab, int32_t s);
+void			ft_simple_pathfinding(t_map *map, uint32_t **tab, int32_t s);
+void			ft_population_distrib(t_map *map, t_listhead *h, int8_t p);
+void			ft_update_visited_array(int8_t *tab, t_listhead *head);
+void			ft_reset_graph(t_map *map, uint32_t hk, uint32_t pk);
+void			ft_add_overlap(t_map *map, uint32_t pk, uint32_t hk);
+void			ft_print_movements(t_map *map, t_listhead *head);
+void			ft_make_directed(t_map *map, t_listhead *head);
+void			ft_update_graph(t_map *map, t_listhead *head);
+void			ft_join_paths(t_map *map, t_listhead *head);
+void			ft_reinitialize_graph(t_map *map);
+void			ft_free_tab(uint32_t **tab);
+uint8_t			ft_overlaps(t_map *map, uint32_t prev, uint32_t key);
+uint32_t		**ft_search_for_overlaps(t_map *map);
+uint32_t		**ft_initialize_tab(void);
 
 #endif

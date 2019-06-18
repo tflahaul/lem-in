@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 22:07:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 17:29:37 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/09 12:30:25 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include <stdint.h>
 
 /*
-**	Codes couleur pour l'affichage des erreurs
+**	Color codes used for displaying errors
 */
-# define C_RED			"\e[41m"
-# define C_NONE			"\033[0m"
+# define C_RED			"\x1B[41m"
+# define C_NONE			"\033[0m\n"
 
 /*
-**	Messages d'erreurs
+**	Error messages
 */
 # define BADNAME		"Invalid room name"
 # define MEMERR			"Memory allocation failure"
@@ -40,9 +40,8 @@
 # define NOROOM			"Room doesn't exist"
 # define TOOSMALLFARM	"Ant farm doesn't have enough rooms"
 # define NOENTRY		"No ##start and/or ##end"
-# define NOPATH			"No path to ##start and/or ##end"
 # define DEADEND		"No possible path to ##end"
 
-uint8_t					ft_puterror(char const *str, char const *err);
+uint8_t					ft_puterror(char const *error);
 
 #endif

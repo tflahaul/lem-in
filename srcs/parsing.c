@@ -6,14 +6,14 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:01:27 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:47:56 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/06/14 23:24:52 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_bug.h>
+#include <lem_in_parsing.h>
 #include <lem_in_compiler.h>
-#include <sys/stat.h>
 #include <unistd.h>
 
 static void				ft_parse_command_lines(t_map *map, char const *buffer)
@@ -34,17 +34,16 @@ static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
 	index = 0;
 	while (buffer[index])
 	{
-		if (UNLIKELY(map->population >> 0x10u))
-			return (ft_puterror(buffer, OUTDOMAIN));
 		if (UNLIKELY(ft_isdigit(buffer[index]) == 0))
-			return (ft_puterror(buffer, BADINPUT));
+			return (ft_puterror(BADINPUT));
 		else
 			map->population = map->population * 10 + buffer[index] - '0';
+		if (UNLIKELY(map->population >> 0x19u))
+			return (ft_puterror(OUTDOMAIN));
 		index++;
 	}
 	if (UNLIKELY(map->population == 0))
-		return (ft_puterror(buffer, OUTDOMAIN));
-	ft_putstr_endl(buffer);
+		return (ft_puterror(OUTDOMAIN));
 	return (EXIT_SUCCESS);
 }
 
@@ -73,12 +72,11 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 	funptr[1] = &ft_parse_edges;
 	funptr[2] = &ft_parse_vertices;
 	if (UNLIKELY(buffer == NULL || !buffer[0]))
-		return (ft_puterror(NULL, EMPTYLINE));
+		return (ft_puterror(EMPTYLINE));
 	if (buffer[0] == '#')
 	{
 		if (buffer[1] == '#')
 			ft_parse_command_lines(map, buffer);
-		ft_putstr_endl(buffer);
 	}
 	else if (UNLIKELY(index == 0))
 		return ((funptr[index++])(map, buffer));
@@ -88,36 +86,42 @@ static uint8_t			ft_parse_buffer(t_map *map, char const *buffer)
 			return (EXIT_FAILURE);
 	}
 	else
-		return (ft_puterror(buffer, UNKCOMM));
+		return (ft_puterror(UNKCOMM));
 	return (EXIT_SUCCESS);
 }
 
 /*
-** 	Reads Standard Input. If file descriptor 0 is redirection (isatty == 0),
+** 	Reads standard input. If file descriptor 0 is redirection (isatty == 0),
 **	checks if redirection is towards a regular file (S_ISREG)
 **	or of the pipe kind (S_ISFIFO).
+**	The lines are stored in a circular linked list and are freed while being
+**	displayed on the standard ouput.
 */
 
 uint8_t					ft_read_std_input(t_map *map)
 {
+	t_input				lines;
 	char				*buffer;
 	static char			*string;
-	struct stat			informations;
 
-	if (UNLIKELY(fstat(STDIN_FILENO, &informations) < 0))
-		return (EXIT_FAILURE);
-	else if (!S_ISREG(informations.st_mode) && !S_ISFIFO(informations.st_mode))
-		if (isatty(STDIN_FILENO) == 0)
-			return (ft_printf(C_RED"lem-in: %s\n"C_NONE, INVALIDFMT));
-	while (get_next_line_stdin(&string, &buffer) > 0)
+	if (UNLIKELY(ft_isvalidformat(STDIN_FILENO) == EXIT_FAILURE))
+		return (ft_puterror(INVALIDFMT));
+	if (UNLIKELY((string = ft_strnew(1)) == NULL))
+		return (ft_puterror(MEMERR));
+	ft_list_init_head(&(lines.list));
+	while (ft_readline(&string, &buffer) > 0)
 	{
+		ft_list_add_tail(&(ft_make_node(buffer)->list), &(lines.list));
 		if (ft_parse_buffer(map, buffer) == EXIT_FAILURE)
-			return (ft_variadic_freeing(2, (void *)buffer, (void *)string));
-		free((void *)buffer);
+			return (ft_parsing_panic(&(lines.list), string));
 	}
 	ft_variadic_freeing(2, (void *)buffer, (void *)string);
 	if (UNLIKELY(map->vertices < 2))
-		return (ft_printf(C_RED"lem-in: %s\n"C_NONE, TOOSMALLFARM));
+	{
+		ft_parsing_panic(&(lines.list), NULL);
+		return (ft_puterror(TOOSMALLFARM));
+	}
 	map->start_edges = (uint32_t)ft_min(map->start_edges, map->end_edges);
+	ft_safe_print_and_free(&(lines.list));
 	return (EXIT_SUCCESS);
 }

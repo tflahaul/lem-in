@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/17 22:44:35 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/06/15 18:35:27 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,100 +14,71 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
-static inline void			ft_print_single_ant(uint16_t nb, char const *name)
-{
-	ft_putchar('L');
-	ft_putnbr_light(nb);
-	ft_putchar('-');
-	ft_putstr(name);
-	ft_putchar(' ');
-}
-
-static inline void			ft_print_stack(t_map *map, t_queue *queue)
-{
-	uint32_t				tmp;
-
-	while (queue != NULL && queue->key != map->start_index)
-	{
-		if (queue->ant && queue->ant <= map->population)
-		{
-			if (map->visual >= COLORS)
-			{
-				tmp = (queue->ant | map->visual);
-				ft_print_colored_ant(tmp, map->hashtab[queue->key]->name);
-			}
-			else
-				ft_print_single_ant(queue->ant, map->hashtab[queue->key]->name);
-		}
-		queue = queue->prev;
-	}
-}
-
 /*
 **	Sends values of each 'queue' element one rung lower to mime
 **	movements of ants through each room.
 */
 
-static void					ft_update_stack(t_queue *queue, uint64_t size)
+static void					ft_update_stack(t_listhead *head, uint64_t size)
 {
-	uint16_t				index;
-	t_queue					*node;
+	register uint16_t		index;
+	t_listhead				*node;
 	uint16_t				ants[size];
 
 	index = 0;
-	node = queue;
-	while (node != NULL && index < size)
-	{
-		ants[index++] = node->ant;
-		node = node->next;
-	}
+	node = head;
+	while ((node = node->next) != head && index < size)
+		ants[index++] = ft_queue_entry(node)->ant;
 	index = 0;
-	while ((queue = queue->next) != NULL)
-		queue->ant = ants[index++];
+	node = head->next;
+	while ((node = node->next) != head->next)
+		ft_queue_entry(node)->ant = ants[index++];
 }
 
 /*
-**	Attributes one ant on top of each stack/path. A Static variable
+**	Attributes one ant on top of each stack/path. A static variable
 **	is used to keep track of the last ant sent.
 */
 
-static inline void			ft_init_movements(t_stack *stack)
+static inline void			ft_init_movements(t_listhead *head)
 {
+	t_listhead				*position;
+	t_stack					*node;
 	static uint64_t			ant;
 
-	while (stack != NULL)
+	position = head;
+	while ((position = position->next) != head)
 	{
-		if (stack->ant > 0)
+		node = ft_stack_entry(position);
+		if (node->ant > 0)
 		{
-			stack->ant = stack->ant - 1;
-			stack->path->ant = ++ant;
+			ft_queue_entry(node->path->list.next)->ant = ++ant;
+			node->ant = node->ant - 1;
 		}
 		else
-			stack->path->ant = 0;
-		stack = stack->next;
+			ft_queue_entry(node->path->list.next)->ant = 0;
 	}
 }
 
-/*
-** Function used to display ants' movements
-*/
-
-void						ft_print_movements(t_map *map, t_stack *list)
+void						ft_print_movements(t_map *map, t_listhead *head)
 {
-	uint32_t				length;
+	int32_t					length;
 	t_stack					*stacks;
+	t_listhead				*position;
 
-	length = list->ant + list->size;
+	ft_putchar('\n');
+	length = ft_stack_entry(head->next)->ant \
+		+ ft_stack_entry(head->next)->size + 1;
 	while (length-- > 0)
 	{
-		stacks = list;
-		ft_init_movements(stacks);
-		while (stacks != NULL)
+		position = head;
+		ft_init_movements(head);
+		ft_print_stack(map, head);
+		while ((position = position->next) != head)
 		{
-			ft_print_stack(map, list_last_node(stacks->path));
-			ft_update_stack(stacks->path, stacks->size);
-			stacks = stacks->next;
+			stacks = ft_stack_entry(position);
+			ft_update_stack(&(stacks->path->list), stacks->size);
 		}
-		ft_putchar('\n');
 	}
+	ft_free_stacks(head);
 }

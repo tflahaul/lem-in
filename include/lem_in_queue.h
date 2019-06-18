@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/16 11:46:39 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/20 00:30:19 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/06/11 12:32:30 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 # define LEM_IN_QUEUE_H
 
 # include <stdint.h>
+# include <lem_in_list.h>
 
-typedef struct			s_queue
+typedef struct	s_queue
 {
-	uint32_t			key;
-	uint32_t			ant;
-	struct s_queue		*next;
-	struct s_queue		*prev;
-}						t_queue;
+	t_listhead	list;
+	uint32_t	key;
+	uint32_t	ant;
+}				t_queue;
 
-void					ft_queue_push(t_queue **queue, uint32_t key);
-void					ft_queue_append(t_queue **head, uint32_t key);
-uint8_t					ft_drain_queue(t_queue **head);
-t_queue					*ft_queue_pop(t_queue **queue);
-t_queue					*list_last_node(t_queue *head);
+void			ft_copy_list(t_listhead *dest, t_listhead *source);
+t_queue			*ft_queue_node(uint32_t key) __attribute__((always_inline));
+t_queue			*ft_queue_entry(t_listhead *ptr) __attribute__((always_inline));
 
 #endif

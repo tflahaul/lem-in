@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   distribution_formula.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/10 18:34:22 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/16 17:05:06 by thflahau         ###   ########.fr       */
+/*   Created: 2019/06/11 12:07:04 by thflahau          #+#    #+#             */
+/*   Updated: 2019/06/11 12:21:10 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdint.h>
-#include <lem_in_bug.h>
-#include "../libft/libft.h"
 
-uint8_t				ft_puterror(char const *error)
+double					func2(int32_t pop, int32_t diff, int32_t paths)
 {
-	ft_printf(C_RED"%s"C_NONE, error);
-	return (EXIT_FAILURE);
-}
-
-void				ft_print_usage(char const *name)
-{
-	ft_printf("usage:\t%s [-v]\n\t%s [-v] < file\n\tfile | %s [-v]\n", \
-		name, name, name);
+	return (((double)(pop + diff) / (double)paths) + 1);
 }

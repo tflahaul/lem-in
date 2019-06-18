@@ -6,53 +6,26 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 16:05:49 by thflahau          #+#    #+#             */
-/*   Updated: 2019/05/21 02:32:57 by abrunet          ###   ########.fr       */
+/*   Updated: 2019/06/03 14:38:17 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <lem_in.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
+#include "../libft/libft.h"
 
-inline t_stack				*ft_stack_pop(t_stack **head)
+/*
+**	Cast the t_listhead pointer of the t_stack structure out to the
+**	containing structure. Works just like the `container_of` macro from
+**	the Linux kernel, file `include/linux/kernel.h` L.968
+*/
+
+inline t_stack				*ft_stack_entry(t_listhead *ptr)
 {
-	t_stack					*node;
-
-	if (head == NULL || *head == NULL)
-		return (NULL);
-	node = (*head)->next;
-	ft_drain_queue(&(*head)->path);
-	free((void *)(*head));
-	return (node);
+	return ((t_stack *)((char *)ptr - __builtin_offsetof(t_stack, list)));
 }
 
-uint8_t						ft_free_stacks(t_stack **head)
-{
-	t_stack					*ptr;
-	t_stack					*node;
-	t_queue					*temp;
-
-	if (head != NULL && *head != NULL)
-	{
-		node = *head;
-		while (node != NULL)
-		{
-			ptr = node->next;
-			while (node->path != NULL)
-			{
-				temp = node->path->next;
-				free((void *)node->path);
-				node->path = temp;
-			}
-			free((void *)node);
-			node = ptr;
-		}
-	}
-	*head = NULL;
-	return (EXIT_SUCCESS);
-}
-
-static inline t_stack		*ft_allocate_stack_memory(void)
+inline t_stack				*ft_stack_node(void)
 {
 	t_stack					*head;
 
@@ -61,48 +34,20 @@ static inline t_stack		*ft_allocate_stack_memory(void)
 	ft_memset(head, 0, sizeof(t_stack));
 	return (head);
 }
-#include <stdio.h>
 
-static inline void			ft_fill_stack(t_map *map, t_stack **node)
+void						ft_free_stacks(t_listhead *head)
 {
-	t_vertices				*path;
-	t_vertices				*tmp;
+	t_listhead				*node;
+	t_listhead				*next;
 
-	path = map->hashtab[map->end_index];
-	while (path != NULL)
+	node = head->next;
+	while (node != head)
 	{
-		tmp = path;
-//		printf("prev list = %s\n", map->hashtab[path->key]->name);
-		ft_queue_push(&(*node)->path, path->key);
-		if (path->key != map->start_index)
-			++(*node)->size;
-		path = path->prev;
-	//	tmp->prev = NULL;
+		next = node->next;
+		ft_list_del(&(ft_stack_entry(node)->path->list));
+		free((void *)ft_stack_entry(node)->path);
+		free((void *)ft_stack_entry(node));
+		node = next;
 	}
-	printf("#SIZE = %llu\n", (*node)->size);
-}
-
-uint32_t					ft_push_path_to_stack(t_map *map, t_stack **stack)
-{
-	t_stack					*tmp;
-	t_stack					*node;
-
-	node = *stack;
-	if (UNLIKELY((tmp = ft_allocate_stack_memory()) == NULL))
-		return (EXIT_FAILURE);
-	if (node == NULL)
-	{
-		*stack = tmp;
-		ft_fill_stack(map, stack);
-	}
-	else
-	{
-		while (node->next != NULL)
-			node = node->next;
-		node->next = tmp;
-		ft_fill_stack(map, &node->next);
-		if (UNLIKELY(ft_path_checker(map, tmp->path) == EXIT_FAILURE))
-			return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
+	ft_list_init_head(head);
 }
