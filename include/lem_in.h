@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/16 18:38:13 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:30:49 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,5 @@ uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 double					func2(int32_t pop, int32_t diff, int32_t paths);
 uint8_t					ft_breadth_first_search(t_map *map, int8_t *visited);
 uint8_t					ft_algorithm(t_map *map);
-
-/*
-**	Visualization
-*/
-uint8_t					append_to_file(char const *file, char const *s);
 
 #endif

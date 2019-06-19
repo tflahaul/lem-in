@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:27:33 by abrunet           #+#    #+#             */
-/*   Updated: 2019/06/09 12:31:43 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:28:09 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # undef ANTS
 # define ANTS		"../visual/ants.txt"
 
+void				write_shortest_to_file(t_map *map, t_listhead *head);
 uint8_t				write_paths_to_file(t_map *map, t_listhead *head);
 
 #endif

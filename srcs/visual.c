@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/17 20:23:18 by abrunet           #+#    #+#             */
-/*   Updated: 2019/06/09 12:35:27 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:30:07 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-uint8_t		append_to_file(char const *file, char const *s)
+static uint8_t		append_to_file(char const *file, char const *s)
 {
 	int fd;
 
@@ -28,7 +28,7 @@ uint8_t		append_to_file(char const *file, char const *s)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t		write_data(t_map *map)
+static uint8_t		write_data(t_map *map)
 {
 	char	*ptr;
 
@@ -41,7 +41,23 @@ uint8_t		write_data(t_map *map)
 	return (EXIT_SUCCESS);
 }
 
-uint8_t		write_paths_to_file(t_map *map, t_listhead *head)
+void				write_shortest_to_file(t_map *map, t_listhead *head)
+{
+	t_queue				*lst;
+	t_listhead			*ptr;
+	t_stack				*node;
+
+	node = ft_stack_entry(head->next);
+	ptr = &(node->path->list);
+	while ((ptr = ptr->next) != &(node->path->list))
+	{
+		lst = ft_queue_entry(ptr);
+		append_to_file(PATHS, map->hashtab[lst->key]->name);
+	}
+	append_to_file(PATHS, "");
+}
+
+uint8_t				write_paths_to_file(t_map *map, t_listhead *head)
 {
 	char		*str;
 	t_queue		*lst;
