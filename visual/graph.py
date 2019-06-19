@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/31 16:44:06 by abrunet          ###   ########.fr        #
+#    Updated: 2019/06/19 22:36:47 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,12 +26,21 @@ def set_colors(color):
     else:
         return (c.default)
 
+def set_graph(G, paths, colors):
+    graph = {
+        'G': G,
+        'p': paths,
+        'colors': colors,
+    }
+    return (graph)
+
 def graph(G, coord, paths, data, color):
     colors = set_colors(color)
-    interval = 10 if (data['vertices'] >= 1000) else 500
+    graph = set_graph(G, paths, colors)
+    interval = 8 if (data['vertices'] >= 1000) else 500
 
     # set plots
-    fig, ax = plt.subplots(figsize=(12, 7))
+    fig, ax = plt.subplots(figsize=(23, 13))
     options = get_options(G, data['vertices'], ax, coord)
     ax.set_facecolor(colors['background'])
     plt.gca().invert_yaxis()
@@ -39,9 +48,9 @@ def graph(G, coord, paths, data, color):
     tm = fig.canvas.manager.toolmanager
     tb = fig.canvas.manager.toolbar
     #create tools
-    tm.add_tool('Shortest', Shortest, paths=paths, G=G, options=options, colors=colors)
-    tm.add_tool('Optimum', Optimum, paths=paths, G=G, options=options, colors=colors)
-    tm.add_tool('Ants', Ants, fig=fig, interval=interval, paths=paths, G=G, options=options, colors=colors)
+    tm.add_tool('Shortest', Shortest, graph=graph, options=options)
+    tm.add_tool('Optimum', Optimum, graph=graph, options=options)
+    tm.add_tool('Ants', Ants, fig=fig, interval=interval, graph=graph, options=options)
     #add tools to navigation bar
     tb.add_tool('Shortest', 'Navigation')
     tb.add_tool('Optimum', 'Navigation')
@@ -50,4 +59,5 @@ def graph(G, coord, paths, data, color):
     tm.remove_tool('subplots')
     #draw base graph
     draw_graph(0, G, options, None, None, colors)
+    fig.tight_layout()
     plt.show()

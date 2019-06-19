@@ -6,7 +6,7 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:22 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/31 16:15:29 by abrunet          ###   ########.fr        #
+#    Updated: 2019/06/19 22:12:57 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ import networkx as nx
 from graph import graph
 import subprocess 
 import os
+import sys
 
 def read_data():
     data = {}
@@ -44,13 +45,9 @@ def read_paths():
                 
 def read_output(lines, G):
     coord = 0
-    color = None
     for line in lines:
         if (line and '\033' not in line[0]):
-            if (line.startswith('##theme') == True):
-                color = line.split('=')
-                color = color[1].strip()
-            elif (line.startswith(('#', 'L')) == False):
+            if (line.startswith(('#', 'L')) == False):
                 if (line.find(' ') != -1):
                     data = line.split(' ')
                     name = data[0]
@@ -63,9 +60,9 @@ def read_output(lines, G):
                     e = (tuple((e[0], e[1])))
                     G.add_edge(*e)
         else:
-            return (coord, color)
+            return (coord)
         print(line)
-    return (coord, color)
+    return (coord)
 
 def clear_files():
     if os.path.exists('paths.txt'):
@@ -84,7 +81,8 @@ if __name__ == '__main__':
     output = p.decode("utf-8")
     lines = output.split('\n')
     G = nx.Graph()
-    coord, color = read_output(lines, G)
+    color=sys.argv[1].strip() if len(sys.argv) == 2 else None
+    coord = read_output(lines, G)
     try:
         data = read_data()
         paths = read_paths()

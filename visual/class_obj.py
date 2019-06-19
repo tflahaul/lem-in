@@ -6,14 +6,14 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/31 16:44:06 by abrunet          ###   ########.fr        #
+#    Updated: 2019/06/19 22:59:00 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 from matplotlib.backend_tools import ToolBase, ToolToggleBase
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
-from draw import draw_graph
+from draw import graph_list
 
 def get_ants_per_path():
     dic = {}
@@ -30,44 +30,37 @@ class Ants(ToolToggleBase):
     default_toggled = False
     image = r"fire-ant-png-4.png"
 
-    def __init__(self, *args, fig, interval, paths, G, options, colors, **kwargs):
-        self.paths = paths
-        self.colors = colors
-        self.G = G
+    def __init__(self, *args, fig, interval, graph, options, **kwargs):
+        self.graph = graph
         self.options = options
         self.ants = get_ants_per_path()
-        self.length = self.ants[1] + len(paths[1]) + 2
+        #to check before final push
+        self.length = self.ants[1] + len(self.graph['p'][1]) + 1 + 2
+        print(self.length)
         self.fig = fig
         self.interval = interval
         super().__init__(*args, **kwargs)
     
     def enable(self, *args):
-        self.optimum_path(True)
+        self.ants_path(True)
 
     def disable(self, *args):
-        self.optimum_path(False)
+        self.ants_path(False)
 
-    def optimum_path(self, state):
+    def ants_path(self, state):
         for ax in self.figure.get_axes():
             ax.clear()
+        graph_list(0, self.options, self.graph, 0, 0, None)
         if state == True:
             def update(i):
                 for ax in self.figure.get_axes():
                     ax.clear()
-                    ax.set_title(self.description)
-                draw_graph(0, self.G, self.options, None, None, self.colors)
-                for n in range(len(self.paths)):
-                    if self.ants[n + 1] - i >= 0:
-                        nodelist = self.paths[n][(i - i):(i + 1)]
-                    else:
-                        nodelist = self.paths[n][(i - self.ants[n + 1] - 1):(i + 1)]
-                    edgelist = [nodelist[k:k+2] for k in range(len(nodelist) - 1)]
-                    draw_graph(3, self.G, self.options, nodelist, edgelist, self.colors)
+                graph_list(0, self.options, self.graph, 0, 0, None)
+                for n in range(len(self.graph['p']) - 1):
+                    graph_list(3, self.options, self.graph, i, n, self.ants)
                 plt.gca().invert_yaxis()
                 self.figure.canvas.draw()
             ani = animation.FuncAnimation(self.fig, update, frames=self.length, interval=self.interval, repeat=False)
-        else: 
-            draw_graph(0, self.G, self.options, None, None, self.colors)
         plt.gca().invert_yaxis()
         self.figure.canvas.draw()
 
@@ -75,12 +68,10 @@ class Optimum(ToolToggleBase):
     description = "optimum paths"
     default_toggled = False
 
-    def __init__(self, *args, paths, G, options, colors, **kwargs):
-        self.length = len(paths[len(paths) - 1])
-        self.paths = paths
-        self.colors = colors
-        self.G = G
+    def __init__(self, *args, graph, options, **kwargs):
         self.options = options
+        self.graph = graph
+        self.length = len(self.graph['p'][len(self.graph['p']) - 1])
         super().__init__(*args, **kwargs)
     
     def enable(self, *args):
@@ -92,33 +83,21 @@ class Optimum(ToolToggleBase):
     def optimum_path(self, state):
         for ax in self.figure.get_axes():
             ax.clear()
+        graph_list(0, self.options, self.graph, 0, 0, None)
         if state == True:
-            ax.set_title(self.description)
-            draw_graph(0, self.G, self.options, None, None, self.colors)
-            i = self.length
-            for n in range(len(self.paths)):
-       #     for n in range(len(self.paths) - 1):
-                nodelist = self.paths[n][(i - i):(i + 1)]
-                edgelist = [nodelist[k:k+2] for k in range(len(nodelist) - 1)]
-                draw_graph(2, self.G, self.options, nodelist, edgelist, self.colors)
-        else: 
-            draw_graph(0, self.G, self.options, None, None, self.colors)
+            for n in range(len(self.graph['p']) - 1):
+                graph_list(2, self.options, self.graph, self.length, n, None)
         plt.gca().invert_yaxis()
         self.figure.canvas.draw()
-
-
-        
 
 class Shortest(ToolToggleBase):
     description = "shortest path"
     default_toggled = False
 
-    def __init__(self, *args, paths, G, options, colors, **kwargs):
-        self.length = len(paths[0])
-        self.paths = paths
-        self.colors = colors
-        self.G = G
+    def __init__(self, *args, graph, options, **kwargs):
         self.options = options
+        self.graph = graph
+        self.length = len(self.graph['p'][0])
         super().__init__(*args, **kwargs)
 
     def enable(self, *args):
@@ -130,14 +109,8 @@ class Shortest(ToolToggleBase):
     def shortest_path(self, state):
         for ax in self.figure.get_axes():
             ax.clear()
+        graph_list(0, self.options, self.graph, 0, 0, None)
         if state == True:
-            ax.set_title(self.description)
-            draw_graph(0, self.G, self.options, None, None, self.colors)
-            i = self.length
-            nodelist = self.paths[0][(i - i):(i + 1)]
-            edgelist = [nodelist[k:k+2] for k in range(len(nodelist) - 1)]
-            draw_graph(1, self.G, self.options, nodelist, edgelist, self.colors)
-        else: 
-            draw_graph(0, self.G, self.options, None, None, self.colors)
+            graph_list(1, self.options, self.graph, self.length, 0, None)
         plt.gca().invert_yaxis()
         self.figure.canvas.draw()
