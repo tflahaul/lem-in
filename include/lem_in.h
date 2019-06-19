@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 11:04:23 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/19 14:30:49 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/20 00:03:30 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct			s_map
 */
 void					ft_print_usage(char const *name);
 uint8_t					ft_read_std_input(t_map *map);
+uint8_t					ft_is_valid_for_algorithm(t_map *map);
 uint8_t					ft_parse_edges(t_map *map, char const *buffer);
 uint8_t					ft_parse_vertices(t_map *node, char const *buffer);
 

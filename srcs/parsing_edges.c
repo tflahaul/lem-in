@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 20:46:10 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/18 12:01:21 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/20 00:03:24 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #include <lem_in_bug.h>
 #include <lem_in_hash.h>
 #include <lem_in_compiler.h>
+
+uint8_t				ft_is_valid_for_algorithm(t_map *map)
+{
+	if (map->vertices < 2)
+		return (ft_puterror(TOOSMALLFARM));
+	else if ((!map->start_index || !map->end_index) && !map->hashtab[0]->name)
+		return (ft_puterror(NOENTRY));
+	return (EXIT_SUCCESS);
+}
 
 uint8_t				get_collision_key(uint32_t *hashkey, t_map *map,
 										char *ptr, char const *buff)
@@ -74,8 +83,8 @@ uint8_t				ft_parse_edges(t_map *map, char const *buffer)
 
 	if (UNLIKELY(map->vertices < 2))
 		return (ft_puterror(TOOSMALLFARM));
-	if (UNLIKELY(map->hashtab[map->start_index]->name == NULL \
-		|| map->hashtab[map->end_index]->name == NULL))
+	if (UNLIKELY((map->start_index == 0 || map->end_index == 0) \
+		&& map->hashtab[0]->name == NULL))
 		return (ft_puterror(NOENTRY));
 	if (LIKELY((ptr = ft_strrchr(buffer, '-'))))
 	{
