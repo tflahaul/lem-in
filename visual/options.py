@@ -6,13 +6,12 @@
 #    By: abrunet <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 20:16:57 by abrunet           #+#    #+#              #
-#    Updated: 2019/05/30 20:17:39 by abrunet          ###   ########.fr        #
+#    Updated: 2019/06/19 20:59:58 by abrunet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import networkx as nx
 import matplotlib.pyplot as plt
-#import matplotlib.animation as animation
 
 def set_options(G, ax, node_size, width, pos):
     options = {
