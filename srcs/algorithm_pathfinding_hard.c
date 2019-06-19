@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 10:41:46 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/19 14:29:08 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:40:59 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static uint16_t			ft_unique_overlap(t_map *map, uint32_t **array,
 	index = 0;
 	min = UINT32_MAX;
 	ft_pathfinding(map, &(temp->list));
-	write_shortest_to_file(map, &(temp->list));
+	if (map->visual & VISUAL)
+		write_shortest_to_file(map, &(temp->list));
 	ft_evaluate_solution(map, &(temp->list), &min, &(stacks->list));
 	ft_free_stacks(&(temp->list));
 	while (array[index] != 0)
