@@ -57,7 +57,7 @@ plt.plot([2, 3, 4], gid='unknown')
 plt.plot([3, 2, 1], gid='mygroup')
 
 # Add the custom tools that we created
-fig.canvas.manager.toolmanager.add_tool('List', ListTools)
+#fig.canvas.manager.toolmanager.add_tool('List', ListTools)
 fig.canvas.manager.toolmanager.add_tool('Show', GroupHideTool, gid='mygroup')
 
 
