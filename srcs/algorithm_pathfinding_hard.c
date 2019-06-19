@@ -6,12 +6,13 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 10:41:46 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/18 11:37:12 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/19 14:29:08 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lem_in.h>
 #include <lem_in_list.h>
+#include <lem_in_visual.h>
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 #include <lem_in_algorithm.h>
@@ -58,6 +59,10 @@ static uint16_t			ft_unique_overlap(t_map *map, uint32_t **array,
 	s = 1;
 	index = 0;
 	min = UINT32_MAX;
+	ft_pathfinding(map, &(temp->list));
+	write_shortest_to_file(map, &(temp->list));
+	ft_evaluate_solution(map, &(temp->list), &min, &(stacks->list));
+	ft_free_stacks(&(temp->list));
 	while (array[index] != 0)
 	{
 		ft_reset_graph(map, array[index][0], array[index][1]);
