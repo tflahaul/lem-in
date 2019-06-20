@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/18 18:49:35 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/15 18:35:27 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/20 10:47:34 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void						ft_print_movements(t_map *map, t_listhead *head)
 
 	ft_putchar('\n');
 	length = ft_stack_entry(head->next)->ant \
-		+ ft_stack_entry(head->next)->size + 1;
+		+ ft_stack_entry(head->next)->size + 10;
 	while (length-- > 0)
 	{
 		position = head;
