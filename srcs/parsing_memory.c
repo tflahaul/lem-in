@@ -22,6 +22,7 @@
 **	the Linux kernel, file `include/linux/kernel.h` L.968
 */
 
+__attribute__((always_inline))
 inline t_input			*ft_input_entry(t_listhead *ptr)
 {
 	return ((t_input *)((char *)ptr - __builtin_offsetof(t_input, list)));

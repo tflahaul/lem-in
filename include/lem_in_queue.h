@@ -13,8 +13,8 @@
 #ifndef LEM_IN_QUEUE_H
 # define LEM_IN_QUEUE_H
 
-# include <stdint.h>
 # include <lem_in_list.h>
+# include <stdint.h>
 
 typedef struct	s_queue
 {

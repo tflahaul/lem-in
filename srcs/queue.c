@@ -20,6 +20,7 @@
 **	the Linux kernel, file `include/linux/kernel.h` L.968
 */
 
+__attribute__((always_inline))
 inline t_queue			*ft_queue_entry(t_listhead *ptr)
 {
 	return ((t_queue *)((char *)ptr - __builtin_offsetof(t_queue, list)));

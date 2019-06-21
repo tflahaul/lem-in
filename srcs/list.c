@@ -21,6 +21,7 @@
 **	kernel source tree, file `include/linux/list.h`
 */
 
+__attribute__((always_inline))
 inline void				ft_list_init_head(t_listhead *head)
 {
 	head->next = head;
@@ -33,6 +34,7 @@ inline void				ft_list_init_head(t_listhead *head)
 **	and `next` pointers.
 */
 
+__attribute__((always_inline))
 inline void				ft_list_add(t_listhead *node,
 									t_listhead *prev,
 									t_listhead *next)
@@ -48,11 +50,13 @@ inline void				ft_list_add(t_listhead *node,
 **	implementing stacks.
 */
 
+__attribute__((always_inline))
 inline void				ft_list_push(t_listhead *node, t_listhead *head)
 {
 	ft_list_add(node, head, head->next);
 }
 
+__attribute__((always_inline))
 inline void				ft_list_pop(t_listhead *node)
 {
 	node->next->prev = node->prev;
@@ -65,6 +69,7 @@ inline void				ft_list_pop(t_listhead *node)
 **	implementing queues.
 */
 
+__attribute__((always_inline))
 inline void				ft_list_add_tail(t_listhead *node, t_listhead *head)
 {
 	ft_list_add(node, head->prev, head);

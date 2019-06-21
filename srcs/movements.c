@@ -53,7 +53,7 @@ static inline void			ft_init_movements(t_listhead *head)
 		if (node->ant > 0)
 		{
 			ft_queue_entry(node->path->list.next)->ant = ++ant;
-			node->ant = node->ant - 1;
+			node->ant--;
 		}
 		else
 			ft_queue_entry(node->path->list.next)->ant = 0;
@@ -67,8 +67,7 @@ void						ft_print_movements(t_map *map, t_listhead *head)
 	t_listhead				*position;
 
 	ft_putchar('\n');
-	length = ft_stack_entry(head->next)->ant \
-		+ ft_stack_entry(head->next)->size + 10;
+	length = ft_stack_entry(head->next)->ant + ft_stack_entry(head->next)->size + 1;
 	while (length-- > 0)
 	{
 		position = head;

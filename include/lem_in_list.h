@@ -21,10 +21,6 @@ typedef struct			s_listhead
 	struct s_listhead	*prev;
 }						t_listhead;
 
-# ifndef NULL
-#  define NULL			(void *)0
-# endif
-
 void					ft_list_add(t_listhead *e,
 									t_listhead *p,
 									t_listhead *n);

@@ -12,7 +12,8 @@
 
 #include <stdint.h>
 
-double					func2(int32_t pop, int32_t diff, int32_t paths)
+__attribute__((always_inline))
+inline double				ratio(int32_t pop, int32_t diff, int32_t paths)
 {
 	return (((double)(pop + diff) / (double)paths) + 1);
 }

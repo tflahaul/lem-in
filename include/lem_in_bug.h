@@ -19,7 +19,7 @@
 **	Color codes used for displaying errors
 */
 # define C_RED			"\x1B[41m"
-# define C_NONE			"\033[0m\n"
+# define C_NONE			"\x1B[0m\n"
 
 /*
 **	Error messages

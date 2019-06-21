@@ -14,11 +14,10 @@
 # define LEM_IN_H
 
 # include "../libft/libft.h"
+# include <stdint.h>
 
-# define MAX_VERTICES	8192
-
+# define MAX_VERTICES	7500
 # define VISUAL			0x00000001u
-# define COLORS			0x00010000u
 
 typedef struct			s_edges
 {
@@ -71,7 +70,7 @@ uint8_t					add_connection(uint32_t h1, uint32_t h2, t_map *map);
 /*
 **	Algorithm
 */
-double					func2(int32_t pop, int32_t diff, int32_t paths);
+double					ratio(int32_t pop, int32_t diff, int32_t paths);
 uint8_t					ft_breadth_first_search(t_map *map, int8_t *visited);
 uint8_t					ft_algorithm(t_map *map);
 

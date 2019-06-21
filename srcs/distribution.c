@@ -15,14 +15,16 @@
 #include <lem_in_visual.h>
 #include <lem_in_compiler.h>
 
-int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
+int32_t				nbr_optimum_paths(t_map *map, t_listhead *head)
 {
 	int32_t			size;
 	int32_t			diff;
 	int32_t			sum;
 	int32_t			var;
+	int32_t			ret;
 	t_listhead		*tmp;
 
+	ret = 1;
 	sum = 0;
 	diff = 0;
 	tmp = head->next;
@@ -31,16 +33,16 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head, int32_t *s)
 	while (tmp != head->prev)
 	{
 		diff += ft_stack_entry(tmp)->size - size - 2;
-		sum = (int32_t)func2(map->population, diff, ++(*s));
+		sum = (int32_t)ratio(map->population, diff, ++ret);
 		if (sum > var && (ft_stack_entry(head)->ant = var))
-			return ((*s -= 1));
+			return (ret - 1);
 		tmp = tmp->next;
 		var = sum;
 	}
 	ft_stack_entry(head)->ant = var;
-	if (*s == 2 && var == sum)
-		ft_stack_entry(head)->ant -= 1;
-	return (*s);
+	if (ret == 2 && var == sum)
+		ft_stack_entry(head)->ant--;
+	return (ret);
 }
 
 void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
@@ -78,7 +80,7 @@ void				ants_min(uint32_t population, int32_t *sum,
 		node = head;
 		while ((node = node->next) != head && ft_stack_entry(node)->ant > 0)
 		{
-			ft_stack_entry(node)->ant += 1;
+			ft_stack_entry(node)->ant++;
 			*sum += 1;
 			if (*sum == (int32_t)population)
 				break ;
@@ -99,35 +101,33 @@ void				ants_to_path(int32_t ants, int *sum, int pop,
 	while ((ptr = ptr->next) != head && tmp > 0 && *sum <= pop)
 	{
 		node = ft_stack_entry(ptr);
-		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size - 2)) \
-			> 0)
+		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size - 2)) > 0)
 		{
 			if (head->next == ptr \
-				&& node->size == ft_stack_entry(head->next)->size - 2 \
-				&& pop % 2)
-				tmp -= 1;
+				&& node->size == ft_stack_entry(head->next)->size - 2 && pop % 2)
+				tmp--;
 			node->ant = tmp;
 			*sum += tmp;
 		}
 	}
 }
 
-void				ft_population_distrib(t_map *map, t_listhead *h, int8_t pat)
+void				ft_population_distrib(t_map *map, t_listhead *head, int8_t pat)
 {
 	int32_t			sum;
 	int32_t			ants;
 
-	ants = ft_stack_entry(h)->ant;
-	ft_stack_entry(h->next)->ant = ft_stack_entry(h)->ant;
+	ants = ft_stack_entry(head)->ant;
+	ft_stack_entry(head->next)->ant = ft_stack_entry(head)->ant;
 	sum = ants;
-	if (h->next != h->prev)
+	if (head->next != head->prev)
 	{
-		ants_to_path(ants, &sum, map->population, h);
-		ants_min(map->population, &sum, h);
-		ants_sup(map->population, sum, h);
+		ants_to_path(ants, &sum, map->population, head);
+		ants_min(map->population, &sum, head);
+		ants_sup(map->population, sum, head);
 	}
 	else
-		ft_stack_entry(h->next)->ant = map->population;
+		ft_stack_entry(head->next)->ant = map->population;
 	if (pat != 0 && (map->visual & VISUAL))
-		write_paths_to_file(map, h);
+		write_paths_to_file(map, head);
 }

@@ -47,12 +47,9 @@ SRC			=	main						parsing						\
 				algorithm_memory			algorithm					\
 				breadth_first_search		visual						\
 				movements					graph_manipulation			\
-				list						list_copy					\
-				distribution_formula		algorithm_overlaps			\
+				list						distribution_formula		\
 				distribution				algorithm_unused_paths		\
-				graph_modifications			algorithm_pathfinding_hard	\
-				parsing_memory				movements_buffer			\
-				algorithm_pathfinding_simple
+				parsing_memory				movements_buffer
 
 HDRFILES	=	$(filter %.h, $(shell find $(HDR)))
 

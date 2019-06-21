@@ -13,12 +13,7 @@
 #ifndef LEM_IN_STACKS_H
 # define LEM_IN_STACKS_H
 
-# ifndef LEM_IN_QUEUE_H
-#  include <lem_in_queue.h>
-# endif
-# ifndef LEM_IN_H
-#  include <lem_in.h>
-# endif
+# include <lem_in_queue.h>
 
 typedef struct		s_stack
 {
@@ -28,8 +23,7 @@ typedef struct		s_stack
 	int32_t			ant;
 }					t_stack;
 
-void				ft_delete_unused_stacks(t_listhead *head, t_map *map,
-											uint16_t nb);
+void				ft_delete_unused_stacks(t_listhead *head, t_map *map, uint16_t nb);
 void				ft_print_stack(t_map *map, t_listhead *head);
 void				ft_free_stacks(t_listhead *head);
 t_stack				*ft_stack_entry(t_listhead *ptr);

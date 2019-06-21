@@ -14,21 +14,11 @@
 # define LEM_IN_VISUAL_H
 
 # include <lem_in.h>
+# include <lem_in_list.h>
 
-# ifndef LEM_IN_LIST_H
-#  include <lem_in_list.h>
-# endif
-
-# undef PATH
 # define PATH		"../visual/"
-
-# undef DATA
 # define DATA		"../visual/data.txt"
-
-# undef PATHS
 # define PATHS		"../visual/paths.txt"
-
-# undef ANTS
 # define ANTS		"../visual/ants.txt"
 
 void				write_shortest_to_file(t_map *map, t_listhead *head);

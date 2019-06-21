@@ -22,9 +22,6 @@ static void				ft_parse_command_lines(t_map *map, char const *buffer)
 		map->entry_point = 1;
 	else if (ft_strcmp(buffer, "##end") == 0)
 		map->entry_point = 2;
-	else if (ft_strncmp(buffer, "##color=", 8) == 0)
-		if (ft_isdigit(buffer[8]) && buffer[8] - '0' < 8 && buffer[9] == 0)
-			map->visual |= ((buffer[8] - '0') << 0x10u);
 }
 
 static uint8_t			ft_parse_ants(t_map *map, char const *buffer)
