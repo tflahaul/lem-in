@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/16 19:22:52 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/06/23 16:31:32 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include <lem_in_stacks.h>
 #include <lem_in_visual.h>
 #include <lem_in_compiler.h>
+
+__attribute__((always_inline))
+inline double		ratio(int32_t pop, int32_t diff, int32_t paths)
+{
+	return (((double)(pop + diff) / (double)paths) + 1);
+}
 
 int32_t				nbr_optimum_paths(t_map *map, t_listhead *head)
 {
