@@ -15,6 +15,16 @@
 #include <lem_in_stacks.h>
 #include <lem_in_compiler.h>
 
+uint32_t					**ft_initialize_tab(void)
+{
+	uint32_t				**tab;
+
+	tab = NULL;
+	if (LIKELY((tab = (uint32_t **)malloc(sizeof(uint32_t *) << 5)) != NULL))
+		ft_memset(tab, 0, (sizeof(uint32_t *) << 5));
+	return (tab);
+}
+
 void						ft_join_paths(t_map *map, t_listhead *head)
 {
 	t_queue					*list;
@@ -36,5 +46,24 @@ void						ft_join_paths(t_map *map, t_listhead *head)
 			vertex = vertex->prev;
 		}
 		ft_list_add_tail(&(node->list), head);
+	}
+}
+
+void						ft_free_tab(uint32_t **tab)
+{
+	register uint16_t		index;
+
+	index = 0;
+	if (LIKELY(tab != NULL))
+	{
+		while (index < 32U)
+		{
+			if (tab[index])
+				free((void *)tab[index]);
+			else
+				break ;
+			++index;
+		}
+		free((void *)tab);
 	}
 }

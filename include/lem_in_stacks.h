@@ -24,7 +24,8 @@ typedef struct		s_stack
 	int32_t			ant;
 }					t_stack;
 
-void				ft_delete_unused_stacks(t_listhead *head, t_map *map, uint16_t nb);
+void				ft_delete_unused_stacks(t_listhead *head, t_map *map,
+											uint16_t nb);
 void				ft_print_stack(t_map *map, t_listhead *head);
 void				ft_free_stacks(t_listhead *head);
 t_stack				*ft_stack_entry(t_listhead *ptr);

@@ -27,10 +27,8 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head)
 	int32_t			diff;
 	int32_t			sum;
 	int32_t			var;
-	int32_t			ret;
 	t_listhead		*tmp;
 
-	ret = 1;
 	sum = 0;
 	diff = 0;
 	tmp = head->next;
@@ -39,16 +37,16 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head)
 	while (tmp != head->prev)
 	{
 		diff += ft_stack_entry(tmp)->size - size - 2;
-		sum = (int32_t)ratio(map->population, diff, ++ret);
+		sum = (int32_t)func2(map->population, diff, ++(*s));
 		if (sum > var && (ft_stack_entry(head)->ant = var))
-			return (ret - 1);
+			return ((*s -= 1));
 		tmp = tmp->next;
 		var = sum;
 	}
 	ft_stack_entry(head)->ant = var;
-	if (ret == 2 && var == sum)
-		ft_stack_entry(head)->ant--;
-	return (ret);
+	if (*s == 2 && var == sum)
+		ft_stack_entry(head)->ant -= 1;
+	return (*s);
 }
 
 void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)
@@ -86,7 +84,7 @@ void				ants_min(uint32_t population, int32_t *sum,
 		node = head;
 		while ((node = node->next) != head && ft_stack_entry(node)->ant > 0)
 		{
-			ft_stack_entry(node)->ant++;
+			ft_stack_entry(node)->ant += 1;
 			*sum += 1;
 			if (*sum == (int32_t)population)
 				break ;
@@ -107,33 +105,35 @@ void				ants_to_path(int32_t ants, int *sum, int pop,
 	while ((ptr = ptr->next) != head && tmp > 0 && *sum <= pop)
 	{
 		node = ft_stack_entry(ptr);
-		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size - 2)) > 0)
+		if ((tmp = ants - (node->size - ft_stack_entry(head->next)->size - 2)) \
+			> 0)
 		{
 			if (head->next == ptr \
-				&& node->size == ft_stack_entry(head->next)->size - 2 && pop % 2)
-				tmp--;
+				&& node->size == ft_stack_entry(head->next)->size - 2 \
+				&& pop % 2)
+				tmp -= 1;
 			node->ant = tmp;
 			*sum += tmp;
 		}
 	}
 }
 
-void				ft_population_distrib(t_map *map, t_listhead *head, int8_t pat)
+void				ft_population_distrib(t_map *map, t_listhead *h, int8_t pat)
 {
 	int32_t			sum;
 	int32_t			ants;
 
-	ants = ft_stack_entry(head)->ant;
-	ft_stack_entry(head->next)->ant = ft_stack_entry(head)->ant;
+	ants = ft_stack_entry(h)->ant;
+	ft_stack_entry(h->next)->ant = ft_stack_entry(h)->ant;
 	sum = ants;
-	if (head->next != head->prev)
+	if (h->next != h->prev)
 	{
-		ants_to_path(ants, &sum, map->population, head);
-		ants_min(map->population, &sum, head);
-		ants_sup(map->population, sum, head);
+		ants_to_path(ants, &sum, map->population, h);
+		ants_min(map->population, &sum, h);
+		ants_sup(map->population, sum, h);
 	}
 	else
-		ft_stack_entry(head->next)->ant = map->population;
+		ft_stack_entry(h->next)->ant = map->population;
 	if (pat != 0 && (map->visual & VISUAL))
-		write_paths_to_file(map, head);
+		write_paths_to_file(map, h);
 }

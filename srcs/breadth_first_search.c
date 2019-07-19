@@ -13,6 +13,24 @@
 #include <lem_in_queue.h>
 #include <lem_in_algorithm.h>
 
+static void					ft_add_keys_to_queue(t_map *map, t_queue *queue,
+												int8_t *vstd, uint32_t hashkey)
+{
+	t_edges					*vert;
+
+	vert = map->hashtab[hashkey]->adjc;
+	while (vert != NULL)
+	{
+		if (vert->way == open_way && vstd[vert->key] == unvisited_node)
+		{
+			vstd[vert->key] = visited_node;
+			map->hashtab[vert->key]->prev = map->hashtab[hashkey];
+			ft_list_add_tail(&(ft_queue_node(vert->key)->list), &(queue->list));
+		}
+		vert = vert->next;
+	}
+}
+
 /*
 **	Basic BFS algorithm, no prioritizing of vertices to visit.
 */
@@ -21,7 +39,6 @@ uint8_t						ft_breadth_first_search(t_map *map, int8_t *visited)
 {
 	t_queue					queue;
 	t_listhead				*node;
-	t_edges					*vertex;
 	register uint32_t		hashkey;
 
 	ft_list_init_head(&queue.list);
@@ -34,17 +51,7 @@ uint8_t						ft_breadth_first_search(t_map *map, int8_t *visited)
 		if (hashkey == map->end_index)
 			return (ft_list_del(&(queue.list)));
 		ft_list_pop(node->next);
-		vertex = map->hashtab[hashkey]->adjc;
-		while (vertex != NULL)
-		{
-			if (vertex->way == open_way && visited[vertex->key] == unvisited_node)
-			{
-				visited[vertex->key] = visited_node;
-				map->hashtab[vertex->key]->prev = map->hashtab[hashkey];
-				ft_list_add_tail(&(ft_queue_node(vertex->key)->list), &(queue.list));
-			}
-			vertex = vertex->next;
-		}
+		ft_add_keys_to_queue(map, &queue, visited, hashkey);
 	}
 	return (EXIT_FAILURE);
 }

@@ -30,6 +30,7 @@ enum			e_direction {
 	open_way
 };
 
+int				nbr_optimum_paths(t_map *map, t_listhead *head, int *p);
 void			ft_advanced_pathfinding(t_map *map, uint32_t **tab, int32_t s);
 void			ft_simple_pathfinding(t_map *map, uint32_t **tab, int32_t s);
 void			ft_population_distrib(t_map *map, t_listhead *h, int8_t p);
@@ -43,7 +44,6 @@ void			ft_join_paths(t_map *map, t_listhead *head);
 void			ft_reinitialize_graph(t_map *map);
 void			ft_free_tab(uint32_t **tab);
 uint8_t			ft_overlaps(t_map *map, uint32_t prev, uint32_t key);
-int32_t			nbr_optimum_paths(t_map *map, t_listhead *head);
 uint32_t		**ft_search_for_overlaps(t_map *map);
 uint32_t		**ft_initialize_tab(void);
 

@@ -20,7 +20,6 @@
 **	the Linux kernel, file `include/linux/kernel.h` L.968
 */
 
-__attribute__((always_inline))
 inline t_stack				*ft_stack_entry(t_listhead *ptr)
 {
 	return ((t_stack *)((char *)ptr - __builtin_offsetof(t_stack, list)));

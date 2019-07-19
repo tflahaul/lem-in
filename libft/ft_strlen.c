@@ -17,7 +17,7 @@ inline size_t			ft_strlen(char const *str)
 	char				*ptr;
 
 	ptr = (char *)str;
-	while (*ptr != 0)
+	while (__builtin_expect(!!(*ptr), 1))
 		ptr++;
 	return (ptr - str);
 }

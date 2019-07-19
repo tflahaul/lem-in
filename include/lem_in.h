@@ -14,10 +14,11 @@
 # define LEM_IN_H
 
 # include "../libft/libft.h"
-# include <stdint.h>
 
-# define MAX_VERTICES	7500
+# define MAX_VERTICES	8192
+
 # define VISUAL			0x00000001u
+# define COLORS			0x00010000u
 
 typedef struct			s_edges
 {

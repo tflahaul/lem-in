@@ -34,30 +34,14 @@ inline void				ft_update_visited_array(int8_t *array, t_listhead *head)
 
 uint8_t					ft_algorithm(t_map *map)
 {
-	t_stack				stacks;
-	int8_t				visited[MAX_VERTICES];
+	uint32_t			**tab;
+	void				(*funptr[2])(t_map *, uint32_t **, int32_t);
 
-	ft_list_init_head(&(stacks.list));
-	ft_fast_bzero(visited, MAX_VERTICES);
-	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
-	{
-		ft_join_paths(map, &(stacks.list));
-		ft_fast_bzero(visited, MAX_VERTICES);
-		ft_make_directed(map, stacks.list.prev);
-	}
-	if (UNLIKELY(stacks.list.next == &(stacks.list)))
-		return (ft_puterror(DEADEND));
-	ft_update_graph(map, &(stacks.list));
-	ft_free_stacks(&(stacks.list));
-	while (ft_breadth_first_search(map, visited) == EXIT_SUCCESS)
-	{
-		ft_join_paths(map, &(stacks.list));
-		ft_update_visited_array(visited, &(stacks.list));
-	}
-	ft_delete_unused_stacks(&(stacks.list), map, \
-		nbr_optimum_paths(map, &(stacks.list)));
-	ft_population_distrib(map, &(stacks.list), 1);
-	ft_print_movements(map, &(stacks.list));
-	ft_free_stacks(&(stacks.list));
+	funptr[0] = &ft_simple_pathfinding;
+	funptr[1] = &ft_advanced_pathfinding;
+	tab = ft_search_for_overlaps(map);
+	ft_reinitialize_graph(map);
+	funptr[!!(tab)](map, tab, 1);
+	ft_free_tab(tab);
 	return (EXIT_SUCCESS);
 }
