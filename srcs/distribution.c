@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 16:33:47 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/23 16:31:32 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/07/19 12:12:17 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head)
 	int32_t			diff;
 	int32_t			sum;
 	int32_t			var;
+	int32_t			ret;
 	t_listhead		*tmp;
 
+	ret = 1;
 	sum = 0;
 	diff = 0;
 	tmp = head->next;
@@ -37,16 +39,16 @@ int32_t				nbr_optimum_paths(t_map *map, t_listhead *head)
 	while (tmp != head->prev)
 	{
 		diff += ft_stack_entry(tmp)->size - size - 2;
-		sum = (int32_t)func2(map->population, diff, ++(*s));
+		sum = (int32_t)ratio(map->population, diff, ++ret);
 		if (sum > var && (ft_stack_entry(head)->ant = var))
-			return ((*s -= 1));
+			return (ret - 1);
 		tmp = tmp->next;
 		var = sum;
 	}
 	ft_stack_entry(head)->ant = var;
-	if (*s == 2 && var == sum)
+	if (ret == 2 && var == sum)
 		ft_stack_entry(head)->ant -= 1;
-	return (*s);
+	return (ret);
 }
 
 void				ants_sup(uint32_t population, int32_t sum, t_listhead *head)

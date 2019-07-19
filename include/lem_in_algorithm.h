@@ -6,19 +6,15 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/28 09:37:31 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/16 19:23:55 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/07/19 12:13:48 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_ALGORITHM_H
 # define LEM_IN_ALGORITHM_H
 
-# ifndef LEM_IN_H
-#  include <lem_in.h>
-# endif
-# ifndef LEM_IN_STACKS_H
-#  include <lem_in_stacks.h>
-# endif
+# include <lem_in.h>
+# include <lem_in_stacks.h>
 
 enum			e_vertex {
 	unvisited_node,

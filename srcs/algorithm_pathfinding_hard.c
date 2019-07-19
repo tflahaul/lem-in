@@ -6,7 +6,7 @@
 /*   By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/08 10:41:46 by thflahau          #+#    #+#             */
-/*   Updated: 2019/06/19 23:10:17 by thflahau         ###   ########.fr       */
+/*   Updated: 2019/07/19 12:15:36 by thflahau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ static uint16_t			ft_unique_overlap(t_map *map, uint32_t **array,
 	return (min);
 }
 
-void					ft_advanced_pathfinding(t_map *map, uint32_t **tab,
-												int32_t s)
+void					ft_advanced_pathfinding(t_map *map, uint32_t **tab, int32_t s)
 {
 	uint32_t			min;
 	t_stack				stacks;

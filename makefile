@@ -6,7 +6,7 @@
 #    By: thflahau <thflahau@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/03 22:08:10 by abrunet           #+#    #+#              #
-#    Updated: 2019/06/23 16:32:04 by thflahau         ###   ########.fr        #
+#    Updated: 2019/07/19 12:18:40 by thflahau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,9 @@ SRC			=	main						parsing						\
 				movements					graph_manipulation			\
 				list						distribution				\
 				algorithm_unused_paths		parsing_memory				\
-				movements_buffer
+				movements_buffer			algorithm_pathfinding_hard	\
+				algorithm_overlaps			algorithm_pathfinding_simple\
+				list_copy					graph_modifications
 
 HDRFILES	=	$(filter %.h, $(shell find $(HDR)))
 
